@@ -16,42 +16,46 @@ namespace EmployeeManagement.MVC.Controllers
         //Default action...
         public IActionResult Index()
         {
-          var data =  empVMTestData.GetEmployeeData();
+            var employees = empVMTestData.GetEmployeeData();
 
-            return View();
+            return View(employees);
         }
 
         public IActionResult Create()
         {
-           return View();
-        }
-
-        public IActionResult Welcome(string name, int numTimes = 1)
-        {
-            ViewData["Message"] = "Hello " + name;
-            ViewData["NumTimes"] = numTimes;
-
             return View();
         }
-
-        // GET: Movies/Details/5
-        public IActionResult Edit(int? id)
+        
+        public ActionResult Edit(int Id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //here, get the student from the database in the real application
 
-            var empData = empVMTestData.GetEmployeeData();
-            if (empData == null)
-            {
-                return NotFound();
-            }
+            //getting a student from collection for demo purpose
+            var std = empVMTestData.GetEmployeeData().Where(s => s.EmployeeId == Id).FirstOrDefault();
 
-            return View(empData);
+            return View(std);
         }
 
+        [HttpPost]
+        public ActionResult Edit(EmployeeViewModel emp)
+        {
+            if (ModelState.IsValid)
+            { //checking model state
 
+
+                //update student in DB using EntityFramework in real-life application
+
+                //update list by removing old student and adding updated student for demo purpose
+                var student = empVMTestData.GetEmployeeData().Where(s => s.EmployeeId == emp.EmployeeId).FirstOrDefault();
+                empVMTestData.GetEmployeeData().Remove(student);
+                empVMTestData.GetEmployeeData().Add(emp);
+
+                return RedirectToAction("Index");
+            }
+
+            return View(emp);
+
+        }
 
 
         [HttpPost]
@@ -62,7 +66,7 @@ namespace EmployeeManagement.MVC.Controllers
             //if (!ModelState.IsValid)
             //{
 
-             //}
+            //}
 
             //Call Web API Send Data
 

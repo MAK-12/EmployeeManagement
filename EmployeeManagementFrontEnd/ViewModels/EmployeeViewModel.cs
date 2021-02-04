@@ -9,12 +9,12 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         public int EmployeeId { get; set; }
         public string EmployeeCode { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter First name.")]
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string Surname { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Please enter Mobile Number.")]
         [Display(Name = "Mobile Number")]
         [RegularExpression(@"$|(^[\d ]*$)", ErrorMessage = "Mobile Number can only be numeric value.")]
         public string MobileNo { get; set; }
