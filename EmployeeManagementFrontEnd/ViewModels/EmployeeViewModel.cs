@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using EmployeeManagementPortal.MVC.Common;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeManagementPortal.MVC.ViewModels
@@ -21,7 +22,7 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         public string EmailAddress { get; set; }
         public string PhysicalAddress { get; set; }
         public string AccessCode { get; set; }
-        public bool? IsPermanentEmployee { get; set; }
+        public EmploymentType IsPermanentEmployee { get; set; }
 
         public List<EmployeeRoleViewModel> EmployeeRoleViewModel { get; set; }
         public List<EmployeeTasksViewModel> EmployeeTasksViewModel { get; set; }

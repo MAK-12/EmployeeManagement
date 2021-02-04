@@ -14,7 +14,7 @@ namespace EmployeeManagement.MVC.Entities
         public string EmailAddress { get; set; }
         public string PhysicalAddress { get; set; }
         public string AccessCode { get; set; }
-        public bool ? IsPermanentEmployee { get; set; }
+        public bool? IsPermanentEmployee { get; set; }
     
         public virtual ICollection<EmployeeRole> EmployeeRoles { get; set; }
         public virtual ICollection<EmployeeTask> EmployeeTasks { get; set; }
