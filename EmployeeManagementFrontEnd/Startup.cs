@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EmployeeManagementFrontEnd
+namespace EmployeeManagementPortal.MVC
 {
     public class Startup
     {
@@ -50,7 +50,7 @@ namespace EmployeeManagementFrontEnd
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Employee}/{action=Index}/{id?}");
             });
         }
     }

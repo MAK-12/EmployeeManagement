@@ -1,13 +1,9 @@
-﻿using EmployeeManagementFrontEnd.Models;
+﻿using EmployeeManagementPortal.MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace EmployeeManagementFrontEnd.Controllers
+namespace EmployeeManagementPortal.MVC.Controllers
 {
     public class HomeController : Controller
     {

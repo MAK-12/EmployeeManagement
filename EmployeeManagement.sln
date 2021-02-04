@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement.MVC", "EmployeeManagementFrontEnd\EmployeeManagement.MVC.csproj", "{633945D1-4A5C-48AA-99DD-604A25E669D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagementPortal.MVC", "EmployeeManagementFrontEnd\EmployeeManagementPortal.MVC.csproj", "{633945D1-4A5C-48AA-99DD-604A25E669D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagement.WebAPI", "EmployeeManagement.WebAPI\EmployeeManagement.WebAPI.csproj", "{49C5279A-70FA-41EA-9B53-4E49FA8FF06F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeManagementPortal.WebAPI", "EmployeeManagement.WebAPI\EmployeeManagementPortal.WebAPI.csproj", "{49C5279A-70FA-41EA-9B53-4E49FA8FF06F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
