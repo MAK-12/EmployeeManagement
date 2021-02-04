@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace EmployeeManagement.MVC.Entities
 {
     public class Employee
-    { 
+    {  
         public int EmployeeId { get; set; }
         public string EmployeeCode { get; set; }
         public string FirstName { get; set; }
