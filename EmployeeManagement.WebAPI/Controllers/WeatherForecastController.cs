@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EmployeeManagement.WebAPI.Models;
+using EmployeeManagement.WebAPI.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -17,23 +19,24 @@ namespace EmployeeManagement.WebAPI.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private IUnitOfWork _unitOfWork;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<Grade>> Get()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return await _unitOfWork.Grade.GetAll();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<Grade> Get(Guid id)
+        {
+            return await _unitOfWork.Grade.Get(id);
         }
     }
 }
