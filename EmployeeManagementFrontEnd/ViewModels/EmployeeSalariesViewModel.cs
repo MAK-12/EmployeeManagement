@@ -12,7 +12,6 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         public int PayperHour { get; set; }
         public decimal Salary { get; set; }
         public DateTime? PaytillDate { get; set; }
-
         public virtual EmployeeRoleViewModel EmployeeRoleViewModel { get; set; }
     }
 }
