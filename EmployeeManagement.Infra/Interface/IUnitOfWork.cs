@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EmployeeManagement.Infra.Repositories
 {
     public interface IUnitOfWork : IDisposable
     {
-        IEmployeeRepository Grade { get; }
+        IEmployeeRepository Employee { get; }
+        ITaskRepository Task { get; }
         int Complete();
+        Task SaveChangesAsync();
     }
 }

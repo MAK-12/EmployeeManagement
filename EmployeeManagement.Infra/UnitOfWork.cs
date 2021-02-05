@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EmployeeManagement.Infra.Repositories
@@ -8,19 +6,28 @@ namespace EmployeeManagement.Infra.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly LearnNowContext _context;
-        public IEmployeeRepository Grade { get; }
+        public IEmployeeRepository Employee { get; }
+        public ITaskRepository Task { get; }
 
 
         public UnitOfWork(LearnNowContext bookStoreDbContext,
-            IEmployeeRepository booksRepository)
+            IEmployeeRepository employeeRepository,
+            ITaskRepository taskRepository)
         {
             this._context = bookStoreDbContext;
-            this.Grade = booksRepository;
+            this.Employee = employeeRepository;
+            this.Task = taskRepository;
         }
         public int Complete()
         {
             return _context.SaveChanges();
         }
+
+        public async Task SaveChangesAsync()
+        {
+            await this._context.SaveChangesAsync().ConfigureAwait(false);
+        }
+
         public void Dispose()
         {
             Dispose(true);

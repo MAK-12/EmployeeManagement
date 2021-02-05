@@ -1,8 +1,8 @@
-﻿using EmployeeManagement.WebAPI.Models;
+﻿using EmployeeManagement.Infra.Models;
 
 namespace EmployeeManagement.Infra.Repositories
 {
-    public class EmployeeRepository : GenericRepository<Grade>, IEmployeeRepository
+    public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
     {
         public EmployeeRepository(LearnNowContext context) : base(context)
         {

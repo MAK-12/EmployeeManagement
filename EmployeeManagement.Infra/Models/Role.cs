@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EmployeeManagement.Infra.Entities
+namespace EmployeeManagement.Infra.Models
 {
     public class Role
     { 

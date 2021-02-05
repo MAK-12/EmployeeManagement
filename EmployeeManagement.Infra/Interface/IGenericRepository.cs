@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EmployeeManagement.Infra.Repositories
@@ -10,8 +9,9 @@ namespace EmployeeManagement.Infra.Repositories
     {
         Task<T> Get(Guid id);
         Task<IEnumerable<T>> GetAll();
-        Task<int> Add(T entity);
+        //Task Add(T entity);
         Task<int> Delete(int id);
         Task<int> Update(T entity);
+        T Add(T entity);
     }
 }

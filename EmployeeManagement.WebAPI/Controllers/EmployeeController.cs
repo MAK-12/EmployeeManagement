@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Infra.Models;
 
@@ -11,13 +10,13 @@ namespace EmployeeManagement.WebAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class EmployeeController : ControllerBase
     {
 
         private readonly ILogger<WeatherForecastController> _logger;
         private IUnitOfWork _unitOfWork;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IUnitOfWork unitOfWork)
+        public EmployeeController(ILogger<WeatherForecastController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
@@ -26,6 +25,11 @@ namespace EmployeeManagement.WebAPI.Controllers
         [HttpGet]
         public async Task<IEnumerable<Employee>> Get()
         {
+            var employee = new Employee();
+            employee.FirstName = "test";
+            employee.Surname = "test";
+            _unitOfWork.Employee.Add(employee);
+            await this._unitOfWork.SaveChangesAsync();
             return await _unitOfWork.Employee.GetAll();
         }
 
@@ -33,6 +37,16 @@ namespace EmployeeManagement.WebAPI.Controllers
         public async Task<Employee> Get(Guid id)
         {
             return await _unitOfWork.Employee.Get(id);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<Employee> Post(Employee employee)
+        {
+            employee.FirstName = "test";
+            _unitOfWork.Employee.Add(employee);
+            await this._unitOfWork.SaveChangesAsync();
+
+            return  employee;
         }
     }
 }

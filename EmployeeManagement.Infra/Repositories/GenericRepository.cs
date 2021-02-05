@@ -23,10 +23,10 @@ namespace EmployeeManagement.Infra.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
-        public async Task Add(T entity)
-        {
-            await _context.Set<T>().AddAsync(entity);
-        }
+        //public async Task Add(T entity)
+        //{
+        //    await _context.Set<T>().AddAsync(entity);
+        //}
 
         public void Delete(T entity)
         {
@@ -38,11 +38,6 @@ namespace EmployeeManagement.Infra.Repositories
             _context.Set<T>().Update(entity);
         }
 
-        Task<int> IGenericRepository<T>.Add(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<int> Delete(int id)
         {
             throw new NotImplementedException();
@@ -51,6 +46,13 @@ namespace EmployeeManagement.Infra.Repositories
         Task<int> IGenericRepository<T>.Update(T entity)
         {
             throw new NotImplementedException();
+        }
+
+        public virtual T Add(T entity)
+        {
+            return this._context
+                .Add(entity)
+                .Entity;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 
-namespace EmployeeManagement.WebAPI.Models
+namespace EmployeeManagement.Infra.Models
 {
     public partial class Grade
     {
