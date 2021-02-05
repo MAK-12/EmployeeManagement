@@ -33,22 +33,29 @@ namespace EmployeeManagement.Infra.Repositories
             _context.Set<T>().Remove(entity);
         }
 
-        public void Update(T entity)
-        {
-            _context.Set<T>().Update(entity);
-        }
+        //public void Update(T entity)
+        //{
+        //    _context.Set<T>().Update(entity);
+        //}
 
         public Task<int> Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        Task<int> IGenericRepository<T>.Update(T entity)
-        {
-            throw new NotImplementedException();
-        }
+        //Task<int> IGenericRepository<T>.Update(T entity)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public virtual T Add(T entity)
+        {
+            return this._context
+                .Add(entity)
+                .Entity;
+        }
+
+        public virtual T Update(T entity)
         {
             return this._context
                 .Add(entity)

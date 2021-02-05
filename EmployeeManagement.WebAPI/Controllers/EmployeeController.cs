@@ -23,25 +23,47 @@ namespace EmployeeManagement.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Employee>> Get()
+        public async Employee<IEnumerable<Employee>> Get()
         {
             return await _unitOfWork.Employee.GetAll();
         }
 
         [HttpGet("{id}")]
-        public async Task<Employee> Get(Guid id)
+        public async Employee<IActionResult> Get(Guid id)
         {
-            return await _unitOfWork.Employee.Get(id);
+
+            var employeeDetail = await _unitOfWork.Employee.Get(id);
+            if (employeeDetail == null)
+            {
+                return NotFound();
+            }
+
+            return this.Ok(employeeDetail);
         }
 
-        [HttpGet("{id}")]
-        public async Task<Employee> Post(Employee employee)
+        [HttpPost]
+        public async Employee<IActionResult> Post(Employee employee)
         {
             employee.FirstName = "test";
             _unitOfWork.Employee.Add(employee);
             await this._unitOfWork.SaveChangesAsync();
 
-            return  employee;
+            return  this.Ok(employee);
+        }
+
+        [HttpPatch("{id}")]
+        public async Employee<IActionResult> Patch(Guid id, Employee employee)
+        {
+            var existingEmployeeDetail = await _unitOfWork.Employee.Get(id);
+            if (existingEmployeeDetail == null)
+            {
+                return NotFound();
+            }
+
+            _unitOfWork.Employee.Update(employee);
+            await this._unitOfWork.SaveChangesAsync();
+
+            return this.Ok(employee);
         }
     }
 }
