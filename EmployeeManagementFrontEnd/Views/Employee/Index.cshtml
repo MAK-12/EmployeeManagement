@@ -1,0 +1,62 @@
+﻿@model IEnumerable<EmployeeManagementPortal.MVC.ViewModels.EmployeeViewModel>
+
+@{
+    ViewData["Title"] = "Employees List";
+}
+
+<h1 style="text-align:center">Employees List</h1>
+
+    <p>
+        <a asp-action="Create">Add empolyee</a>
+    </p>
+
+    <br />
+    <form class="form-inline my-2 my-lg-0" asp-action="search" asp-controller="Employee">
+        <input class="form-control mr-sm-2" name="term" type="search" placeholder="search" aria-label="search" />
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">search</button>
+    </form>
+    <br />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MobileNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EmailAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PhysicalAddress)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MobileNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmailAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PhysicalAddress)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.EmployeeId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.EmployeeId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.EmployeeId">Delete</a>
+                    </td> 
+                </tr>
+            }
+        </tbody>
+    </table>

@@ -1,0 +1,65 @@
+﻿@model EmployeeManagementPortal.MVC.ViewModels.EmployeeViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Employee</h4>
+    <hr />
+    <div class="row">
+        <br />
+        <div class="col-md-6"></div>
+        <div class="col-md-6 footer-buttons">
+            <a asp-action="Index" class="btn btn-outline-primary float-right">Back to List</a><span>&nbsp; &nbsp;</span>
+            <input type="submit" value="Edit" style="margin-right: 5px;" class="btn btn-primary float-right" />
+            @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ })*@
+        </div>
+    </div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MobileNo)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MobileNo)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.EmailAddress)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AccessCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AccessCode)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsPermanentEmployee)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsPermanentEmployee)
+        </dd>
+    </dl>
+</div>
