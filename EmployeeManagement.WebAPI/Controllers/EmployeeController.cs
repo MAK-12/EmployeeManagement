@@ -13,10 +13,10 @@ namespace EmployeeManagement.WebAPI.Controllers
     public class EmployeeController : ControllerBase
     {
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<EmployeeController> _logger;
         private IUnitOfWork _unitOfWork;
 
-        public EmployeeController(ILogger<WeatherForecastController> logger, IUnitOfWork unitOfWork)
+        public EmployeeController(ILogger<EmployeeController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
