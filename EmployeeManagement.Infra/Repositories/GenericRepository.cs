@@ -13,7 +13,7 @@ namespace EmployeeManagement.Infra.Repositories
             _context = context;
         }
 
-        public async Task<T> Get(Guid id)
+        public async Task<T> Get(int id)
         {
             return await _context.Set<T>().FindAsync(id);
         }
@@ -23,30 +23,6 @@ namespace EmployeeManagement.Infra.Repositories
             return await _context.Set<T>().ToListAsync();
         }
 
-        //public async Task Add(T entity)
-        //{
-        //    await _context.Set<T>().AddAsync(entity);
-        //}
-
-        public void Delete(T entity)
-        {
-            _context.Set<T>().Remove(entity);
-        }
-
-        //public void Update(T entity)
-        //{
-        //    _context.Set<T>().Update(entity);
-        //}
-
-        public Task<int> Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        //Task<int> IGenericRepository<T>.Update(T entity)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public virtual T Add(T entity)
         {
@@ -60,6 +36,12 @@ namespace EmployeeManagement.Infra.Repositories
             return this._context
                 .Add(entity)
                 .Entity;
+        }
+
+        public virtual T Delete(T entity)
+        {
+            this._context.Attach(entity);
+            return this._context.Remove(entity).Entity;
         }
     }
 }

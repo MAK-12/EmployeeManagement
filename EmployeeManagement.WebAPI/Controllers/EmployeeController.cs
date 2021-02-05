@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using EmployeeManagement.Infra.Models;
 
@@ -23,13 +22,14 @@ namespace EmployeeManagement.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Employee<IEnumerable<Employee>> Get()
+        public async Task<IActionResult> Get()
         {
-            return await _unitOfWork.Employee.GetAll();
+            var employees = await _unitOfWork.Employee.GetAll();
+            return this.Ok(employees);
         }
 
         [HttpGet("{id}")]
-        public async Employee<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get(int id)
         {
 
             var employeeDetail = await _unitOfWork.Employee.Get(id);
@@ -42,7 +42,7 @@ namespace EmployeeManagement.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Employee<IActionResult> Post(Employee employee)
+        public async Task<IActionResult> Post(Employee employee)
         {
             employee.FirstName = "test";
             _unitOfWork.Employee.Add(employee);
@@ -52,7 +52,7 @@ namespace EmployeeManagement.WebAPI.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Employee<IActionResult> Patch(Guid id, Employee employee)
+        public async Task<IActionResult> Patch(int id, Employee employee)
         {
             var existingEmployeeDetail = await _unitOfWork.Employee.Get(id);
             if (existingEmployeeDetail == null)
@@ -64,6 +64,22 @@ namespace EmployeeManagement.WebAPI.Controllers
             await this._unitOfWork.SaveChangesAsync();
 
             return this.Ok(employee);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+
+            var existingEmployeeDetail = await _unitOfWork.Employee.Get(id);
+            if (existingEmployeeDetail == null)
+            {
+                return NotFound();
+            }
+
+            _unitOfWork.Employee.Delete(existingEmployeeDetail);
+            await this._unitOfWork.SaveChangesAsync();
+
+            return this.Ok(true);
         }
     }
 }

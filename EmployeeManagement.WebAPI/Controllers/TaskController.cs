@@ -29,7 +29,7 @@ namespace TaskManagement.WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public async Task<IActionResult> Get(int id)
         {
 
             var taskDetail = await _unitOfWork.Task.Get(id);
@@ -37,6 +37,21 @@ namespace TaskManagement.WebAPI.Controllers
             {
                 return NotFound();
             }
+
+            return this.Ok(taskDetail);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+
+            var taskDetail = await _unitOfWork.Task.Get(id);
+            if (taskDetail == null)
+            {
+                return NotFound();
+            }
+            _unitOfWork.Task.Delete(taskDetail);
+            await this._unitOfWork.SaveChangesAsync();
 
             return this.Ok(taskDetail);
         }
@@ -51,7 +66,7 @@ namespace TaskManagement.WebAPI.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Patch(Guid id, EmployeeManagement.Infra.Models.Task task)
+        public async Task<IActionResult> Patch(int id, EmployeeManagement.Infra.Models.Task task)
         {
             var existingTaskDetail = await _unitOfWork.Task.Get(id);
             if (existingTaskDetail == null)
