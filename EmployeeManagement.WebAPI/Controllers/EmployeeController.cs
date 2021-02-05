@@ -25,11 +25,6 @@ namespace EmployeeManagement.WebAPI.Controllers
         [HttpGet]
         public async Task<IEnumerable<Employee>> Get()
         {
-            var employee = new Employee();
-            employee.FirstName = "test";
-            employee.Surname = "test";
-            _unitOfWork.Employee.Add(employee);
-            await this._unitOfWork.SaveChangesAsync();
             return await _unitOfWork.Employee.GetAll();
         }
 
