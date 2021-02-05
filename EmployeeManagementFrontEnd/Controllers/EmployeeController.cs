@@ -36,6 +36,12 @@ namespace EmployeeManagement.MVC.Controllers
             return View(std);
         }
 
+        public ActionResult Details(int id)
+        {
+            var employee = empVMTestData.GetEmployeeData().SingleOrDefault(x => x.EmployeeId == id);
+            return View(employee);
+        }
+
         [HttpPost]
         public ActionResult Edit(EmployeeViewModel emp)
         {
@@ -91,5 +97,36 @@ namespace EmployeeManagement.MVC.Controllers
             return View();
         }
 
-    }
+    //    // GET: Employee/Delete/5
+    //    public ActionResult Delete(int id)
+    //    {
+    //        var employee = employeeRepository.FindByID(id);
+    //        return View(employee);
+    //    }
+
+    //    // POST: Employee/Delete/5
+    //    [HttpPost]
+    //    [ValidateAntiForgeryToken]
+    //    public ActionResult Delete(int id, Employee e)
+    //    {
+    //        try
+    //        {
+    //            // TODO: Add delete logic here
+    //            employeeRepository.Delete(id);
+    //            return RedirectToAction(nameof(Index));
+    //        }
+    //        catch
+    //        {
+    //            return View();
+    //        }
+    //    }
+
+    //    public ActionResult Search(string term)
+    //    {
+    //        var result = employeeRepository.Search(term);
+    //        return View("index", result);
+    //    }
+    //}
+
+}
 }

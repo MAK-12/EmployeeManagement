@@ -5,167 +5,80 @@
 }
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> 
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 
 <h1>Create</h1>
+<h4>Employee</h4>
+<hr />
 
-@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "CreateEmployeeForm" }))
-{
-
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-
+<form asp-action="Create">
     <div class="row">
         <br />
         <div class="col-md-6"></div>
         <div class="col-md-6 footer-buttons">
-            <button type="button" class="btn btn-outline-primary float-right" onclick="location.href='@Url.Action("Index", "Employee")'">Cancel</button><span>&nbsp; &nbsp;</span>
-            <button type="button" style="margin-right: 5px;" class="btn btn-primary float-right" id="btnSaveEmployee">Save</button>
+            <a asp-action="Index" class="btn btn-outline-primary float-right">Back to List</a><span>&nbsp; &nbsp;</span>
+            <input type="submit" value="Create" style="margin-right: 5px;" class="btn btn-primary float-right" />
         </div>
     </div>
-
-    <span id="Error" class="text-danger" name="Error"></span>
     <div class="row">
-        <div class="col-md-12">
-            <div id="generaldetails">
-                <div class="row">
-                    <div class="col-md-6">
-                        @Html.LabelFor(model => model.FirstName)
-                        <span class="text-danger">*</span>
-                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @id = "txtFirstName" } })
-                        @Html.ValidationMessageFor(model => model.FirstName)
-                        <span id="valFirstName" class="text-danger" name="valFirstName"></span>
-                    </div>
-                    <div class="col-md-6">
-                        @Html.LabelFor(model => model.MiddleName)
-                        <span class="text-danger">*</span>
-                        @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control", @id = "txtMiddleName" } })
-                        @Html.ValidationMessageFor(model => model.MiddleName)
-                        <span id="valMiddleName" class="text-danger" name="valMiddleName"></span>
-                    </div>
-                    <div class="col-md-6">
-                        @Html.LabelFor(model => model.Surname)
-                        @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control", @id = "txtSurname" } })
-                        @Html.ValidationMessageFor(model => model.Surname)
-                    </div>
-                    <div class="col-md-6">
-                        @Html.LabelFor(model => model.MobileNo)
-                        @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control", @id = "txtMobileNo" } })
-                        @Html.ValidationMessageFor(model => model.MobileNo)
-                    </div>
-                    <div class="col-md-6">
-                        @Html.LabelFor(model => model.EmailAddress)
-                        @Html.TextAreaFor(model => model.EmailAddress, new { @id = "txtEmailAddress", @class = "form-control" })
-                    </div>
-                    <div class="col-md-6">
-                        @Html.LabelFor(model => model.PhysicalAddress)
-                        @Html.EditorFor(model => model.PhysicalAddress, new { htmlAttributes = new { @class = "form-control", @id = "txtPhysicalAddress" } })
-                        @Html.ValidationMessageFor(model => model.PhysicalAddress)
-                    </div>
-                    <div class="col-md-6">
-                        @Html.LabelFor(model => model.IsPermanentEmployee)
-                        <span class="text-danger">*</span>
-                        <div>
-                            @Html.DropDownListFor(model => model.IsPermanentEmployee, new SelectList(Enum.GetValues(typeof(EmployeeManagementPortal.MVC.Common.EmploymentType))), "--Select--", new { @class = "form-control " })
-                            @Html.ValidationMessageFor(model => model.IsPermanentEmployee)
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        @Html.LabelFor(model => model.AccessCode)
-                        @Html.EditorFor(model => model.AccessCode, new { htmlAttributes = new { @class = "form-control", @id = "txtAccessCode" } })
-                        @Html.ValidationMessageFor(model => model.AccessCode)
-                    </div>
-                </div>
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
         </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="MiddleName" class="control-label"></label>
+                <input asp-for="MiddleName" class="form-control" />
+                <span asp-validation-for="MiddleName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Surname" class="control-label"></label>
+                <input asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="MobileNo" class="control-label"></label>
+                <input asp-for="MobileNo" class="form-control" />
+                <span asp-validation-for="MobileNo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="EmailAddress" class="control-label"></label>
+                <input asp-for="EmailAddress" class="form-control" />
+                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="AccessCode" class="control-label"></label>
+                <input asp-for="AccessCode" class="form-control" />
+                <span asp-validation-for="AccessCode" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="IsPermanentEmployee" class="control-label"></label>
+                @*<select asp-for="IsPermanentEmployee" asp-items="@(new SelectList(@Enum.GetValues(typeof(EmployeeManagementPortal.MVC.Common.EmploymentType))))" class="form-control" />*@
+                    <select asp-for="IsPermanentEmployee" asp-items="Html.GetEnumSelectList<EmployeeManagementPortal.MVC.Common.EmploymentType>()" class="form-control">
+                        <option selected="selected" value="">Please select</option>
+                    </select>
+                <span asp-validation-for="IsPermanentEmployee" class="text-danger"></span>
+            </div>
+        </div>
+
     </div>
-}
+</form> 
 
-@section Scripts{
-    <script type="text/javascript">
-
-    function GetList() {
-            var employeeDetails = {};
-            var employeeList = [];
-
-        employeeDetails["CouncillorId"] = 0;
-        employeeDetails["FirstName"] = $("#txtFirstName").val();
-        employeeDetails["MiddleName"] = $("#txtMiddleName").val();
-        employeeDetails["Surname"] = $("#txtSurname").val();
-        employeeDetails["MobileNo"] = $("#txtMobileNo").val();
-        employeeDetails["EmailAddress"] = $("#txtEmailAddress").val();
-        employeeDetails["PhysicalAddress"] = $("#txtPhysicalAddress").val();
-        employeeDetails["AccessCode"] = $("#txtAccessCode").val();
-         employeeDetails["IsPermanentEmployee"] = $("#IsPermanentEmployee").val();
-
-            employeeList.push(employeeDetails);
-            return JSON.stringify(employeeList);
-        }
-
-    function clearFields() {
-        $("#valFirstName").text("");
-        $("#FirstName").css('background', 'white');
-        $("#valMiddleName").text("");
-        $("#MiddleName").css('background', 'white');
-    }
-        // clearFields();
-
-    $("#btnSaveEmployee").click(function (e) {
-        
-        var formValid = $("#CreateEmployeeForm").validate().form();
-
-        if (!formValid) {
-            showErrors();
-            return false;
-        }
-
-        if (($(".field-validation-error").text().length) > 0)
-            return false;
-
-        //Loop through the Table rows and build a JSON array.
-        
-        var employeeJson = GetList();
-        debugger;
-
-        var getParams = {
-            "employeeJson": employeeJson
-        };
-
-       $.ajax({
-            type: "POST",
-            traditional: true,
-            async: false,
-            cache: false,
-            url: '@Url.Action("SaveEmployee", "Employee")',
-            context: document.body,
-            data: getParams,
-            success: function (result) {
-                if (result.Success) {
-                var url = '@Url.Action("Index", "Employee")';
-                    window.location.href = url;
-                }
-                else {
-                        var errors = result.Error.split('.');
-                        for (var i = 0; i < errors.length - 1; i++) {
-                            if (errors[i].indexOf("Code") != -1) {
-                                $("#valFirstName").text(errors[i]);
-                                $("#txtFirstName").css('background', '#ffeeee');
-                            }
-                            else if (errors[i].indexOf("Title") != -1) {
-                                $("#valMiddleName").text(errors[i]);
-                                $("#txtMiddleName").css('background', '#ffeeee');
-                            }
-                        }
-
-                }
-            },
-            error: function (xhr) {
-                console.log(xhr.responseText);
-                alert("Error has occurred..");
-            }
-        });
-    });
-    </script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
