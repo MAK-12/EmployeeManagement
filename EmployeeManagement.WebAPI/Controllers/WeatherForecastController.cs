@@ -1,5 +1,5 @@
 ﻿using EmployeeManagement.WebAPI.Models;
-using EmployeeManagement.WebAPI.Repositories;
+using EmployeeManagement.Infra.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

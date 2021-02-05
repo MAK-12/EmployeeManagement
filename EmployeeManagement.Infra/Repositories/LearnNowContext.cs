@@ -6,7 +6,7 @@ using EmployeeManagement.WebAPI.Models;
 
 #nullable disable
 
-namespace EmployeeManagement.WebAPI.Repositories
+namespace EmployeeManagement.Infra.Repositories
 {
     public partial class LearnNowContext : DbContext
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace EmployeeManagement.WebAPI.Repositories
+namespace EmployeeManagement.Infra.Repositories
 {
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
     {

@@ -1,10 +1,6 @@
 ﻿using EmployeeManagement.WebAPI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace EmployeeManagement.WebAPI.Repositories
+namespace EmployeeManagement.Infra.Repositories
 {
     public class EmployeeRepository : GenericRepository<Grade>, IEmployeeRepository
     {
