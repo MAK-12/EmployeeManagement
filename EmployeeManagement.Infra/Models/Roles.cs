@@ -7,13 +7,14 @@ namespace EmployeeManagement.Infra.Models
     {
         public Roles()
         {
-            EmployeeRole = new HashSet<EmployeeRole>();
+            Employee = new HashSet<Employee>();
         }
 
         public int RoleId { get; set; }
-        public string Role { get; set; }
+        public string RoleName { get; set; }
         public string RoleDescription { get; set; }
+        public decimal? RatePerhour { get; set; }
 
-        public virtual ICollection<EmployeeRole> EmployeeRole { get; set; }
+        public virtual ICollection<Employee> Employee { get; set; }
     }
 }

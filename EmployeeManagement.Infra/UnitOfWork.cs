@@ -5,12 +5,12 @@ namespace EmployeeManagement.Infra.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly LearnNowContext _context;
+        private readonly DBContext _context;
         public IEmployeeRepository Employee { get; }
         public ITaskRepository Task { get; }
 
 
-        public UnitOfWork(LearnNowContext bookStoreDbContext,
+        public UnitOfWork(DBContext bookStoreDbContext,
             IEmployeeRepository employeeRepository,
             ITaskRepository taskRepository)
         {

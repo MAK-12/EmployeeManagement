@@ -13,6 +13,7 @@ namespace EmployeeManagement.Infra.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Priority { get; set; }
+        public decimal? PayPerTask { get; set; }
 
         public virtual Employee Employee { get; set; }
         public virtual Task Task { get; set; }

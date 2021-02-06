@@ -7,8 +7,8 @@ namespace EmployeeManagement.Infra.Repositories
 {
     public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly LearnNowContext _context;
-        public GenericRepository(LearnNowContext context)
+        protected readonly DBContext _context;
+        public GenericRepository(DBContext context)
         {
             _context = context;
         }

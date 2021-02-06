@@ -5,24 +5,30 @@ using EmployeeManagement.Infra.Models;
 
 namespace EmployeeManagement.Infra.Repositories
 {
-    public partial class LearnNowContext : DbContext
+    public partial class DBContext : DbContext
     {
-        public LearnNowContext()
+        public DBContext()
         {
         }
 
-        public LearnNowContext(DbContextOptions<LearnNowContext> options)
+        public DBContext(DbContextOptions<DBContext> options)
             : base(options)
         {
         }
 
         public virtual DbSet<Employee> Employee { get; set; }
-        public virtual DbSet<EmployeeRole> EmployeeRole { get; set; }
-        public virtual DbSet<EmployeeSalary> EmployeeSalary { get; set; }
         public virtual DbSet<EmployeeTask> EmployeeTask { get; set; }
-        public virtual DbSet<Grade> Grade { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Task> Task { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=tcp:at-learnnowapp-dev.database.windows.net,1433;Initial Catalog=AT-LearnNowApp-Dev;Persist Security Info=False;User ID=learnnowuser;Password=Passw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -61,34 +67,12 @@ namespace EmployeeManagement.Infra.Repositories
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<EmployeeRole>(entity =>
-            {
-                entity.HasOne(d => d.Employee)
-                    .WithMany(p => p.EmployeeRole)
-                    .HasForeignKey(d => d.EmployeeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmployeeRole_Employee");
 
                 entity.HasOne(d => d.Role)
-                    .WithMany(p => p.EmployeeRole)
+                    .WithMany(p => p.Employee)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmployeeRole_Roles");
-            });
-
-            modelBuilder.Entity<EmployeeSalary>(entity =>
-            {
-                entity.Property(e => e.PaytillDate).HasColumnType("date");
-
-                entity.Property(e => e.Salary).HasColumnType("decimal(18, 0)");
-
-                entity.HasOne(d => d.EmployeeRole)
-                    .WithMany(p => p.EmployeeSalary)
-                    .HasForeignKey(d => d.EmployeeRoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmployeeSalary_Employee");
+                    .HasConstraintName("FK_Employee_Roles");
             });
 
             modelBuilder.Entity<EmployeeTask>(entity =>
@@ -96,6 +80,8 @@ namespace EmployeeManagement.Infra.Repositories
                 entity.Property(e => e.CurrentDate).HasColumnType("date");
 
                 entity.Property(e => e.EndDate).HasColumnType("date");
+
+                entity.Property(e => e.PayPerTask).HasColumnType("decimal(18, 0)");
 
                 entity.Property(e => e.Priority)
                     .IsRequired()
@@ -117,60 +103,30 @@ namespace EmployeeManagement.Infra.Repositories
                     .HasConstraintName("FK_EmployeeTask_Task");
             });
 
-            modelBuilder.Entity<Grade>(entity =>
-            {
-                entity.HasIndex(e => e.GradeName)
-                    .HasName("ix_grade_GradeName");
-
-                entity.Property(e => e.Id)
-                    .HasColumnName("id")
-                    .HasDefaultValueSql("(newid())");
-
-                entity.Property(e => e.CreatedBy).HasColumnName("createdBy");
-
-                entity.Property(e => e.CreatedOn)
-                    .HasColumnName("createdOn")
-                    .HasColumnType("datetime");
-
-                entity.Property(e => e.GradeName)
-                    .IsRequired()
-                    .HasColumnName("gradeName")
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.UpdatedBy).HasColumnName("updatedBy");
-
-                entity.Property(e => e.UpdatedOn)
-                    .HasColumnName("updatedOn")
-                    .HasColumnType("datetime");
-            });
-
             modelBuilder.Entity<Roles>(entity =>
             {
                 entity.HasKey(e => e.RoleId);
 
                 entity.Property(e => e.RoleId).ValueGeneratedNever();
 
-                entity.Property(e => e.Role)
-                    .IsRequired()
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.RatePerhour).HasColumnType("decimal(18, 0)");
 
                 entity.Property(e => e.RoleDescription)
                     .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RoleName)
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .IsUnicode(false);
             });
 
             modelBuilder.Entity<Task>(entity =>
             {
-                entity.Property(e => e.EndDate).HasColumnType("date");
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
-
-                entity.Property(e => e.StartDate).HasColumnType("date");
             });
 
             OnModelCreatingPartial(modelBuilder);

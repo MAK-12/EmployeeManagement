@@ -4,7 +4,7 @@ namespace EmployeeManagement.Infra.Repositories
 {
     public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
     {
-        public EmployeeRepository(LearnNowContext context) : base(context)
+        public EmployeeRepository(DBContext context) : base(context)
         {
 
         }

@@ -7,7 +7,6 @@ namespace EmployeeManagement.Infra.Models
     {
         public Employee()
         {
-            EmployeeRole = new HashSet<EmployeeRole>();
             EmployeeTask = new HashSet<EmployeeTask>();
         }
 
@@ -21,8 +20,9 @@ namespace EmployeeManagement.Infra.Models
         public string PhysicalAddress { get; set; }
         public string AccessCode { get; set; }
         public bool? IsPermanentEmployee { get; set; }
+        public int RoleId { get; set; }
 
-        public virtual ICollection<EmployeeRole> EmployeeRole { get; set; }
+        public virtual Roles Role { get; set; }
         public virtual ICollection<EmployeeTask> EmployeeTask { get; set; }
     }
 }

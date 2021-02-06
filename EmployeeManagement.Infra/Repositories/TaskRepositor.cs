@@ -4,7 +4,7 @@ namespace EmployeeManagement.Infra.Repositories
 {
     public class TaskRepository : GenericRepository<Task>, ITaskRepository
     {
-        public TaskRepository(LearnNowContext context) : base(context)
+        public TaskRepository(DBContext context) : base(context)
         {
 
         }
