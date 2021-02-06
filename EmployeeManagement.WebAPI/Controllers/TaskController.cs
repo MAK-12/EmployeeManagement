@@ -25,14 +25,14 @@ namespace TaskManagement.WebAPI.Controllers
         [HttpGet]
         public async Task<IEnumerable<EmployeeManagement.Infra.Models.Task>> Get()
         {
-            return await _unitOfWork.Task.GetAll();
+            return await _unitOfWork.TaskRepository.GetAll();
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
 
-            var taskDetail = await _unitOfWork.Task.Get(id);
+            var taskDetail = await _unitOfWork.TaskRepository.Get(id);
             if (taskDetail == null)
             {
                 return NotFound();
@@ -45,12 +45,12 @@ namespace TaskManagement.WebAPI.Controllers
         public async Task<IActionResult> Delete(int id)
         {
 
-            var taskDetail = await _unitOfWork.Task.Get(id);
+            var taskDetail = await _unitOfWork.TaskRepository.Get(id);
             if (taskDetail == null)
             {
                 return NotFound();
             }
-            _unitOfWork.Task.Delete(taskDetail);
+            _unitOfWork.TaskRepository.Delete(taskDetail);
             await this._unitOfWork.SaveChangesAsync();
 
             return this.Ok(taskDetail);
@@ -59,7 +59,7 @@ namespace TaskManagement.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(EmployeeManagement.Infra.Models.Task task)
         {
-            _unitOfWork.Task.Add(task);
+            _unitOfWork.TaskRepository.Add(task);
             await this._unitOfWork.SaveChangesAsync();
 
             return  this.Ok(task);
@@ -68,13 +68,13 @@ namespace TaskManagement.WebAPI.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> Patch(int id, EmployeeManagement.Infra.Models.Task task)
         {
-            var existingTaskDetail = await _unitOfWork.Task.Get(id);
+            var existingTaskDetail = await _unitOfWork.TaskRepository.Get(id);
             if (existingTaskDetail == null)
             {
                 return NotFound();
             }
 
-            _unitOfWork.Task.Update(task);
+            _unitOfWork.TaskRepository.Update(task);
             await this._unitOfWork.SaveChangesAsync();
 
             return this.Ok(task);

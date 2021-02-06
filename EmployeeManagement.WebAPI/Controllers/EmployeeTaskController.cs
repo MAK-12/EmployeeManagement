@@ -5,17 +5,17 @@ using System;
 using System.Threading.Tasks;
 using EmployeeManagement.Infra.Models;
 
-namespace EmployeeManagement.WebAPI.Controllers
+namespace EmployeeTaskManagement.WebAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class EmployeeController : ControllerBase
+    public class EmployeeTaskController : ControllerBase
     {
 
-        private readonly ILogger<EmployeeController> _logger;
+        private readonly ILogger<EmployeeTaskController> _logger;
         private IUnitOfWork _unitOfWork;
 
-        public EmployeeController(ILogger<EmployeeController> logger, IUnitOfWork unitOfWork)
+        public EmployeeTaskController(ILogger<EmployeeTaskController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
@@ -24,7 +24,7 @@ namespace EmployeeManagement.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var employees = await _unitOfWork.EmployeeRepository.GetAll();
+            var employees = await _unitOfWork.EmployeeTaskRepository.GetAll();
             return this.Ok(employees);
         }
 
@@ -32,7 +32,7 @@ namespace EmployeeManagement.WebAPI.Controllers
         public async Task<IActionResult> Get(int id)
         {
 
-            var employeeDetail = await _unitOfWork.EmployeeRepository.Get(id);
+            var employeeDetail = await _unitOfWork.EmployeeTaskRepository.Get(id);
             if (employeeDetail == null)
             {
                 return NotFound();
@@ -42,25 +42,24 @@ namespace EmployeeManagement.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Employee employee)
+        public async Task<IActionResult> Post(EmployeeTask employee)
         {
-            employee.FirstName = "test";
-            _unitOfWork.EmployeeRepository.Add(employee);
+            _unitOfWork.EmployeeTaskRepository.Add(employee);
             await this._unitOfWork.SaveChangesAsync();
 
             return  this.Ok(employee);
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Patch(int id, Employee employee)
+        public async Task<IActionResult> Patch(int id, EmployeeTask employee)
         {
-            var existingEmployeeDetail = await _unitOfWork.EmployeeRepository.Get(id);
-            if (existingEmployeeDetail == null)
+            var existingEmployeeTaskDetail = await _unitOfWork.EmployeeTaskRepository.Get(id);
+            if (existingEmployeeTaskDetail == null)
             {
                 return NotFound();
             }
 
-            _unitOfWork.EmployeeRepository.Update(employee);
+            _unitOfWork.EmployeeTaskRepository.Update(employee);
             await this._unitOfWork.SaveChangesAsync();
 
             return this.Ok(employee);
@@ -70,13 +69,13 @@ namespace EmployeeManagement.WebAPI.Controllers
         public async Task<IActionResult> Delete(int id)
         {
 
-            var existingEmployeeDetail = await _unitOfWork.EmployeeRepository.Get(id);
-            if (existingEmployeeDetail == null)
+            var existingEmployeeTaskDetail = await _unitOfWork.EmployeeTaskRepository.Get(id);
+            if (existingEmployeeTaskDetail == null)
             {
                 return NotFound();
             }
 
-            _unitOfWork.EmployeeRepository.Delete(existingEmployeeDetail);
+            _unitOfWork.EmployeeTaskRepository.Delete(existingEmployeeTaskDetail);
             await this._unitOfWork.SaveChangesAsync();
 
             return this.Ok(true);

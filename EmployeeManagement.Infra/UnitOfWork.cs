@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmployeeTaskManagement.Infra.Repositories;
+using System;
 using System.Threading.Tasks;
 
 namespace EmployeeManagement.Infra.Repositories
@@ -6,18 +7,60 @@ namespace EmployeeManagement.Infra.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DBContext _context;
-        public IEmployeeRepository Employee { get; }
-        public ITaskRepository Task { get; }
+        private IEmployeeRepository employeeRepository;
+        private ITaskRepository taskRepository;
+        private IEmployeeTaskRepository employeeTaskRepository;
 
 
-        public UnitOfWork(DBContext bookStoreDbContext,
-            IEmployeeRepository employeeRepository,
-            ITaskRepository taskRepository)
+        public UnitOfWork(DBContext bookStoreDbContext)
         {
             this._context = bookStoreDbContext;
-            this.Employee = employeeRepository;
-            this.Task = taskRepository;
+            //this.Employee = employeeRepository;
+            //this.Task = taskRepository;
+            //this.EmployeeTask = employeeTaskRepository;
         }
+
+        public IEmployeeRepository EmployeeRepository
+        {
+            get
+            {
+                if (this.employeeRepository == null)
+                {
+                    this.employeeRepository = new EmployeeRepository(this._context);
+                }
+
+                return this.employeeRepository;
+            }
+        }
+
+        public ITaskRepository TaskRepository
+        {
+            get
+            {
+                if (this.taskRepository == null)
+                {
+                    this.taskRepository = new TaskRepository(this._context);
+                }
+
+                return this.taskRepository;
+            }
+        }
+
+        public IEmployeeTaskRepository EmployeeTaskRepository
+        {
+            get
+            {
+                if (this.employeeTaskRepository == null)
+                {
+                    this.employeeTaskRepository = new EmployeeTaskRepository(this._context);
+                }
+
+                return this.employeeTaskRepository;
+            }
+        }
+
+
+
         public int Complete()
         {
             return _context.SaveChanges();
