@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using EmployeeManagementPortal.MVC.Services;
 using EmployeeManagementPortal.MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,12 +11,19 @@ namespace EmployeeManagement.MVC.Controllers
     public class EmployeeController : Controller
     {
         IList<EmployeeViewModel> employeeRepository = GetTestData.GetEmployeeData();
+        private IEmployeeManagementService employeeMGMTService;
+
+        public EmployeeController(IEmployeeManagementService employeeMGMTService)
+        {
+            this.employeeMGMTService = employeeMGMTService;
+        }
         
         #region Get
         //Default action...
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View(employeeRepository);
+            var emp = await this.employeeMGMTService.GetEmployees();
+            return View(emp);
         }
 
         [HttpGet]
@@ -54,7 +63,7 @@ namespace EmployeeManagement.MVC.Controllers
                 try
                 {
                     employeeRepository.Add(employeeViewModel);
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(IndexAsync));
                 }
 
                 catch (Exception ex)
@@ -94,7 +103,7 @@ namespace EmployeeManagement.MVC.Controllers
                 {
                     employeeRepository.Remove(employeeToRemove);
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexAsync));
             }
             catch
             {
@@ -195,7 +204,7 @@ namespace EmployeeManagement.MVC.Controllers
                 {
                     employeeRepository.Remove(employeeToRemove);
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexAsync));
             }
             catch
             {
