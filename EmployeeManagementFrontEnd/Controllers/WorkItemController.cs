@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace EmployeeManagementPortal.MVC.Controllers
 {
-    public class TaskController : Controller
+    public class WorkItemController : Controller
     {
-        IList<TaskViewModel> taskRepository = GetTestData.GetTaskData();
+        IList<WorkItemViewModel> taskRepository = GetTestData.GetTaskData();
 
         #region GET
         // GET: TaskController

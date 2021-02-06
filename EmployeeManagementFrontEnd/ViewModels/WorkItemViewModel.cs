@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagementPortal.MVC.ViewModels
 {
-    public class TaskViewModel
+    public class WorkItemViewModel
     {
         public int TaskId { get; set; }
 
@@ -18,7 +18,7 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         [Display(Name = "No Of Hours")]
         public int NoOfHours { get; set; }
 
-        [Display(Name = "Is Task Completed")]
+        [Display(Name = "Is Task(Work) Completed")]
         public bool? IsCompleted { get; set; }
         public List<EmployeeTasksViewModel> EmployeeTasks { get; set; }
     }
