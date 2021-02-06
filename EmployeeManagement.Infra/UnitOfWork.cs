@@ -8,7 +8,7 @@ namespace EmployeeManagement.Infra.Repositories
     {
         private readonly DBContext _context;
         private IEmployeeRepository employeeRepository;
-        private ITaskRepository taskRepository;
+        private IWorkItemRepository taskRepository;
         private IEmployeeTaskRepository employeeTaskRepository;
 
 
@@ -33,13 +33,13 @@ namespace EmployeeManagement.Infra.Repositories
             }
         }
 
-        public ITaskRepository TaskRepository
+        public IWorkItemRepository TaskRepository
         {
             get
             {
                 if (this.taskRepository == null)
                 {
-                    this.taskRepository = new TaskRepository(this._context);
+                    this.taskRepository = new WorkItemRepository(this._context);
                 }
 
                 return this.taskRepository;
