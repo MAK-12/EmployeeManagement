@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using EmployeeManagement.Infra.Models;
+using EmployeeManagementPortal.MVC.Services;
 using EmployeeManagementPortal.MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,12 +12,28 @@ namespace EmployeeManagement.MVC.Controllers
     public class EmployeeController : Controller
     {
         IList<EmployeeViewModel> employeeRepository = GetTestData.GetEmployeeData();
+        private IEmployeeManagementService employeeMGMTService;
+
+        public EmployeeController(IEmployeeManagementService employeeMGMTService)
+        {
+            this.employeeMGMTService = employeeMGMTService;
+        }
         
         #region Get
         //Default action...
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View(employeeRepository);
+            var emp = await this.employeeMGMTService.GetEmployees();
+            //var employees = new List<EmployeeViewModel>();
+            var employees = emp.Select(
+                e => new EmployeeViewModel()
+                {
+                    EmailAddress = e.EmailAddress,
+                    FirstName = e.FirstName,
+                    MiddleName = e.MiddleName,
+                    EmployeeId = e.EmployeeId,
+                });
+            return View(employees);
         }
 
         [HttpGet]
@@ -28,6 +47,11 @@ namespace EmployeeManagement.MVC.Controllers
         public ActionResult Details(int employeeId)
         {
             var selectedEmployee = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
+            var employees = new List<EmployeeViewModel>();
+            foreach(EmployeeViewModel employee in employees)
+            {
+
+            }
             return View(selectedEmployee);
         }
         
@@ -46,15 +70,25 @@ namespace EmployeeManagement.MVC.Controllers
         #region POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(EmployeeViewModel employeeViewModel)
+        public async Task<ActionResult> CreateAsync(EmployeeViewModel employeeViewModel)
         {
             //checking model state
             if (ModelState.IsValid)
             {
                 try
                 {
-                    employeeRepository.Add(employeeViewModel);
-                    return RedirectToAction(nameof(Index));
+                    var employeeDTO = new Employee()
+                    {
+                        FirstName = employeeViewModel.FirstName,
+                        Surname = employeeViewModel.Surname,
+                        RoleId = 1,
+                        MobileNo = employeeViewModel.MobileNo,
+                        EmailAddress =employeeViewModel.EmailAddress,
+                    };
+
+                    var emp = await this.employeeMGMTService.CreateEmployee(employeeDTO);
+                   // employeeRepository.Add(employeeViewModel);
+                    return RedirectToAction(nameof(IndexAsync));
                 }
 
                 catch (Exception ex)
@@ -94,7 +128,7 @@ namespace EmployeeManagement.MVC.Controllers
                 {
                     employeeRepository.Remove(employeeToRemove);
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexAsync));
             }
             catch
             {
@@ -195,7 +229,7 @@ namespace EmployeeManagement.MVC.Controllers
                 {
                     employeeRepository.Remove(employeeToRemove);
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(IndexAsync));
             }
             catch
             {
