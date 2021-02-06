@@ -30,7 +30,8 @@ namespace EmployeeManagement.MVC.Controllers
                 {
                     EmailAddress = e.EmailAddress,
                     FirstName = e.FirstName,
-                    MiddleName = e.MiddleName
+                    MiddleName = e.MiddleName,
+                    EmployeeId = e.EmployeeId,
                 });
             return View(employees);
         }
@@ -69,14 +70,24 @@ namespace EmployeeManagement.MVC.Controllers
         #region POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(EmployeeViewModel employeeViewModel)
+        public async Task<ActionResult> CreateAsync(EmployeeViewModel employeeViewModel)
         {
             //checking model state
             if (ModelState.IsValid)
             {
                 try
                 {
-                    employeeRepository.Add(employeeViewModel);
+                    var employeeDTO = new Employee()
+                    {
+                        FirstName = employeeViewModel.FirstName,
+                        Surname = employeeViewModel.Surname,
+                        RoleId = 1,
+                        MobileNo = employeeViewModel.MobileNo,
+                        EmailAddress =employeeViewModel.EmailAddress,
+                    };
+
+                    var emp = await this.employeeMGMTService.CreateEmployee(employeeDTO);
+                   // employeeRepository.Add(employeeViewModel);
                     return RedirectToAction(nameof(IndexAsync));
                 }
 

@@ -9,5 +9,6 @@ namespace EmployeeManagementPortal.MVC.Services
     public interface IEmployeeManagementService
     {
         Task<IEnumerable<Employee>> GetEmployees();
+        Task<Employee> CreateEmployee(Employee emp);
     }
 }
