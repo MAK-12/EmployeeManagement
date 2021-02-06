@@ -24,10 +24,10 @@
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MobileNo)
+                @Html.DisplayNameFor(model => model.Surname)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmailAddress)
+                @Html.DisplayNameFor(model => model.MobileNo)
             </th>
             <th>
                 @Html.DisplayName("Category")
@@ -43,23 +43,22 @@
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.MobileNo)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.EmailAddress)
+                @Html.DisplayFor(modelItem => item.EmployeeRoleName)
             </td>
-             <td>
-                @Html.DisplayFor(modelItem => item.EmployeeRoleCategory)
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { employeeId = item.EmployeeId }) |
+                @Html.ActionLink("Details", "Details", new { employeeId = item.EmployeeId }) |
+                @Html.ActionLink("Delete", "Delete", new { employeeId = item.EmployeeId })
+                @*<a asp-action="Edit" asp-route-id="@item.EmployeeId">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.EmployeeId">Details</a> |
+            <a asp-action="Delete"  class="btn btn-danger" asp-route-id="@item.EmployeeId">Delete</a>*@
             </td>
-             <td>
-                 @Html.ActionLink("Edit", "Edit", new { employeeId = item.EmployeeId }) |
-                 @Html.ActionLink("Details", "Details", new { employeeId = item.EmployeeId }) |
-                 @Html.ActionLink("Delete", "Delete", new { employeeId = item.EmployeeId })
-
-                 @*<a asp-action="Edit" asp-route-id="@item.EmployeeId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.EmployeeId">Details</a> |
-                <a asp-action="Delete"  class="btn btn-danger" asp-route-id="@item.EmployeeId">Delete</a>*@
-             </td>
         </tr>
         }
     </tbody>

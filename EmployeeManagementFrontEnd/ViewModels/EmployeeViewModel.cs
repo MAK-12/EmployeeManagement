@@ -29,6 +29,9 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         [Required(ErrorMessage = "Please Select Employee Role Category.")]
         [Display(Name = "Employee Role Category")]
         public EmployeeRoleCategory EmployeeRoleCategory { get; set; }
+
+        public string EmployeeRoleName{ get; set; }
+
         public int RoleId { get; set; } 
         public List<RoleViewModel> Role { get; set; }
     }

@@ -11,7 +11,7 @@ namespace EmployeeManagement.MVC.Controllers
 {
     public class EmployeeController : Controller
     {
-        IList<EmployeeViewModel> employeeRepository = GetTestData.GetEmployeeData();
+       IList<EmployeeViewModel> employeeRepository = GetTestData.GetEmployeeData();
         private IEmployeeManagementService employeeMGMTService;
 
         public EmployeeController(IEmployeeManagementService employeeMGMTService)
@@ -25,13 +25,14 @@ namespace EmployeeManagement.MVC.Controllers
         {
             var emp = await this.employeeMGMTService.GetEmployees();
             //var employees = new List<EmployeeViewModel>();
+           
             var employees = emp.Select(
                 e => new EmployeeViewModel()
                 {
-                    EmailAddress = e.EmailAddress,
-                    FirstName = e.FirstName,
-                    MiddleName = e.MiddleName,
                     EmployeeId = e.EmployeeId,
+                    FirstName = e.FirstName,
+                    Surname = e.Surname,
+                    EmployeeRoleName = e.Role.RoleName,
                 });
             return View(employees);
         }
@@ -46,13 +47,14 @@ namespace EmployeeManagement.MVC.Controllers
         [HttpGet]
         public ActionResult Details(int employeeId)
         {
-            var selectedEmployee = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
+            //var emp = this.employeeMGMTService.GetEmployees();
+            //var selectedEmployee = emp.FirstOrDefault(x => x.EmployeeId == employeeId);
             var employees = new List<EmployeeViewModel>();
             foreach(EmployeeViewModel employee in employees)
             {
 
             }
-            return View(selectedEmployee);
+            return View(employees);
         }
         
        
@@ -239,5 +241,20 @@ namespace EmployeeManagement.MVC.Controllers
 
 
         #endregion
+
+
+
+
+        //https://localhost:44396/Home/ViewPayslip/1123
+        // GET: Employee/Edit/5
+        [Route("~/ViewPayslip/{accessCode}")]
+        public ActionResult GetEmployeeSalary(string accessCode)
+        {
+            //here, get the employee from the database
+            var selectedEmployee = employeeRepository.Where(s => s.AccessCode == accessCode).FirstOrDefault();
+
+            return View(selectedEmployee);
+        }
+
     }
 }

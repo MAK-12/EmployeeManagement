@@ -1,0 +1,47 @@
+﻿@model IEnumerable<EmployeeManagementPortal.MVC.ViewModels.EmployeeTasksViewModel>
+
+@{
+    ViewData["Title"] = "GetEmployeePayslip";
+}
+
+<h1>Employee Salary</h1>
+
+<br />
+<form class="form-inline my-2 my-lg-0" asp-action="GetEmployeeSalary" asp-controller="Employee">
+    <input class="form-control mr-sm-2" name="accessCode" type="search" placeholder="search" aria-label="search" />
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">search</button>
+</form>
+<br />
+
+<table class="table" id="tblEmployeeSalaryInfo">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalNoOfHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PayPerTask)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalNoOfHours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PayPerTask)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
