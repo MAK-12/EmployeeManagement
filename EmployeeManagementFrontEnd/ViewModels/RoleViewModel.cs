@@ -8,8 +8,9 @@ namespace EmployeeManagementPortal.MVC.ViewModels
     public class RoleViewModel
     {
         public int RoleId { get; set; }
-        public string Role { get; set; }
+        public string RoleName { get; set; }
         public string RoleDescription { get; set; }
-        public List<EmployeeRoleViewModel> EmployeeRoleViewModel { get; set; }
+        public decimal? RatePerhour { get; set; }
+        public virtual ICollection<EmployeeViewModel> Employee { get; set; }
     }
 }

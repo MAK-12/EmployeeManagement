@@ -15,8 +15,8 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string Priority { get; set; }
-
-        public virtual EmployeeViewModel EmployeeViewModel { get; set; }
+        public decimal? PayPerTask { get; set; }
+        public virtual EmployeeViewModel Employee { get; set; }
         public virtual Task Task { get; set; }
     }
 }

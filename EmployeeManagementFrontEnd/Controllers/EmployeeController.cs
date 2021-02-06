@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using EmployeeManagementPortal.MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,60 +8,136 @@ namespace EmployeeManagement.MVC.Controllers
 {
     public class EmployeeController : Controller
     {
-
-        GetTestData empVMTestData = new GetTestData();
-
+        IList<EmployeeViewModel> employeeRepository = GetTestData.GetEmployeeData();
+        
+        #region Get
         //Default action...
         public IActionResult Index()
         {
-            var employees = empVMTestData.GetEmployeeData();
-
-            return View(employees);
+            return View(employeeRepository);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
-        
-        public ActionResult Edit(int Id)
+
+        // GET: Employee/Details/5
+        public ActionResult Details(int employeeId)
         {
-            //here, get the student from the database in the real application
-
-            //getting a student from collection for demo purpose
-            var std = empVMTestData.GetEmployeeData().Where(s => s.EmployeeId == Id).FirstOrDefault();
-
-            return View(std);
+            var selectedEmployee = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
+            return View(selectedEmployee);
         }
 
-        public ActionResult Details(int id)
+        // GET: Employee/Edit/5
+        public ActionResult Edit(int employeeId)
         {
-            var employee = empVMTestData.GetEmployeeData().SingleOrDefault(x => x.EmployeeId == id);
-            return View(employee);
+            //here, get the employee from the database
+            var selectedEmployee = employeeRepository.Where(s => s.EmployeeId == employeeId).FirstOrDefault();
+
+            return View(selectedEmployee);
+        }
+         
+        #endregion
+
+        #region POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(EmployeeViewModel employeeViewModel)
+        {
+            //checking model state
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    employeeRepository.Add(employeeViewModel);
+                    return RedirectToAction(nameof(Index));
+                }
+
+                catch (Exception ex)
+                {
+                    return View(ex.InnerException.Message);
+                }
+            }
+
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Edit(EmployeeViewModel emp)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(EmployeeViewModel employeeViewModel)
         {
+            //checking model state
             if (ModelState.IsValid)
-            { //checking model state
-
-
-                //update student in DB using EntityFramework in real-life application
-
-                //update list by removing old student and adding updated student for demo purpose
-                var student = empVMTestData.GetEmployeeData().Where(s => s.EmployeeId == emp.EmployeeId).FirstOrDefault();
-                empVMTestData.GetEmployeeData().Remove(student);
-                empVMTestData.GetEmployeeData().Add(emp);
+            {
+                var selectedEmployee = employeeRepository.Where(s => s.EmployeeId == employeeViewModel.EmployeeId).FirstOrDefault();
+                employeeRepository.Remove(selectedEmployee);
+                employeeRepository.Add(employeeViewModel);
 
                 return RedirectToAction("Index");
             }
+            return View(employeeViewModel);
+        }
 
-            return View(emp);
-
+        // GET: Employee/Delete/5
+        public ActionResult Delete(int employeeId)
+        { 
+            try
+            {
+                // TODO: Add delete logic here
+                var employeeToRemove = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
+                if (employeeToRemove != null)
+                {
+                    employeeRepository.Remove(employeeToRemove);
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
 
+        // GET: Employee/Delete/5
+        public ActionResult DeleteOld1(int employeeId)
+        {
+            var selectedEmployee = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
+            return View(selectedEmployee);
+        }
+
+
+        // POST: Employee/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteOld(int employeeId, EmployeeViewModel employeeViewModel)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+                var employeeToRemove = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
+                if (employeeToRemove != null)
+                {
+                    employeeRepository.Remove(employeeToRemove);
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult Search(string searchTerm)
+        {
+            var result = employeeRepository.Where(a => a.FirstName.Contains(searchTerm)).ToList();
+            return View("index", result);
+        }
+
+        #endregion
+
+        #region TESTDelLater
         [HttpPost]
         //Replace IActionResult with JsonResult
         public IActionResult SaveEmployee(string employeeJson)
@@ -97,36 +171,37 @@ namespace EmployeeManagement.MVC.Controllers
             return View();
         }
 
-    //    // GET: Employee/Delete/5
-    //    public ActionResult Delete(int id)
-    //    {
-    //        var employee = employeeRepository.FindByID(id);
-    //        return View(employee);
-    //    }
+        //    // GET: Employee/Delete/5
+        //    public ActionResult Delete(int id)
+        //    {
+        //        var employee = employeeRepository.FindByID(id);
+        //        return View(employee);
+        //    }
 
-    //    // POST: Employee/Delete/5
-    //    [HttpPost]
-    //    [ValidateAntiForgeryToken]
-    //    public ActionResult Delete(int id, Employee e)
-    //    {
-    //        try
-    //        {
-    //            // TODO: Add delete logic here
-    //            employeeRepository.Delete(id);
-    //            return RedirectToAction(nameof(Index));
-    //        }
-    //        catch
-    //        {
-    //            return View();
-    //        }
-    //    }
+        //    // POST: Employee/Delete/5
+        //    [HttpPost]
+        //    [ValidateAntiForgeryToken]
+        //    public ActionResult Delete(int id, Employee e)
+        //    {
+        //        try
+        //        {
+        //            // TODO: Add delete logic here
+        //            employeeRepository.Delete(id);
+        //            return RedirectToAction(nameof(Index));
+        //        }
+        //        catch
+        //        {
+        //            return View();
+        //        }
+        //    }
 
-    //    public ActionResult Search(string term)
-    //    {
-    //        var result = employeeRepository.Search(term);
-    //        return View("index", result);
-    //    }
-    //}
+        //    public ActionResult Search(string term)
+        //    {
+        //        var result = employeeRepository.Search(term);
+        //        return View("index", result);
+        //    }
+        //}
 
-}
+        #endregion
+    }
 }

@@ -10,8 +10,7 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         public int TaskId { get; set; }
         public string Name { get; set; }
         public int NoOfHours { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-        public List<EmployeeTasksViewModel> EmployeeTasksViewModel { get; set; }
+        public bool? IsCompleted { get; set; }
+        public List<EmployeeTasksViewModel> EmployeeTasks { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace EmployeeManagement.MVC.Entities
 {
     public class Employee
-    {    
+    { 
         public int EmployeeId { get; set; }
         public string EmployeeCode { get; set; }
         public string FirstName { get; set; }
@@ -15,8 +15,8 @@ namespace EmployeeManagement.MVC.Entities
         public string PhysicalAddress { get; set; }
         public string AccessCode { get; set; }
         public bool? IsPermanentEmployee { get; set; }
-    
-        public virtual ICollection<EmployeeRole> EmployeeRoles { get; set; }
-        public virtual ICollection<EmployeeTask> EmployeeTasks { get; set; }
+        public int RoleId { get; set; } 
+        public virtual Role Role { get; set; }
+      
     }
 }
