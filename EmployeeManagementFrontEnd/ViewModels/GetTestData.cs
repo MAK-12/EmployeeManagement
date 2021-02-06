@@ -27,14 +27,14 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         }
 
 
-        public static IList<TaskViewModel> GetTaskData()
+        public static IList<WorkItemViewModel> GetTaskData()
         {
-            IList<TaskViewModel> taskData = new List<TaskViewModel>()
+            IList<WorkItemViewModel> taskData = new List<WorkItemViewModel>()
             {
-                new TaskViewModel() { TaskId = 1, Name = "Requirement Analysis", NoOfHours = 2, IsCompleted = true },
-                new TaskViewModel() { TaskId = 2, Name = "Development", NoOfHours = 8, IsCompleted = false },
-                new TaskViewModel() { TaskId = 3, Name = "Testing", NoOfHours = 2, IsCompleted = false },
-                new TaskViewModel() { TaskId = 4, Name = "Documentation", NoOfHours = 3, IsCompleted = false},
+                new WorkItemViewModel() { TaskId = 1, Name = "Requirement Analysis", NoOfHours = 2, IsCompleted = true },
+                new WorkItemViewModel() { TaskId = 2, Name = "Development", NoOfHours = 8, IsCompleted = false },
+                new WorkItemViewModel() { TaskId = 3, Name = "Testing", NoOfHours = 2, IsCompleted = false },
+                new WorkItemViewModel() { TaskId = 4, Name = "Documentation", NoOfHours = 3, IsCompleted = false},
 
             };
             return taskData;
