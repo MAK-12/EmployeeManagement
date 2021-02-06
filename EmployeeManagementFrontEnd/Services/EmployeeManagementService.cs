@@ -52,5 +52,16 @@ namespace EmployeeManagementPortal.MVC.Services
             var responseStream = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Employee>(responseStream);
         }
+
+        public async Task<bool> DeleteEmployee(int id)
+        {
+            var response = await Client.DeleteAsync($"/employee/{id}");
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

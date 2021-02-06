@@ -130,11 +130,7 @@ namespace EmployeeManagement.MVC.Controllers
             try
             {
                 // TODO: Add delete logic here
-                var employeeToRemove = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
-                if (employeeToRemove != null)
-                {
-                    employeeRepository.Remove(employeeToRemove);
-                }
+                var isDeleted = this.employeeMGMTService.DeleteEmployee(employeeId);
                 return RedirectToAction(nameof(IndexAsync));
             }
             catch
