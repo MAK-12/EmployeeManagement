@@ -104,14 +104,21 @@ namespace EmployeeManagement.MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(EmployeeViewModel employeeViewModel)
+        public async Task<ActionResult> EditAsync(EmployeeViewModel employeeViewModel)
         {
             //checking model state
             if (ModelState.IsValid)
             {
-                var selectedEmployee = employeeRepository.Where(s => s.EmployeeId == employeeViewModel.EmployeeId).FirstOrDefault();
-                employeeRepository.Remove(selectedEmployee);
-                employeeRepository.Add(employeeViewModel);
+                var employeeDTO = new Employee()
+                {
+                    FirstName = employeeViewModel.FirstName,
+                    Surname = employeeViewModel.Surname,
+                    RoleId = 1,
+                    MobileNo = employeeViewModel.MobileNo,
+                    EmailAddress = employeeViewModel.EmailAddress,
+                };
+
+                var emp = await this.employeeMGMTService.UpdateEmployee(employeeDTO);
 
                 return RedirectToAction("Index");
             }
@@ -125,11 +132,7 @@ namespace EmployeeManagement.MVC.Controllers
             try
             {
                 // TODO: Add delete logic here
-                var employeeToRemove = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
-                if (employeeToRemove != null)
-                {
-                    employeeRepository.Remove(employeeToRemove);
-                }
+                var isDeleted = this.employeeMGMTService.DeleteEmployee(employeeId);
                 return RedirectToAction(nameof(IndexAsync));
             }
             catch

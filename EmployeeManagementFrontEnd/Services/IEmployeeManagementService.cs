@@ -10,5 +10,7 @@ namespace EmployeeManagementPortal.MVC.Services
     {
         Task<IEnumerable<Employee>> GetEmployees();
         Task<Employee> CreateEmployee(Employee emp);
+        Task<Employee> UpdateEmployee(Employee emp);
+        Task<bool> DeleteEmployee(int id);
     }
 }
