@@ -114,6 +114,9 @@ namespace EmployeeManagement.Infra.Repositories
 
             modelBuilder.Entity<WorkItem>(entity =>
             {
+                entity.HasKey(e => e.TaskId)
+                    .HasName("PK_Task");
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50)
