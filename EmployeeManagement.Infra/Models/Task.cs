@@ -13,8 +13,7 @@ namespace EmployeeManagement.Infra.Models
         public int TaskId { get; set; }
         public string Name { get; set; }
         public int NoOfHours { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public bool? IsCompleted { get; set; }
 
         public virtual ICollection<EmployeeTask> EmployeeTask { get; set; }
     }
