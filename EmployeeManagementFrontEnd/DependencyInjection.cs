@@ -11,7 +11,7 @@ namespace EmployeeManagementPortal.MVC
     {
         public static IServiceCollection AddRepository(this IServiceCollection services)
         {
-            services.AddHttpClient<IEmployeeManagementService, EmployeeManagementService>();
+            //services.AddHttpClient<IEmployeeManagementService, EmployeeManagementService>();
 
 
             return services;

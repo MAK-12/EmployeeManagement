@@ -40,13 +40,41 @@ namespace EmployeeManagementPortal.MVC.ViewModels
             return taskData;
         }
 
+        public static IList<RoleViewModel> GetRoleData()
+        {
+            IList<RoleViewModel> roleData = new List<RoleViewModel>()
+            {
+                new RoleViewModel() { RoleId = 1, RoleName = "CasualEmployeeLevel1", RatePerhour = 100 },
+                new RoleViewModel() { RoleId = 2, RoleName = "CasualEmployeeLevel2", RatePerhour = 200 }
+
+            };
+            return roleData;
+        }
 
 
+        public static IList<EmployeeTasksViewModel> GetEmployeeTaskData()
+        {
+            IList<EmployeeTasksViewModel> employeeTaskData = new List<EmployeeTasksViewModel>()
+            {
+                new EmployeeTasksViewModel() { EmployeeTaskId = 1, EmployeeId = 1, TaskId = 1, TotalNoOfHours = 1, Priority = "High",
+                                                CurrentDate = DateTime.Now, StartDate  = DateTime.Now, EndDate = DateTime.Now,
+                                                PayPerTask = 100 },
+                new EmployeeTasksViewModel() { EmployeeTaskId = 2, EmployeeId = 1, TaskId = 2, TotalNoOfHours = 2, Priority = "Medium",
+                                                CurrentDate = DateTime.Now, StartDate  = DateTime.Now, EndDate = DateTime.Now,
+                                                PayPerTask = 100 },
+                new EmployeeTasksViewModel() { EmployeeTaskId = 1, EmployeeId = 2, TaskId = 1, TotalNoOfHours = 2, Priority = "Low",
+                                                CurrentDate = DateTime.Now, StartDate  = DateTime.Now, EndDate = DateTime.Now,
+                                                PayPerTask = 100 },
+                new EmployeeTasksViewModel() { EmployeeTaskId = 1, EmployeeId = 2, TaskId = 1, TotalNoOfHours = 2, Priority = "High",
+                                                CurrentDate = DateTime.Now, StartDate  = DateTime.Now, EndDate = DateTime.Now,
+                                                PayPerTask = 100 },
+                new EmployeeTasksViewModel() { EmployeeTaskId = 1, EmployeeId = 3, TaskId = 1, TotalNoOfHours = 2, Priority = "High",
+                                                CurrentDate = DateTime.Now, StartDate  = DateTime.Now, EndDate = DateTime.Now,
+                                                PayPerTask = 100 }
 
-
-
-
-
+            };
+            return employeeTaskData;
+        }
 
 
 

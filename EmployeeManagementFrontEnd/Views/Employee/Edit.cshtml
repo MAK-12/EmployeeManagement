@@ -6,45 +6,94 @@
 
 <h1>Edit</h1>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
+<h4>EmployeeViewModel</h4>
+<hr />
 
-    <div class="form-horizontal">
-        <h4>Student</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.EmployeeId)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+<form asp-action="Edit">
+    <div class="row">
+        <br />
+        <div class="col-md-6"></div>
+        <div class="col-md-6 footer-buttons">
+            <a asp-action="Index" class="btn btn-outline-primary float-right">Back to List</a><span>&nbsp; &nbsp;</span>
+            <input type="submit" value="Save" style="margin-right: 5px;" class="btn btn-primary float-right" />
+        </div>
+    </div>
+    <div class="row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="EmployeeCode" class="control-label"></label>
+                <input asp-for="EmployeeCode" class="form-control" />
+                <span asp-validation-for="EmployeeCode" class="text-danger"></span>
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
         </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="MiddleName" class="control-label"></label>
+                <input asp-for="MiddleName" class="form-control" />
+                <span asp-validation-for="MiddleName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Surname" class="control-label"></label>
+                <input asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="MobileNo" class="control-label"></label>
+                <input asp-for="MobileNo" class="form-control" />
+                <span asp-validation-for="MobileNo" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="EmailAddress" class="control-label"></label>
+                <input asp-for="EmailAddress" class="form-control" />
+                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="PhysicalAddress" class="control-label"></label>
+                <input asp-for="PhysicalAddress" class="form-control" />
+                <span asp-validation-for="PhysicalAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="AccessCode" class="control-label"></label>
+                <input asp-for="AccessCode" class="form-control" />
+                <span asp-validation-for="AccessCode" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="EmployeeRoleCategory" class="control-label"></label>
+                <input asp-for="EmployeeRoleCategory" class="form-control" />
+                <span asp-validation-for="EmployeeRoleCategory" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="RoleId" class="control-label"></label>
+                <input asp-for="RoleId" class="form-control" />
+                <span asp-validation-for="RoleId" class="text-danger"></span>
             </div>
         </div>
     </div>
-}
+</form>
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
- 
-@*<div>
-    <a asp-action="Edit" asp-route-id="@Model.EmployeeId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

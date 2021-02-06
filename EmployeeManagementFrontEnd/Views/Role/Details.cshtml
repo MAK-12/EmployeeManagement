@@ -1,4 +1,4 @@
-﻿@model EmployeeManagementPortal.MVC.ViewModels.TaskViewModel
+﻿@model EmployeeManagementPortal.MVC.ViewModels.RoleViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -7,41 +7,45 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Task</h4>
+    <h4>RoleViewModel</h4>
     <hr />
     <div class="row">
         <br />
         <div class="col-md-6"></div>
         <div class="col-md-6 footer-buttons">
             <a asp-action="Index" class="btn btn-outline-primary float-right">Back to List</a><span>&nbsp; &nbsp;</span>
+            @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ })
             <input type="submit" value="Edit" style="margin-right: 5px;" class="btn btn-primary float-right" />
-            @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ })*@
         </div>
     </div>
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskId)
+            @Html.DisplayNameFor(model => model.RoleId)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskId)
+            @Html.DisplayFor(model => model.RoleId)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.RoleName)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.RoleName)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.NoOfHours)
+            @Html.DisplayNameFor(model => model.RoleDescription)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NoOfHours)
+            @Html.DisplayFor(model => model.RoleDescription)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.IsCompleted)
+            @Html.DisplayNameFor(model => model.RatePerhour)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IsCompleted)
+            @Html.DisplayFor(model => model.RatePerhour)
         </dd>
     </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
 </div>
