@@ -26,6 +26,30 @@ namespace EmployeeManagementPortal.MVC.ViewModels
             return empData;
         }
 
+
+        public static IList<TaskViewModel> GetTaskData()
+        {
+            IList<TaskViewModel> taskData = new List<TaskViewModel>()
+            {
+                new TaskViewModel() { TaskId = 1, Name = "Requirement Analysis", NoOfHours = 2, IsCompleted = true },
+                new TaskViewModel() { TaskId = 2, Name = "Development", NoOfHours = 8, IsCompleted = false },
+                new TaskViewModel() { TaskId = 3, Name = "Testing", NoOfHours = 2, IsCompleted = false },
+                new TaskViewModel() { TaskId = 4, Name = "Documentation", NoOfHours = 3, IsCompleted = false},
+
+            };
+            return taskData;
+        }
+
+
+
+
+
+
+
+
+
+
+
         public EmployeeViewModel GetEmployeeDataDelete()
         {
             int UserId = 0;

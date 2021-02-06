@@ -24,12 +24,14 @@ namespace EmployeeManagement.MVC.Controllers
         }
 
         // GET: Employee/Details/5
+        [HttpGet]
         public ActionResult Details(int employeeId)
         {
             var selectedEmployee = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
             return View(selectedEmployee);
         }
-
+        
+       
         // GET: Employee/Edit/5
         public ActionResult Edit(int employeeId)
         {
@@ -81,6 +83,7 @@ namespace EmployeeManagement.MVC.Controllers
         }
 
         // GET: Employee/Delete/5
+        [HttpGet]
         public ActionResult Delete(int employeeId)
         { 
             try
@@ -98,37 +101,7 @@ namespace EmployeeManagement.MVC.Controllers
                 return View();
             }
         }
-
-
-        // GET: Employee/Delete/5
-        public ActionResult DeleteOld1(int employeeId)
-        {
-            var selectedEmployee = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
-            return View(selectedEmployee);
-        }
-
-
-        // POST: Employee/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteOld(int employeeId, EmployeeViewModel employeeViewModel)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-                var employeeToRemove = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
-                if (employeeToRemove != null)
-                {
-                    employeeRepository.Remove(employeeToRemove);
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
+         
         public ActionResult Search(string searchTerm)
         {
             var result = employeeRepository.Where(a => a.FirstName.Contains(searchTerm)).ToList();
@@ -201,6 +174,35 @@ namespace EmployeeManagement.MVC.Controllers
         //        return View("index", result);
         //    }
         //}
+
+        // GET: Employee/Delete/5
+        public ActionResult DeleteOld1(int employeeId)
+        {
+            var selectedEmployee = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
+            return View(selectedEmployee);
+        }
+
+        // POST: Employee/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteOld(int employeeId, EmployeeViewModel employeeViewModel)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+                var employeeToRemove = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
+                if (employeeToRemove != null)
+                {
+                    employeeRepository.Remove(employeeToRemove);
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
 
         #endregion
     }
