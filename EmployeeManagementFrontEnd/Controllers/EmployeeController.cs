@@ -11,7 +11,7 @@ namespace EmployeeManagement.MVC.Controllers
 {
     public class EmployeeController : Controller
     {
-       IList<EmployeeViewModel> employeeRepository = GetTestData.GetEmployeeData();
+        //IList<EmployeeViewModel> employeeRepository = GetTestData.GetEmployeeData();
         private IEmployeeManagementService employeeMGMTService;
 
         public EmployeeController(IEmployeeManagementService employeeMGMTService)
@@ -24,15 +24,16 @@ namespace EmployeeManagement.MVC.Controllers
         public async Task<IActionResult> IndexAsync()
         {
             var emp = await this.employeeMGMTService.GetEmployees();
+             
             //var employees = new List<EmployeeViewModel>();
-           
+
             var employees = emp.Select(
                 e => new EmployeeViewModel()
                 {
                     EmployeeId = e.EmployeeId,
                     FirstName = e.FirstName,
                     Surname = e.Surname,
-                    EmployeeRoleName = e.Role.RoleName,
+                    EmployeeRoleName = "dsds",
                 });
             return View(employees);
         }
@@ -62,9 +63,15 @@ namespace EmployeeManagement.MVC.Controllers
         public ActionResult Edit(int employeeId)
         {
             //here, get the employee from the database
-            var selectedEmployee = employeeRepository.Where(s => s.EmployeeId == employeeId).FirstOrDefault();
 
-            return View(selectedEmployee);
+            var selectedEmployee = this.employeeMGMTService.GetEmployeeById(employeeId);
+            //var selectedEmployee1 = employeeRepository.Where(s => s.EmployeeId == employeeId).FirstOrDefault();
+            //var employees = new List<EmployeeViewModel>();
+            //foreach (EmployeeViewModel employee in selectedEmployee)
+            //{
+
+            //}
+            return View(selectedEmployee); 
         }
          
         #endregion
@@ -90,7 +97,7 @@ namespace EmployeeManagement.MVC.Controllers
 
                     var emp = await this.employeeMGMTService.CreateEmployee(employeeDTO);
                    // employeeRepository.Add(employeeViewModel);
-                    return RedirectToAction(nameof(IndexAsync));
+                    return RedirectToAction("Index");
                 }
 
                 catch (Exception ex)
@@ -133,7 +140,7 @@ namespace EmployeeManagement.MVC.Controllers
             {
                 // TODO: Add delete logic here
                 var isDeleted = this.employeeMGMTService.DeleteEmployee(employeeId);
-                return RedirectToAction(nameof(IndexAsync));
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -143,118 +150,28 @@ namespace EmployeeManagement.MVC.Controllers
          
         public ActionResult Search(string searchTerm)
         {
-            var result = employeeRepository.Where(a => a.FirstName.Contains(searchTerm)).ToList();
-            return View("index", result);
-        }
+            IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)employeeMGMTService.GetEmployees();
+            var selectedEmployee = erer.Where(s => s.FirstName == searchTerm).FirstOrDefault();
 
-        #endregion
-
-        #region TESTDelLater
-        [HttpPost]
-        //Replace IActionResult with JsonResult
-        public IActionResult SaveEmployee(string employeeJson)
-        {
-            //Validate Models
-            //if (!ModelState.IsValid)
-            //{
-
-            //}
-
-            //Call Web API Send Data
-
-
-            //if (!ModelState.IsValid)
-            //{
-            //    return Json(new { Success = false, NullParameter = "Parameter is null" }, JsonRequestBehavior.AllowGet);
-            //}
-
-            //var js = new JavaScriptSerializer();
-            //CreateUpdateCouncillorViewModel[] council = js.Deserialize<CreateUpdateCouncillorViewModel[]>(councilsJson);
-            //if (council != null)
-            //{
-            //    var error = ValidateData(council[0]);
-            //    if (error != string.Empty)
-            //        return Json(new { Success = false, Error = error }, JsonRequestBehavior.AllowGet);
-
-            //    CouncillorEntity entity = new CouncillorEntity();
-            //    var id = AssignValues(entity, council[0]);
-            //    return Json(new { Success = true, Id = id }, JsonRequestBehavior.AllowGet);
-            //}
-            return View();
-        }
-
-        //    // GET: Employee/Delete/5
-        //    public ActionResult Delete(int id)
-        //    {
-        //        var employee = employeeRepository.FindByID(id);
-        //        return View(employee);
-        //    }
-
-        //    // POST: Employee/Delete/5
-        //    [HttpPost]
-        //    [ValidateAntiForgeryToken]
-        //    public ActionResult Delete(int id, Employee e)
-        //    {
-        //        try
-        //        {
-        //            // TODO: Add delete logic here
-        //            employeeRepository.Delete(id);
-        //            return RedirectToAction(nameof(Index));
-        //        }
-        //        catch
-        //        {
-        //            return View();
-        //        }
-        //    }
-
-        //    public ActionResult Search(string term)
-        //    {
-        //        var result = employeeRepository.Search(term);
-        //        return View("index", result);
-        //    }
-        //}
-
-        // GET: Employee/Delete/5
-        public ActionResult DeleteOld1(int employeeId)
-        {
-            var selectedEmployee = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
+            //var result = emp.Where(a => a.FirstName.Contains(searchTerm)).ToList();
+            //return View("index", result);
             return View(selectedEmployee);
         }
 
-        // POST: Employee/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteOld(int employeeId, EmployeeViewModel employeeViewModel)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-                var employeeToRemove = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
-                if (employeeToRemove != null)
-                {
-                    employeeRepository.Remove(employeeToRemove);
-                }
-                return RedirectToAction(nameof(IndexAsync));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-
         #endregion
-
-
-
 
         //https://localhost:44396/Home/ViewPayslip/1123
         // GET: Employee/Edit/5
         [Route("~/ViewPayslip/{accessCode}")]
         public ActionResult GetEmployeeSalary(string accessCode)
         {
+            IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)employeeMGMTService.GetEmployees();
+            var selectedEmployee = erer.Where(s => s.AccessCode == accessCode).FirstOrDefault();
+
+            //List<EmployeeViewModel> dsds = 
+
             //here, get the employee from the database
-            var selectedEmployee = employeeRepository.Where(s => s.AccessCode == accessCode).FirstOrDefault();
+            //var selectedEmployee = employeeRepository.Where(s => s.AccessCode == accessCode).FirstOrDefault();
 
             return View(selectedEmployee);
         }
