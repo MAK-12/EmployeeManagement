@@ -1,10 +1,16 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace EmployeeManagement.Infra.Models
 {
-    public class Employee
-    { 
+    public partial class Employee
+    {
+        public Employee()
+        {
+            EmployeeRole = new HashSet<EmployeeRole>();
+            EmployeeTask = new HashSet<EmployeeTask>();
+        }
+
         public int EmployeeId { get; set; }
         public string EmployeeCode { get; set; }
         public string FirstName { get; set; }
@@ -15,8 +21,8 @@ namespace EmployeeManagement.Infra.Models
         public string PhysicalAddress { get; set; }
         public string AccessCode { get; set; }
         public bool? IsPermanentEmployee { get; set; }
-        public int RoleId { get; set; } 
-        public virtual Role Role { get; set; }
-      
+
+        public virtual ICollection<EmployeeRole> EmployeeRole { get; set; }
+        public virtual ICollection<EmployeeTask> EmployeeTask { get; set; }
     }
 }
