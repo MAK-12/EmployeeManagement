@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EmployeeManagement.Infra.Models;
 using EmployeeManagementPortal.MVC.Services;
 using EmployeeManagementPortal.MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,15 @@ namespace EmployeeManagement.MVC.Controllers
         public async Task<IActionResult> IndexAsync()
         {
             var emp = await this.employeeMGMTService.GetEmployees();
-            return View(emp);
+            //var employees = new List<EmployeeViewModel>();
+            var employees = emp.Select(
+                e => new EmployeeViewModel()
+                {
+                    EmailAddress = e.EmailAddress,
+                    FirstName = e.FirstName,
+                    MiddleName = e.MiddleName
+                });
+            return View(employees);
         }
 
         [HttpGet]
@@ -37,6 +46,11 @@ namespace EmployeeManagement.MVC.Controllers
         public ActionResult Details(int employeeId)
         {
             var selectedEmployee = employeeRepository.FirstOrDefault(x => x.EmployeeId == employeeId);
+            var employees = new List<EmployeeViewModel>();
+            foreach(EmployeeViewModel employee in employees)
+            {
+
+            }
             return View(selectedEmployee);
         }
         

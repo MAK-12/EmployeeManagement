@@ -1,4 +1,4 @@
-﻿using EmployeeManagement.MVC.Entities;
+﻿using EmployeeManagement.Infra.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
