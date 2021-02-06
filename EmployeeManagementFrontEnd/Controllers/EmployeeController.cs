@@ -18,23 +18,20 @@ namespace EmployeeManagement.MVC.Controllers
         {
             this.employeeMGMTService = employeeMGMTService;
         }
-        
+
         #region Get
         //Default action...
         public async Task<IActionResult> IndexAsync()
         {
             var emp = await this.employeeMGMTService.GetEmployees();
-             
-            //var employees = new List<EmployeeViewModel>();
 
-            var employees = emp.Select(
-                e => new EmployeeViewModel()
-                {
-                    EmployeeId = e.EmployeeId,
-                    FirstName = e.FirstName,
-                    Surname = e.Surname,
-                    EmployeeRoleName = "dsds",
-                });
+            var employees = emp.Select(e => new EmployeeViewModel()
+            {
+                EmployeeId = e.EmployeeId,
+                FirstName = e.FirstName,
+                Surname = e.Surname,
+                EmployeeRoleName = e.Role.RoleName,
+            });
             return View(employees);
         }
 
@@ -48,70 +45,50 @@ namespace EmployeeManagement.MVC.Controllers
         [HttpGet]
         public async Task<ActionResult> Details(int employeeId)
         {
-            var emp = await this.employeeMGMTService.GetEmployeeById(employeeId);
-            EmployeeViewModel employeeViewModel = MapObjects(emp);
+            var dto = await this.employeeMGMTService.GetEmployeeById(employeeId);
+            EmployeeViewModel employeeViewModel = MapObjectsDTOtoViewModel(dto);
             return View(employeeViewModel);
         }
 
-        private static EmployeeViewModel MapObjects(Employee emp)
+        private static EmployeeViewModel MapObjectsDTOtoViewModel(Employee dto)
         {
             return new EmployeeViewModel()
             {
-                FirstName = emp.FirstName,
-                AccessCode = emp.AccessCode,
-                EmailAddress = emp.EmailAddress,
-                EmployeeCode = emp.EmployeeCode,
-                EmployeeId = emp.EmployeeId,
-                MobileNo = emp.MobileNo,
-                Surname = emp.Surname,
-                MiddleName = emp.MiddleName,
-                PhysicalAddress = emp.PhysicalAddress
+                FirstName = dto.FirstName,
+                AccessCode = dto.AccessCode,
+                EmailAddress = dto.EmailAddress,
+                EmployeeCode = dto.EmployeeCode,
+                EmployeeId = dto.EmployeeId,
+                MobileNo = dto.MobileNo,
+                Surname = dto.Surname,
+                MiddleName = dto.MiddleName,
+                PhysicalAddress = dto.PhysicalAddress
             };
         }
-
-        private Employee AssignValues(Employee employee, EmployeeViewModel employeeViewModel)
+        private static Employee MapObjectsViewModeltoDTO(EmployeeViewModel employeeViewModel)
         {
-            employee.FirstName = employeeViewModel.FirstName;
-            employee.AccessCode = employeeViewModel.AccessCode;
-            employee.EmailAddress = employeeViewModel.EmailAddress;
-            employee.EmployeeCode = employeeViewModel.EmployeeCode;
-            employee.EmployeeId = employeeViewModel.EmployeeId;
-            employee.MobileNo = employeeViewModel.MobileNo;
-            employee.Surname = employeeViewModel.Surname;
-            employee.MiddleName = employeeViewModel.MiddleName;
-            employee.PhysicalAddress = employeeViewModel.PhysicalAddress;
-            return employee;
-        }
-        private EmployeeViewModel AssignValues(EmployeeViewModel employeeViewModel, Employee employee)
-        {
-           employeeViewModel.FirstName = employee.FirstName;
-           employeeViewModel.AccessCode = employee.AccessCode;
-           employeeViewModel.EmailAddress = employee.EmailAddress;
-           employeeViewModel.EmployeeCode = employee.EmployeeCode;
-           employeeViewModel.EmployeeId = employee.EmployeeId;
-           employeeViewModel.MobileNo = employee.MobileNo;
-           employeeViewModel.Surname = employee.Surname;
-           employeeViewModel.MiddleName = employee.MiddleName;
-           employeeViewModel.PhysicalAddress = employee.PhysicalAddress;
-            
-            return employeeViewModel;
+            return new Employee()
+            {
+                FirstName = employeeViewModel.FirstName,
+                AccessCode = employeeViewModel.AccessCode,
+                EmailAddress = employeeViewModel.EmailAddress,
+                EmployeeCode = employeeViewModel.EmployeeCode,
+                EmployeeId = employeeViewModel.EmployeeId,
+                MobileNo = employeeViewModel.MobileNo,
+                Surname = employeeViewModel.Surname,
+                MiddleName = employeeViewModel.MiddleName,
+                PhysicalAddress = employeeViewModel.PhysicalAddress,
+            };
         }
 
         // GET: Employee/Edit/5
         public async Task<ActionResult> Edit(int employeeId)
         {
-            //here, get the employee from the database
-
-            var selectedEmployee = await this.employeeMGMTService.GetEmployeeById(employeeId);
-            //var selectedEmployee1 = employeeRepository.Where(s => s.EmployeeId == employeeId).FirstOrDefault();
-            //var employees = new List<EmployeeViewModel>();
-            //foreach (EmployeeViewModel employee in selectedEmployee)
-            //{
-
-            //}
-            return View(selectedEmployee); 
+            var dto = await this.employeeMGMTService.GetEmployeeById(employeeId);
+            EmployeeViewModel employeeViewModel = MapObjectsDTOtoViewModel(dto);
+            return View(employeeViewModel);
         }
-         
+
         #endregion
 
         #region POST
@@ -124,17 +101,7 @@ namespace EmployeeManagement.MVC.Controllers
             {
                 try
                 {
-                    var employeeDTO = new Employee()
-                    {
-                        FirstName = employeeViewModel.FirstName,
-                        Surname = employeeViewModel.Surname,
-                        RoleId = 1,
-                        MobileNo = employeeViewModel.MobileNo,
-                        EmailAddress =employeeViewModel.EmailAddress,
-                    };
-
-                    var emp = await this.employeeMGMTService.CreateEmployee(employeeDTO);
-                   // employeeRepository.Add(employeeViewModel);
+                    var emp = await this.employeeMGMTService.CreateEmployee(MapObjectsViewModeltoDTO(employeeViewModel));
                     return RedirectToAction("Index");
                 }
 
@@ -154,17 +121,7 @@ namespace EmployeeManagement.MVC.Controllers
             //checking model state
             if (ModelState.IsValid)
             {
-                var employeeDTO = new Employee()
-                {
-                    FirstName = employeeViewModel.FirstName,
-                    Surname = employeeViewModel.Surname,
-                    RoleId = 1,
-                    MobileNo = employeeViewModel.MobileNo,
-                    EmailAddress = employeeViewModel.EmailAddress,
-                };
-
-                var emp = await this.employeeMGMTService.UpdateEmployee(employeeDTO);
-
+                var emp = await this.employeeMGMTService.UpdateEmployee(MapObjectsViewModeltoDTO(employeeViewModel));
                 return RedirectToAction("Index");
             }
             return View(employeeViewModel);
@@ -173,7 +130,7 @@ namespace EmployeeManagement.MVC.Controllers
         // GET: Employee/Delete/5
         [HttpGet]
         public async Task<ActionResult> Delete(int employeeId)
-        { 
+        {
             try
             {
                 // TODO: Add delete logic here
@@ -185,10 +142,10 @@ namespace EmployeeManagement.MVC.Controllers
                 return View();
             }
         }
-         
+
         public async Task<ActionResult> Search(string searchTerm)
         {
-            IEnumerable<EmployeeViewModel> erer =  (IEnumerable<EmployeeViewModel>)await employeeMGMTService.GetEmployees();
+            IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)await employeeMGMTService.GetEmployees();
             var selectedEmployee = erer.Where(s => s.FirstName == searchTerm).FirstOrDefault();
 
             //var result = emp.Where(a => a.FirstName.Contains(searchTerm)).ToList();
@@ -203,16 +160,47 @@ namespace EmployeeManagement.MVC.Controllers
         [Route("~/ViewPayslip/{accessCode}")]
         public async Task<ActionResult> GetEmployeeSalary(string accessCode)
         {
-            IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)await employeeMGMTService.GetEmployees();
-            var selectedEmployee = erer.Where(s => s.AccessCode == accessCode).FirstOrDefault();
+
+            //var selectedEmployee = erer.Where(s => s.AccessCode == accessCode).FirstOrDefault();
 
             //List<EmployeeViewModel> dsds = 
 
             //here, get the employee from the database
             //var selectedEmployee = employeeRepository.Where(s => s.AccessCode == accessCode).FirstOrDefault();
-
-            return View(selectedEmployee);
+            //selectedEmployee
+            
+            return View();
         }
+
+        #region DeleteLater
+        private Employee AssignValues(Employee employeeDTO, EmployeeViewModel employeeViewModel)
+        {
+            employeeDTO.FirstName = employeeViewModel.FirstName;
+            employeeDTO.AccessCode = employeeViewModel.AccessCode;
+            employeeDTO.EmailAddress = employeeViewModel.EmailAddress;
+            employeeDTO.EmployeeCode = employeeViewModel.EmployeeCode;
+            employeeDTO.EmployeeId = employeeViewModel.EmployeeId;
+            employeeDTO.MobileNo = employeeViewModel.MobileNo;
+            employeeDTO.Surname = employeeViewModel.Surname;
+            employeeDTO.MiddleName = employeeViewModel.MiddleName;
+            employeeDTO.PhysicalAddress = employeeViewModel.PhysicalAddress;
+            return employeeDTO;
+        }
+        private EmployeeViewModel AssignValues(EmployeeViewModel employeeViewModel, Employee employeeDTO)
+        {
+            employeeViewModel.FirstName = employeeDTO.FirstName;
+            employeeViewModel.AccessCode = employeeDTO.AccessCode;
+            employeeViewModel.EmailAddress = employeeDTO.EmailAddress;
+            employeeViewModel.EmployeeCode = employeeDTO.EmployeeCode;
+            employeeViewModel.EmployeeId = employeeDTO.EmployeeId;
+            employeeViewModel.MobileNo = employeeDTO.MobileNo;
+            employeeViewModel.Surname = employeeDTO.Surname;
+            employeeViewModel.MiddleName = employeeDTO.MiddleName;
+            employeeViewModel.PhysicalAddress = employeeDTO.PhysicalAddress;
+
+            return employeeViewModel;
+        }
+        #endregion
 
     }
 }
