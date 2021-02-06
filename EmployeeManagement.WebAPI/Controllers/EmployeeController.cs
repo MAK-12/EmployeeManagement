@@ -44,7 +44,6 @@ namespace EmployeeManagement.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Employee employee)
         {
-            employee.FirstName = "test";
             _unitOfWork.EmployeeRepository.Add(employee);
             await this._unitOfWork.SaveChangesAsync();
 
