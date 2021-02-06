@@ -46,8 +46,7 @@ namespace EmployeeManagementPortal.MVC.Services
             var json = JsonConvert.SerializeObject(emp);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await Client.PatchAsync(
-                $"/employee/{emp.EmployeeId}", data);
+            var response = await Client.PatchAsync($"/employee/{emp.EmployeeId}", data);
 
             var responseStream = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Employee>(responseStream);
@@ -62,6 +61,14 @@ namespace EmployeeManagementPortal.MVC.Services
             }
 
             return false;
+        }
+
+        public async Task<Employee> GetEmployeeById(int id)
+        {
+            var response = await Client.GetAsync($"/employee/{id}"); 
+                var responseStream = await response.Content.ReadAsStringAsync();
+                var r = JsonConvert.DeserializeObject<Employee>(responseStream); 
+            return r;
         }
     }
 }
