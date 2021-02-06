@@ -21,14 +21,6 @@ namespace EmployeeManagement.Infra.Repositories
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Task> Task { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=tcp:at-learnnowapp-dev.database.windows.net,1433;Initial Catalog=AT-LearnNowApp-Dev;Persist Security Info=False;User ID=learnnowuser;Password=Passw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Employee>(entity =>

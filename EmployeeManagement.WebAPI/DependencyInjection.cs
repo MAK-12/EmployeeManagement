@@ -8,8 +8,8 @@ namespace EmployeeManagement.WebAPI
     {
         public static IServiceCollection AddRepository(this IServiceCollection services)
         {
-            services.AddTransient<IEmployeeRepository, EmployeeRepository>();
-            services.AddTransient<ITaskRepository, TaskRepository>();
+            //services.AddTransient<IEmployeeRepository, EmployeeRepository>();
+            //services.AddTransient<ITaskRepository, TaskRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddDbContext<DBContext>(opt => opt

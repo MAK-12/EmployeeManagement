@@ -5,8 +5,9 @@ namespace EmployeeManagement.Infra.Repositories
 {
     public interface IUnitOfWork : IDisposable
     {
-        IEmployeeRepository Employee { get; }
-        ITaskRepository Task { get; }
+        IEmployeeRepository EmployeeRepository { get; }
+        IEmployeeTaskRepository EmployeeTaskRepository { get; }
+        ITaskRepository TaskRepository { get; }
         int Complete();
         Task SaveChangesAsync();
     }
