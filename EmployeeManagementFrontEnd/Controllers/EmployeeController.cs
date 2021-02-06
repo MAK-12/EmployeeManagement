@@ -102,7 +102,7 @@ namespace EmployeeManagement.MVC.Controllers
         {
             //here, get the employee from the database
 
-            var selectedEmployee = this.employeeMGMTService.GetEmployeeById(employeeId);
+            var selectedEmployee = await this.employeeMGMTService.GetEmployeeById(employeeId);
             //var selectedEmployee1 = employeeRepository.Where(s => s.EmployeeId == employeeId).FirstOrDefault();
             //var employees = new List<EmployeeViewModel>();
             //foreach (EmployeeViewModel employee in selectedEmployee)
@@ -177,7 +177,7 @@ namespace EmployeeManagement.MVC.Controllers
             try
             {
                 // TODO: Add delete logic here
-                var isDeleted = this.employeeMGMTService.DeleteEmployee(employeeId);
+                var isDeleted = await this.employeeMGMTService.DeleteEmployee(employeeId);
                 return RedirectToAction("Index");
             }
             catch
@@ -188,7 +188,7 @@ namespace EmployeeManagement.MVC.Controllers
          
         public async Task<ActionResult> Search(string searchTerm)
         {
-            IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)employeeMGMTService.GetEmployees();
+            IEnumerable<EmployeeViewModel> erer =  (IEnumerable<EmployeeViewModel>)await employeeMGMTService.GetEmployees();
             var selectedEmployee = erer.Where(s => s.FirstName == searchTerm).FirstOrDefault();
 
             //var result = emp.Where(a => a.FirstName.Contains(searchTerm)).ToList();
@@ -203,7 +203,7 @@ namespace EmployeeManagement.MVC.Controllers
         [Route("~/ViewPayslip/{accessCode}")]
         public async Task<ActionResult> GetEmployeeSalary(string accessCode)
         {
-            IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)employeeMGMTService.GetEmployees();
+            IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)await employeeMGMTService.GetEmployees();
             var selectedEmployee = erer.Where(s => s.AccessCode == accessCode).FirstOrDefault();
 
             //List<EmployeeViewModel> dsds = 
