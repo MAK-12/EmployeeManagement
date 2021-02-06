@@ -2,7 +2,7 @@
 
 namespace EmployeeManagement.Infra.Repositories
 {
-    public interface ITaskRepository : IGenericRepository<Task>
+    public interface IWorkItemRepository : IGenericRepository<WorkItem>
     {
     }
 }

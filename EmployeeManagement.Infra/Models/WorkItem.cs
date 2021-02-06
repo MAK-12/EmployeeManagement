@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace EmployeeManagement.Infra.Models
 {
-    public partial class Task
+    public partial class WorkItem
     {
-        public Task()
+        public WorkItem()
         {
             EmployeeTask = new HashSet<EmployeeTask>();
         }

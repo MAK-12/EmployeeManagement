@@ -19,7 +19,7 @@ namespace EmployeeManagement.Infra.Repositories
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<EmployeeTask> EmployeeTask { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
-        public virtual DbSet<Task> Task { get; set; }
+        public virtual DbSet<WorkItem> Task { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -112,7 +112,7 @@ namespace EmployeeManagement.Infra.Repositories
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<Task>(entity =>
+            modelBuilder.Entity<WorkItem>(entity =>
             {
                 entity.Property(e => e.Name)
                     .IsRequired()

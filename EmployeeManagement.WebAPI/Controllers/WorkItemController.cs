@@ -10,20 +10,20 @@ namespace TaskManagement.WebAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class TaskController : ControllerBase
+    public class WorkItemController : ControllerBase
     {
 
-        private readonly ILogger<TaskController> _logger;
+        private readonly ILogger<WorkItemController> _logger;
         private IUnitOfWork _unitOfWork;
 
-        public TaskController(ILogger<TaskController> logger, IUnitOfWork unitOfWork)
+        public WorkItemController(ILogger<WorkItemController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<EmployeeManagement.Infra.Models.Task>> Get()
+        public async Task<IEnumerable<WorkItem>> Get()
         {
             return await _unitOfWork.TaskRepository.GetAll();
         }
@@ -57,7 +57,7 @@ namespace TaskManagement.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(EmployeeManagement.Infra.Models.Task task)
+        public async Task<IActionResult> Post(EmployeeManagement.Infra.Models.WorkItem task)
         {
             _unitOfWork.TaskRepository.Add(task);
             await this._unitOfWork.SaveChangesAsync();
@@ -66,7 +66,7 @@ namespace TaskManagement.WebAPI.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Patch(int id, EmployeeManagement.Infra.Models.Task task)
+        public async Task<IActionResult> Patch(int id, EmployeeManagement.Infra.Models.WorkItem task)
         {
             var existingTaskDetail = await _unitOfWork.TaskRepository.Get(id);
             if (existingTaskDetail == null)
