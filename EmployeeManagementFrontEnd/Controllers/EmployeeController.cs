@@ -46,21 +46,59 @@ namespace EmployeeManagement.MVC.Controllers
 
         // GET: Employee/Details/5
         [HttpGet]
-        public ActionResult Details(int employeeId)
+        public async Task<ActionResult> Details(int employeeId)
         {
-            //var emp = this.employeeMGMTService.GetEmployees();
-            //var selectedEmployee = emp.FirstOrDefault(x => x.EmployeeId == employeeId);
-            var employees = new List<EmployeeViewModel>();
-            foreach(EmployeeViewModel employee in employees)
-            {
-
-            }
-            return View(employees);
+            var emp = await this.employeeMGMTService.GetEmployeeById(employeeId);
+            EmployeeViewModel employeeViewModel = MapObjects(emp);
+            return View(employeeViewModel);
         }
-        
-       
+
+        private static EmployeeViewModel MapObjects(Employee emp)
+        {
+            return new EmployeeViewModel()
+            {
+                FirstName = emp.FirstName,
+                AccessCode = emp.AccessCode,
+                EmailAddress = emp.EmailAddress,
+                EmployeeCode = emp.EmployeeCode,
+                EmployeeId = emp.EmployeeId,
+                MobileNo = emp.MobileNo,
+                Surname = emp.Surname,
+                MiddleName = emp.MiddleName,
+                PhysicalAddress = emp.PhysicalAddress
+            };
+        }
+
+        private Employee AssignValues(Employee employee, EmployeeViewModel employeeViewModel)
+        {
+            employee.FirstName = employeeViewModel.FirstName;
+            employee.AccessCode = employeeViewModel.AccessCode;
+            employee.EmailAddress = employeeViewModel.EmailAddress;
+            employee.EmployeeCode = employeeViewModel.EmployeeCode;
+            employee.EmployeeId = employeeViewModel.EmployeeId;
+            employee.MobileNo = employeeViewModel.MobileNo;
+            employee.Surname = employeeViewModel.Surname;
+            employee.MiddleName = employeeViewModel.MiddleName;
+            employee.PhysicalAddress = employeeViewModel.PhysicalAddress;
+            return employee;
+        }
+        private EmployeeViewModel AssignValues(EmployeeViewModel employeeViewModel, Employee employee)
+        {
+           employeeViewModel.FirstName = employee.FirstName;
+           employeeViewModel.AccessCode = employee.AccessCode;
+           employeeViewModel.EmailAddress = employee.EmailAddress;
+           employeeViewModel.EmployeeCode = employee.EmployeeCode;
+           employeeViewModel.EmployeeId = employee.EmployeeId;
+           employeeViewModel.MobileNo = employee.MobileNo;
+           employeeViewModel.Surname = employee.Surname;
+           employeeViewModel.MiddleName = employee.MiddleName;
+           employeeViewModel.PhysicalAddress = employee.PhysicalAddress;
+            
+            return employeeViewModel;
+        }
+
         // GET: Employee/Edit/5
-        public ActionResult Edit(int employeeId)
+        public async Task<ActionResult> Edit(int employeeId)
         {
             //here, get the employee from the database
 
@@ -134,7 +172,7 @@ namespace EmployeeManagement.MVC.Controllers
 
         // GET: Employee/Delete/5
         [HttpGet]
-        public ActionResult Delete(int employeeId)
+        public async Task<ActionResult> Delete(int employeeId)
         { 
             try
             {
@@ -148,7 +186,7 @@ namespace EmployeeManagement.MVC.Controllers
             }
         }
          
-        public ActionResult Search(string searchTerm)
+        public async Task<ActionResult> Search(string searchTerm)
         {
             IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)employeeMGMTService.GetEmployees();
             var selectedEmployee = erer.Where(s => s.FirstName == searchTerm).FirstOrDefault();
@@ -163,7 +201,7 @@ namespace EmployeeManagement.MVC.Controllers
         //https://localhost:44396/Home/ViewPayslip/1123
         // GET: Employee/Edit/5
         [Route("~/ViewPayslip/{accessCode}")]
-        public ActionResult GetEmployeeSalary(string accessCode)
+        public async Task<ActionResult> GetEmployeeSalary(string accessCode)
         {
             IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)employeeMGMTService.GetEmployees();
             var selectedEmployee = erer.Where(s => s.AccessCode == accessCode).FirstOrDefault();
