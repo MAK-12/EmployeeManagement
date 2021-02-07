@@ -6,6 +6,7 @@ namespace EmployeeManagementPortal.MVC.ViewModels
 {
     public class EmployeeViewModel
     {
+        [Display(Name = "Employee Id")]
         public int EmployeeId { get; set; }
         public string EmployeeCode { get; set; }
 
@@ -14,6 +15,9 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         public string MiddleName { get; set; }
         [Required(ErrorMessage = "Please enter Surname.")]
         public string Surname { get; set; }
+
+        [Display(Name = "Name")]
+        public string FullName { get; set; }
 
         [Required(ErrorMessage = "Please enter Mobile Number.")]
         [Display(Name = "Mobile Number")]
@@ -27,7 +31,7 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         [Required(ErrorMessage = "Please enter Access Code.")]
         public string AccessCode { get; set; }
         [Required(ErrorMessage = "Please Select Employee Role Category.")]
-        [Display(Name = "Employee Role Category")]
+        [Display(Name = "Employee Role")]
         public EmployeeRoleCategory EmployeeRoleCategory { get; set; }
 
         public string EmployeeRoleName{ get; set; }

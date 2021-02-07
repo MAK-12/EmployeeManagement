@@ -39,8 +39,8 @@
                 <label asp-for="IsCompleted" class="control-label"></label>
                 <select asp-for="IsCompleted" class="form-control">
                     <option selected="selected" value="">Please select</option>
-                    <option value="1">Completed</option>
-                    <option value="0">Not Completed</option>
+                    <option value="true">Completed</option>
+                    <option value="false">Not Completed</option>
                 </select>
                 <span asp-validation-for="IsCompleted" class="text-danger"></span>
             </div>

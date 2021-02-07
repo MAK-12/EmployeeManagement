@@ -21,16 +21,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                @Html.DisplayNameFor(model => model.EmployeeId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Surname)
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayName("Role")
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.MobileNo)
-            </th>
-            <th>
-                @Html.DisplayName("Category")
             </th>
             <th></th>
         </tr>
@@ -40,20 +40,20 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
+                @Html.DisplayFor(modelItem => item.EmployeeId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MobileNo)
+                @Html.DisplayFor(modelItem => item.FullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EmployeeRoleName)
             </td>
             <td>
-                <a asp-action="Edit" asp-controller="Employee" asp-route-employeeId="@item.EmployeeId"  class="btn btn-primary">Edit</a>
-                <a asp-action="Details" asp-controller="Employee" asp-route-employeeId="@item.EmployeeId"  class="btn btn-primary">Details</a>
+                @Html.DisplayFor(modelItem => item.MobileNo)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-controller="Employee" asp-route-employeeId="@item.EmployeeId" class="btn btn-primary">Edit</a>
+                <a asp-action="Details" asp-controller="Employee" asp-route-employeeId="@item.EmployeeId" class="btn btn-primary">Details</a>
                 <a asp-action="Delete" asp-controller="Employee" asp-route-employeeId="@item.EmployeeId" class="btn btn-danger">Delete</a>
             </td>
         </tr>

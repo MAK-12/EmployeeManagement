@@ -28,8 +28,8 @@ namespace EmployeeManagement.MVC.Controllers
             var employee = employees.Select(e => new EmployeeViewModel()
             {
                 EmployeeId = e.EmployeeId,
-                FirstName = e.FirstName,
-                Surname = e.Surname,
+                FullName = e.FirstName + " " + e.Surname,
+                MobileNo = e.MobileNo,
                 EmployeeRoleName = e.Role.RoleName,
             });
             return View(employee);
