@@ -89,6 +89,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
         }
 
         // GET: EmployeeTaskController/Edit/5
+        [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
             var dto = await this.employeeTaskService.GetEmployeeTaskById(id);
