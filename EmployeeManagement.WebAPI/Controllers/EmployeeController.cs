@@ -59,7 +59,17 @@ namespace EmployeeManagement.WebAPI.Controllers
                 return NotFound();
             }
 
-            _unitOfWork.EmployeeRepository.Update(employee);
+            existingEmployeeDetail.FirstName = employee.FirstName;
+            existingEmployeeDetail.AccessCode = employee.AccessCode;
+            existingEmployeeDetail.EmailAddress = employee.EmailAddress;
+            existingEmployeeDetail.EmployeeCode = employee.EmployeeCode;
+            existingEmployeeDetail.MobileNo = employee.MobileNo;
+            existingEmployeeDetail.Surname = employee.Surname;
+            existingEmployeeDetail.MiddleName = employee.MiddleName;
+            existingEmployeeDetail.PhysicalAddress = employee.PhysicalAddress;
+            existingEmployeeDetail.RoleId = 1;
+
+            _unitOfWork.EmployeeRepository.Update(existingEmployeeDetail);
             await this._unitOfWork.SaveChangesAsync();
 
             return this.Ok(employee);

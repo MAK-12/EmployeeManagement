@@ -34,7 +34,7 @@ namespace EmployeeManagement.Infra.Repositories
         public virtual T Update(T entity)
         {
             return this._context
-                .Add(entity)
+                .Update(entity)
                 .Entity;
         }
 

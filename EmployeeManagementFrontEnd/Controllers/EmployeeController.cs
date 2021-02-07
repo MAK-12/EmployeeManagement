@@ -63,7 +63,7 @@ namespace EmployeeManagement.MVC.Controllers
                 MobileNo = dto.MobileNo,
                 Surname = dto.Surname,
                 MiddleName = dto.MiddleName,
-                PhysicalAddress = dto.PhysicalAddress
+                PhysicalAddress = dto.PhysicalAddress,
             };
         }
         private static Employee MapObjectsViewModeltoDTO(EmployeeViewModel employeeViewModel)
@@ -79,6 +79,7 @@ namespace EmployeeManagement.MVC.Controllers
                 Surname = employeeViewModel.Surname,
                 MiddleName = employeeViewModel.MiddleName,
                 PhysicalAddress = employeeViewModel.PhysicalAddress,
+                RoleId = 1,
             };
         }
 

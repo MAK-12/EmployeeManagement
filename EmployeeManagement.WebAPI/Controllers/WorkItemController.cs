@@ -73,8 +73,11 @@ namespace TaskManagement.WebAPI.Controllers
             {
                 return NotFound();
             }
+            existingTaskDetail.Name = task.Name;
+            existingTaskDetail.NoOfHours = task.NoOfHours;
+            existingTaskDetail.IsCompleted = task.IsCompleted;
 
-            _unitOfWork.TaskRepository.Update(task);
+            _unitOfWork.TaskRepository.Update(existingTaskDetail);
             await this._unitOfWork.SaveChangesAsync();
 
             return this.Ok(task);
