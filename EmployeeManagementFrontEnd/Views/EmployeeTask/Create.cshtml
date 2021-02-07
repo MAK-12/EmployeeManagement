@@ -12,7 +12,8 @@
         <br />
         <div class="col-md-6"></div>
         <div class="col-md-6 footer-buttons">
-            <a asp-action="Index" class="btn btn-outline-primary float-right">Back to List</a><span>&nbsp; &nbsp;</span>
+            <a asp-action="Index" class="btn btn-outline-primary float-right">Back to List</a>
+            <span>&nbsp; &nbsp;</span>
             <input type="submit" value="Create" style="margin-right: 5px;" class="btn btn-primary float-right" />
         </div>
     </div>
@@ -20,23 +21,26 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="EmployeeTaskId" class="control-label"></label>
-                <input asp-for="EmployeeTaskId" class="form-control" />
-                <span asp-validation-for="EmployeeTaskId" class="text-danger"></span>
+                @*<label name "FullName" class="col-sm-2 col-form-label"></label>*@
+                <label name="FullName"></label>
+                <div class="col-sm-10">
+                    <select asp-for="EmployeeId" asp-items="@(new SelectList(Model.EmployeeList,"EmployeeId", "FirstName"))" class="custom-select mr-sm-2">
+                        <option value="">Please Select</option>
+                    </select>
+                    <span asp-validation-for="Employee.EmployeeId" class="text-danger"></span>
+                </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="EmployeeId" class="control-label"></label>
-                <input asp-for="EmployeeId" class="form-control" />
-                <span asp-validation-for="EmployeeId" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="TaskId" class="control-label"></label>
-                <input asp-for="TaskId" class="form-control" />
-                <span asp-validation-for="TaskId" class="text-danger"></span>
+                @*<label asp-for="Task.Name" class="col-sm-2 col-form-label"></label>*@
+                <label name="TaskName"></label>
+                <div class="col-sm-10">
+                    <select asp-for="TaskId" asp-items="@(new SelectList(Model.WorkItemList,"TaskId", "Name"))" class="custom-select mr-sm-2">
+                        <option value="">Please Select</option>
+                    </select>
+                    <span asp-validation-for="Task.TaskId" class="text-danger"></span>
+                </div>
             </div>
         </div>
         <div class="col-md-6">
@@ -46,13 +50,13 @@
                 <span asp-validation-for="TotalNoOfHours" class="text-danger"></span>
             </div>
         </div>
-        <div class="col-md-6">
+        @*<div class="col-md-6">
             <div class="form-group">
                 <label asp-for="CurrentDate" class="control-label"></label>
                 <input asp-for="CurrentDate" class="form-control" />
                 <span asp-validation-for="CurrentDate" class="text-danger"></span>
             </div>
-        </div>
+        </div>*@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
@@ -74,13 +78,7 @@
                 <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
         </div>
-        @*<div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="PayPerTask" class="control-label"></label>
-                <input asp-for="PayPerTask" class="form-control" />
-                <span asp-validation-for="PayPerTask" class="text-danger"></span>
-            </div>
-        </div>*@
+
     </div>
 </form>
 

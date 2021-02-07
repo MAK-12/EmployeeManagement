@@ -7,16 +7,21 @@ using EmployeeManagementPortal.MVC.Services;
 using EmployeeManagementPortal.MVC.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EmployeeManagementPortal.MVC.Controllers
 {
     public class EmployeeTaskController : Controller
     {
         private IEmployeeTaskService employeeTaskService;
+        private IEmployeeService employeeService;
+        private IWorkItemService workItemService;
 
-        public EmployeeTaskController(IEmployeeTaskService employeeTaskService)
+        public EmployeeTaskController(IEmployeeTaskService employeeTaskService, IEmployeeService employeeService, IWorkItemService workItemService)
         {
             this.employeeTaskService = employeeTaskService;
+            this.employeeService = employeeService;
+            this.workItemService = workItemService;
         }
 
         #region Get
@@ -83,10 +88,45 @@ namespace EmployeeManagementPortal.MVC.Controllers
 
         // GET: EmployeeTaskController/Create
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            //.Result.ToList()
+            var employeeList = await this.employeeService.GetEmployees();
+            var workItemList = await this.workItemService.GetWorkItems();
+            EmployeeTasksViewModel employeeTasksViewModel = new EmployeeTasksViewModel();
+
+            employeeTasksViewModel.EmployeeList = employeeList;
+            employeeTasksViewModel.WorkItemList = workItemList;
+
+            return View(employeeTasksViewModel);
         }
+
+
+        //private void GetCommittees()
+        //{
+        //    List<KeyValuePair<int, string>> committees = GetEmployeesForDropdown(true);
+        //    ViewBag.Committees = committees;
+        //    ViewBag.CommitteeList = ToSelectList(committees);
+        //}
+
+        //public List<KeyValuePair<int, string>> GetEmployeesForDropdown()
+        //{
+        //    var dto = this.employeeService.GetEmployees();
+
+        //    //dto.
+
+        //    //return dto.ToDictionary(t => t.ECSCommitteeId,
+        //    //                        t => t.ECSCommitteeTitle).ToList();
+
+        //    //using (var ctx = new CllrsOnlineEntities())
+        //    //{
+        //    //    if (includeInactive)
+        //    //        return ctx.ECSCommittees.ToDictionary(t => t.ECSCommitteeId, t => t.ECSCommitteeTitle).ToList();
+        //    //    else
+        //    //        return ctx.ECSCommittees.Where(a => a.IsECSCommitteeActive == true).ToDictionary(t => t.ECSCommitteeId, t => t.ECSCommitteeTitle).OrderBy(a => a.Value).ToList();
+        //    //}
+        //}
+
 
         // GET: EmployeeTaskController/Edit/5
         [HttpGet]
@@ -111,6 +151,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
             {
                 try
                 {
+                    employeeTasksViewModel.CurrentDate = DateTime.Now;
                     var emp = await this.employeeTaskService.CreateEmployeeTask(MapObjectsViewModeltoDTO(employeeTasksViewModel));
                     return RedirectToAction("Index");
                 }

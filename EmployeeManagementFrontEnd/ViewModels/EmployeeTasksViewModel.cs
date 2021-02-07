@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmployeeManagement.Infra.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -26,6 +27,10 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         [Display(Name = "Pay Per Task")]
         public decimal? PayPerTask { get; set; }
         public virtual EmployeeViewModel Employee { get; set; }
+
+        public IEnumerable<Employee>  EmployeeList { get; set; }
         public virtual WorkItemViewModel Task { get; set; }
+
+        public IEnumerable<WorkItem> WorkItemList { get; set; }
     }
 }
