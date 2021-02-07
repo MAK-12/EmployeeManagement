@@ -1,5 +1,4 @@
-﻿using EmployeeManagementPortal.MVC.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,8 +19,6 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         [Required(ErrorMessage = "Please enter your secured Access Code.")]
         [Display(Name = "Access Code")]
         public string AccessCode { get; set; }
-        public EmployeeRoleCategory EmployeeRoleCategory { get; set; }
-
         public string EmployeeRoleName { get; set; }
 
         [Display(Name = "Start Date")]

@@ -1,3 +1,4 @@
+using EmployeeManagementPortal.MVC.Common;
 using EmployeeManagementPortal.MVC.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,11 @@ namespace EmployeeManagementPortal.MVC
             services.AddHttpClient<IWorkItemService, WorkItemService>();
             services.AddHttpClient<IRolesService, RolesService>();
             services.AddHttpClient<IEmployeeTaskService, EmployeeTaskService>();
+            
+            services.AddSingleton<IObjectMapper, ObjectMapper>();
+            
+
+
             services.AddControllersWithViews();
         }
 

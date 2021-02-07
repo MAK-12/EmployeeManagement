@@ -12,7 +12,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
 {
     public class WorkItemController : Controller
     {
-        IList<WorkItemViewModel> taskTestDataRepository = GetTestData.GetTaskData();
         private IWorkItemService workItemService;
         public WorkItemController(IWorkItemService workItemService)
         {

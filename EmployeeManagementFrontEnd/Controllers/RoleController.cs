@@ -12,7 +12,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
 {
     public class RoleController : Controller
     {
-        IList<RoleViewModel> roleTestDataRepository = GetTestData.GetRoleData();
         private IRolesService rolesService;
 
         public RoleController(IRolesService rolesService)

@@ -1,5 +1,4 @@
-﻿using EmployeeManagementPortal.MVC.Common;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeManagementPortal.MVC.ViewModels
@@ -30,9 +29,6 @@ namespace EmployeeManagementPortal.MVC.ViewModels
 
         [Required(ErrorMessage = "Please enter Access Code.")]
         public string AccessCode { get; set; }
-        [Required(ErrorMessage = "Please Select Employee Role Category.")]
-        [Display(Name = "Employee Role")]
-        public EmployeeRoleCategory EmployeeRoleCategory { get; set; }
 
         public string EmployeeRoleName{ get; set; }
 
