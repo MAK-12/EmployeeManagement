@@ -51,7 +51,7 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> Patch(int id, EmployeeTask employee)
+        public async Task<IActionResult> Patch(int id, EmployeeTask employeeTask)
         {
             var existingEmployeeTaskDetail = await _unitOfWork.EmployeeTaskRepository.Get(id);
             if (existingEmployeeTaskDetail == null)
@@ -59,10 +59,19 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
                 return NotFound();
             }
 
-            _unitOfWork.EmployeeTaskRepository.Update(employee);
+            existingEmployeeTaskDetail.TaskId = employeeTask.TaskId;
+            existingEmployeeTaskDetail.EmployeeId = employeeTask.EmployeeId;
+            existingEmployeeTaskDetail.TotalNoOfHours = employeeTask.TotalNoOfHours;
+            existingEmployeeTaskDetail.CurrentDate = employeeTask.CurrentDate;
+            existingEmployeeTaskDetail.StartDate = (DateTime)employeeTask.StartDate;
+            existingEmployeeTaskDetail.EndDate = (DateTime)employeeTask.EndDate;
+            existingEmployeeTaskDetail.Priority = employeeTask.Priority;
+            existingEmployeeTaskDetail.PayPerTask = employeeTask.PayPerTask;
+
+            _unitOfWork.EmployeeTaskRepository.Update(existingEmployeeTaskDetail);
             await this._unitOfWork.SaveChangesAsync();
 
-            return this.Ok(employee);
+            return this.Ok(existingEmployeeTaskDetail);
         }
 
         [HttpDelete("{id}")]
