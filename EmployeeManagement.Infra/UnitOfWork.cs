@@ -73,12 +73,11 @@ namespace EmployeeManagement.Infra.Repositories
                 return this.roleRepository;
             }
         }
-
-
-
-        public int Complete()
+         
+        public void Dispose()
         {
-            return _context.SaveChanges();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public async Task SaveChangesAsync()
@@ -86,11 +85,7 @@ namespace EmployeeManagement.Infra.Repositories
             await this._context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+       
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

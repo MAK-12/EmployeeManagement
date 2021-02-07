@@ -24,8 +24,19 @@ namespace EmployeeManagement.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var employees = await _unitOfWork.EmployeeRepository.GetAll();
-            return this.Ok(employees);
+            try
+            {
+                _logger.LogInformation("GetEmployees");
+                var employees = await _unitOfWork.EmployeeRepository.GetAll();
+                return this.Ok(employees);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                throw ex;
+            }
+
         }
 
         [HttpGet("search")]
@@ -54,7 +65,7 @@ namespace EmployeeManagement.WebAPI.Controllers
             _unitOfWork.EmployeeRepository.Add(employee);
             await this._unitOfWork.SaveChangesAsync();
 
-            return  this.Ok(employee);
+            return this.Ok(employee);
         }
 
         [HttpPatch("{id}")]

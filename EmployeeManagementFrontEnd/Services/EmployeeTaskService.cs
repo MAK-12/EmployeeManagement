@@ -1,4 +1,5 @@
 ﻿using EmployeeManagement.Infra.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,12 @@ namespace EmployeeManagementPortal.MVC.Services
 {
     public class EmployeeTaskService : IEmployeeTaskService
     {
+        IConfiguration _configuration;
         public HttpClient Client { get; }
 
-        public EmployeeTaskService(HttpClient client)
+        public EmployeeTaskService(HttpClient client,IConfiguration configuration)
         {
-            client.BaseAddress = new Uri("https://localhost:44341/EmployeeTask");
+            client.BaseAddress = new Uri(_configuration["BaseUrl"]);
 
             Client = client;
         }
@@ -33,7 +35,7 @@ namespace EmployeeManagementPortal.MVC.Services
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await Client.PostAsync(
-                "/EmployeeTask", data);
+                _configuration["EmployeeRelationURL"], data);
 
 
 
@@ -46,7 +48,7 @@ namespace EmployeeManagementPortal.MVC.Services
             var json = JsonConvert.SerializeObject(empTask);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await Client.PatchAsync($"/EmployeeTask/{empTask.EmployeeTaskId}", data);
+            var response = await Client.PatchAsync(string.Concat(_configuration["EmployeeRelationURL"],"/",empTask.EmployeeTaskId), data);
 
             var responseStream = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<EmployeeTask>(responseStream);

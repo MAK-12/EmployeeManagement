@@ -9,7 +9,6 @@ namespace EmployeeManagement.Infra.Repositories
         IEmployeeTaskRepository EmployeeTaskRepository { get; }
         IWorkItemRepository TaskRepository { get; }
         IRoleRepository RoleRepository { get; }
-        int Complete();
         Task SaveChangesAsync();
     }
 }
