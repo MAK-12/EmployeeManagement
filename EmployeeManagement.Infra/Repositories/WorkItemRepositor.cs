@@ -1,4 +1,8 @@
 ﻿using EmployeeManagement.Infra.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EmployeeManagement.Infra.Repositories
 {
@@ -6,7 +10,16 @@ namespace EmployeeManagement.Infra.Repositories
     {
         public WorkItemRepository(DBContext context) : base(context)
         {
+        }
 
+        public async Task<IEnumerable<WorkItem>> Find(string searchText)
+        {
+            return await this._context.Set<WorkItem>()
+                .AsQueryable()
+                .Where(e => e.Name == searchText)
+                .AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
     }
 }

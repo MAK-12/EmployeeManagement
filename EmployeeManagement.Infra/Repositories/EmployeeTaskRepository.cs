@@ -1,5 +1,8 @@
 ﻿using EmployeeManagement.Infra.Models;
 using EmployeeManagement.Infra.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EmployeeTaskManagement.Infra.Repositories
 {
@@ -7,7 +10,15 @@ namespace EmployeeTaskManagement.Infra.Repositories
     {
         public EmployeeTaskRepository(DBContext context) : base(context)
         {
+        }
 
+        public async Task<IEnumerable<EmployeeTask>> Find(string searchText)
+        {
+            return await this._context.Set<EmployeeTask>()
+                .AsQueryable()
+                .AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
     }
 }

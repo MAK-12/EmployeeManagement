@@ -41,6 +41,13 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
             return this.Ok(employeeDetail);
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(String searchText)
+        {
+            var employeeTasks = await _unitOfWork.EmployeeTaskRepository.Find(searchText);
+            return this.Ok(employeeTasks);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(EmployeeTask employee)
         {
