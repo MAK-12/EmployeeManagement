@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EmployeeManagement.Infra.Models;
+using EmployeeManagementPortal.MVC.Services;
 using EmployeeManagementPortal.MVC.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,39 +12,90 @@ namespace EmployeeManagementPortal.MVC.Controllers
 {
     public class EmployeeTaskController : Controller
     {
-        IList<EmployeeTasksViewModel> employeeTaskRepository = GetTestData.GetEmployeeTaskData();
+        private IEmployeeTaskService employeeTaskService;
+
+        public EmployeeTaskController(IEmployeeTaskService employeeTaskService)
+        {
+            this.employeeTaskService = employeeTaskService;
+        }
 
         #region Get
         //GET: EmployeeTaskController
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(employeeTaskRepository);
+            var employeeTasks = await this.employeeTaskService.GetEmployeeTasks();
+
+            var employeeTask = employeeTasks.Select(e => new EmployeeTasksViewModel()
+            {
+                EmployeeTaskId = e.EmployeeTaskId,
+                TaskId = e.TaskId,
+                EmployeeId = e.EmployeeId,
+                TotalNoOfHours = e.TotalNoOfHours,
+                CurrentDate = e.CurrentDate,
+                StartDate = e.StartDate,
+                EndDate = e.EndDate,
+                Priority = e.Priority,
+                PayPerTask = e.PayPerTask
+            });
+            return View(employeeTask);
         }
+
+        private static EmployeeTasksViewModel MapObjectsDTOtoViewModel(EmployeeTask dto)
+        {
+            return new EmployeeTasksViewModel()
+            {
+                EmployeeTaskId = dto.EmployeeTaskId,
+                TaskId = dto.TaskId,
+                EmployeeId = dto.EmployeeId,
+                TotalNoOfHours = dto.TotalNoOfHours,
+                CurrentDate = dto.CurrentDate,
+                StartDate = dto.StartDate,
+                EndDate = dto.EndDate,
+                Priority = dto.Priority,
+                PayPerTask = dto.PayPerTask
+            };
+        }
+        private static EmployeeTask MapObjectsViewModeltoDTO(EmployeeTasksViewModel employeeTasksViewModel)
+        {
+            return new EmployeeTask()
+            {
+                EmployeeTaskId = employeeTasksViewModel.EmployeeTaskId,
+                TaskId = employeeTasksViewModel.TaskId,
+                EmployeeId = employeeTasksViewModel.EmployeeId,
+                TotalNoOfHours = employeeTasksViewModel.TotalNoOfHours,
+                CurrentDate = employeeTasksViewModel.CurrentDate,
+                StartDate = (DateTime)employeeTasksViewModel.StartDate,
+                EndDate = (DateTime)employeeTasksViewModel.EndDate,
+                Priority = employeeTasksViewModel.Priority,
+                PayPerTask = employeeTasksViewModel.PayPerTask
+            };
+        }
+
 
         // GET: EmployeeTaskController/Details/5
         [HttpGet]
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            var selectedEmployee = employeeTaskRepository.FirstOrDefault(x => x.EmployeeTaskId == id);
-            return View(selectedEmployee);
+            var dto = await this.employeeTaskService.GetEmployeeTaskById(id);
+            EmployeeTasksViewModel employeeTasksViewModel = MapObjectsDTOtoViewModel(dto);
+            return View(employeeTasksViewModel);
         }
 
         // GET: EmployeeTaskController/Create
-        public ActionResult Create()
+        [HttpGet]
+        public IActionResult Create()
         {
             return View();
         }
 
         // GET: EmployeeTaskController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            //here, get the employee from the database
-            var selectedEmployee = employeeTaskRepository.Where(s => s.EmployeeTaskId == id).FirstOrDefault();
-
-            return View(selectedEmployee);
+            var dto = await this.employeeTaskService.GetEmployeeTaskById(id);
+            EmployeeTasksViewModel employeeTasksViewModel = MapObjectsDTOtoViewModel(dto);
+            return View(employeeTasksViewModel);
         }
 
-       
         #endregion
 
         #region Post
@@ -50,15 +103,15 @@ namespace EmployeeManagementPortal.MVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public ActionResult Create(IFormCollection collection)
-        public ActionResult Create(EmployeeTasksViewModel EmployeeTasksViewModel)
+        public async Task<ActionResult> CreateAsync(EmployeeTasksViewModel employeeTasksViewModel)
         {
             //checking model state
             if (ModelState.IsValid)
             {
                 try
                 {
-                    employeeTaskRepository.Add(EmployeeTasksViewModel);
-                    return RedirectToAction(nameof(Index));
+                    var emp = await this.employeeTaskService.CreateEmployeeTask(MapObjectsViewModeltoDTO(employeeTasksViewModel));
+                    return RedirectToAction("Index");
                 }
 
                 catch (Exception ex)
@@ -73,36 +126,26 @@ namespace EmployeeManagementPortal.MVC.Controllers
         // POST: EmployeeTaskController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        // public ActionResult Edit(int id, IFormCollection collection)
-        public ActionResult Edit(EmployeeTasksViewModel employeeTasksViewModel)
+        public async Task<ActionResult> Edit(EmployeeTasksViewModel employeeTasksViewModel)
         {
             //checking model state
             if (ModelState.IsValid)
             {
-                var selectedEmployee = employeeTaskRepository.Where(s => s.EmployeeTaskId == employeeTasksViewModel.EmployeeTaskId).FirstOrDefault();
-                employeeTaskRepository.Remove(selectedEmployee);
-                employeeTaskRepository.Add(employeeTasksViewModel);
-
+                var emp = await this.employeeTaskService.UpdateEmployeeTask(MapObjectsViewModeltoDTO(employeeTasksViewModel));
                 return RedirectToAction("Index");
             }
             return View(employeeTasksViewModel);
         }
 
-        // POST: EmployeeTaskController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        // public ActionResult Delete(int id, IFormCollection collection)
-        public ActionResult Delete(int id)
+
+        // Get: EmployeeTaskController/Delete/5 
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
-                var employeeToRemove = employeeTaskRepository.FirstOrDefault(x => x.EmployeeTaskId == id);
-                if (employeeToRemove != null)
-                {
-                    employeeTaskRepository.Remove(employeeToRemove);
-                }
-                return RedirectToAction(nameof(Index));
+                var isDeleted = await this.employeeTaskService.DeleteEmployeeTask(id);
+                return RedirectToAction("Index");
             }
             catch
             {

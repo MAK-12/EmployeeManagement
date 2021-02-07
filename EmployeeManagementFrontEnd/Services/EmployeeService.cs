@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagementPortal.MVC.Services
 {
-    public class EmployeeManagementService: IEmployeeManagementService
+    public class EmployeeService: IEmployeeService
     {
         public HttpClient Client { get; }
 
-        public EmployeeManagementService(HttpClient client)
+        public EmployeeService(HttpClient client)
         {
             client.BaseAddress = new Uri("https://localhost:44341/employee");
 

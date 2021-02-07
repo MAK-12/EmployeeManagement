@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EmployeeManagement.Infra.Models;
+using EmployeeManagementPortal.MVC.Services;
 using EmployeeManagementPortal.MVC.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,56 +12,97 @@ namespace EmployeeManagementPortal.MVC.Controllers
 {
     public class RoleController : Controller
     {
-        IList<RoleViewModel> roleRepository = GetTestData.GetRoleData();
+        IList<RoleViewModel> roleTestDataRepository = GetTestData.GetRoleData();
+        private IRolesService rolesService;
+
+        public RoleController(IRolesService rolesService)
+        {
+            this.rolesService = rolesService;
+        }
 
         #region Get
         // GET: RoleController
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(roleRepository);
+            var roles = await this.rolesService.GetRoles();
+
+            var role = roles.Select(r => new RoleViewModel()
+            {
+                RoleId = r.RoleId,
+                RoleName = r.RoleName,
+                RoleDescription = r.RoleDescription,
+                RatePerhour = r.RatePerhour,
+            });
+            return View(role);
         }
 
-        // GET: RoleController/Details/5
-        public ActionResult Details(int id)
+        private static RoleViewModel MapObjectsDTOtoViewModel(Roles dto)
         {
-            var selectedEmployee = roleRepository.FirstOrDefault(x => x.RoleId == id);
-            return View(selectedEmployee);
+            return new RoleViewModel()
+            {
+                RoleId = dto.RoleId,
+                RoleName = dto.RoleName,
+                RoleDescription = dto.RoleDescription,
+                RatePerhour = dto.RatePerhour,
+            };
+        }
+        private static Roles MapObjectsViewModeltoDTO(RoleViewModel roleViewModel)
+        {
+            return new Roles()
+            {
+                RoleId = roleViewModel.RoleId,
+                RoleName = roleViewModel.RoleName,
+                RoleDescription = roleViewModel.RoleDescription,
+                RatePerhour = roleViewModel.RatePerhour,
+            };
+        }
+
+
+        // GET: RoleController/Details/5
+        [HttpGet]
+        public async Task<ActionResult> Details(int id)
+        {
+            var dto = await this.rolesService.GetRoleById(id);
+            RoleViewModel roleViewModel = MapObjectsDTOtoViewModel(dto);
+            return View(roleViewModel);
         }
 
         // GET: RoleController/Create
-        public ActionResult Create()
+        [HttpGet]
+        public IActionResult Create()
         {
             return View();
         }
 
         // GET: RoleController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
         {
-            var selectedEmployee = roleRepository.Where(s => s.RoleId == id).FirstOrDefault();
-
-            return View(selectedEmployee);
-        }
-
-        // GET: RoleController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
+            try
+            {
+                var isDeleted = await this.rolesService.DeleteRole(id);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
         #endregion
 
         #region Post 
         // POST: RoleController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(RoleViewModel RoleViewModel)
+        [ValidateAntiForgeryToken] 
+        public async Task<ActionResult> CreateAsync(RoleViewModel roleViewModel)
         {
             //checking model state
             if (ModelState.IsValid)
             {
                 try
                 {
-                    roleRepository.Add(RoleViewModel);
-                    return RedirectToAction(nameof(Index));
+                    var emp = await this.rolesService.CreateRole(MapObjectsViewModeltoDTO(roleViewModel));
+                    return RedirectToAction("Index");
                 }
 
                 catch (Exception ex)
@@ -71,43 +114,19 @@ namespace EmployeeManagementPortal.MVC.Controllers
             return View();
         }
 
-        // POST: RoleController/Edit/5
+        // POST: RoleController/Edit/5 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(RoleViewModel RoleViewModel)
+        public async Task<ActionResult> Edit(RoleViewModel roleViewModel)
         {
             //checking model state
             if (ModelState.IsValid)
             {
-                var selectedEmployee = roleRepository.Where(s => s.RoleId == RoleViewModel.RoleId).FirstOrDefault();
-                roleRepository.Remove(selectedEmployee);
-                roleRepository.Add(RoleViewModel);
-
+                var emp = await this.rolesService.UpdateRole(MapObjectsViewModeltoDTO(roleViewModel));
                 return RedirectToAction("Index");
             }
-            return View(RoleViewModel);
-        }
-
-        // POST: RoleController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-                var employeeToRemove = roleRepository.FirstOrDefault(x => x.RoleId == id);
-                if (employeeToRemove != null)
-                {
-                    roleRepository.Remove(employeeToRemove);
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            return View(roleViewModel);
+        } 
 
         #endregion
     }

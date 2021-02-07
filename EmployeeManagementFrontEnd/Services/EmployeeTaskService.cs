@@ -8,68 +8,67 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagementPortal.MVC.Services
 {
-    //public class EmployeeTaskService :
-    //    //IEmployeeTaskService
-    //{
-    //    public HttpClient Client { get; }
+    public class EmployeeTaskService : IEmployeeTaskService
+    {
+        public HttpClient Client { get; }
 
-    //    public EmployeeTaskService(HttpClient client)
-    //    {
-    //        client.BaseAddress = new Uri("https://localhost:44341/employee");
+        public EmployeeTaskService(HttpClient client)
+        {
+            client.BaseAddress = new Uri("https://localhost:44341/EmployeeTask");
 
-    //        Client = client;
-    //    }
+            Client = client;
+        }
 
-    //    public async Task<IEnumerable<EmployeeTask>> GetEmployeeTasks()
-    //    {
-    //        var response = await Client.GetAsync("/task");
-    //        var responseStream = await response.Content.ReadAsStringAsync();
-    //        var r = JsonConvert.DeserializeObject<List<EmployeeManagement.Infra.Models.Task>>(responseStream);
-    //        return r;
-    //    }
+        public async Task<IEnumerable<EmployeeTask>> GetEmployeeTasks()
+        {
+            var response = await Client.GetAsync("/EmployeeTask");
+            var responseStream = await response.Content.ReadAsStringAsync();
+            var r = JsonConvert.DeserializeObject<List<EmployeeTask>>(responseStream);
+            return r;
+        }
 
-    //    public async Task<Employee> CreateEmployee(Employee emp)
-    //    {
-    //        var json = JsonConvert.SerializeObject(emp);
-    //        var data = new StringContent(json, Encoding.UTF8, "application/json");
+        public async Task<EmployeeTask> CreateEmployeeTask(EmployeeTask empTask)
+        {
+            var json = JsonConvert.SerializeObject(empTask);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-    //        var response = await Client.PostAsync(
-    //            "/employee", data);
-
+            var response = await Client.PostAsync(
+                "/EmployeeTask", data);
 
 
-    //        var responseStream = await response.Content.ReadAsStringAsync();
-    //        return JsonConvert.DeserializeObject<Employee>(responseStream);
-    //    }
 
-    //    public async Task<Employee> UpdateEmployee(Employee emp)
-    //    {
-    //        var json = JsonConvert.SerializeObject(emp);
-    //        var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var responseStream = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<EmployeeTask>(responseStream);
+        }
 
-    //        var response = await Client.PatchAsync($"/employee/{emp.EmployeeId}", data);
+        public async Task<EmployeeTask> UpdateEmployeeTask(EmployeeTask empTask)
+        {
+            var json = JsonConvert.SerializeObject(empTask);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-    //        var responseStream = await response.Content.ReadAsStringAsync();
-    //        return JsonConvert.DeserializeObject<Employee>(responseStream);
-    //    }
+            var response = await Client.PatchAsync($"/EmployeeTask/{empTask.EmployeeTaskId}", data);
 
-    //    public async Task<bool> DeleteEmployee(int id)
-    //    {
-    //        var response = await Client.DeleteAsync($"/employee/{id}");
-    //        if (response.StatusCode == System.Net.HttpStatusCode.OK)
-    //        {
-    //            return true;
-    //        }
+            var responseStream = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<EmployeeTask>(responseStream);
+        }
 
-    //        return false;
-    //    }
+        public async Task<bool> DeleteEmployeeTask(int id)
+        {
+            var response = await Client.DeleteAsync($"/EmployeeTask/{id}");
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return true;
+            }
 
-    //    public async Task<Employee> GetEmployeeById(int id)
-    //    {
-    //        var response = await Client.GetAsync($"/employee/{id}");
-    //        var responseStream = await response.Content.ReadAsStringAsync();
-    //        var r = JsonConvert.DeserializeObject<Employee>(responseStream);
-    //        return r;
-    //    }
-    //}
+            return false;
+        }
+
+        public async Task<EmployeeTask> GetEmployeeTaskById(int id)
+        {
+            var response = await Client.GetAsync($"/EmployeeTask/{id}");
+            var responseStream = await response.Content.ReadAsStringAsync();
+            var r = JsonConvert.DeserializeObject<EmployeeTask>(responseStream);
+            return r;
+        }
+    }
 }

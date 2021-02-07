@@ -4,115 +4,139 @@ using System.Linq;
 using EmployeeManagementPortal.MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using EmployeeManagementPortal.MVC.Services;
+using System.Threading.Tasks;
+using EmployeeManagement.Infra.Models;
 
 namespace EmployeeManagementPortal.MVC.Controllers
 {
     public class WorkItemController : Controller
     {
-        IList<WorkItemViewModel> taskRepository = GetTestData.GetTaskData();
+        IList<WorkItemViewModel> taskTestDataRepository = GetTestData.GetTaskData();
+        private IWorkItemService workItemService;
+        public WorkItemController(IWorkItemService workItemService)
+        {
+            this.workItemService = workItemService;
+        }
 
         #region GET
         // GET: TaskController
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var workItem = await this.workItemService.GetWorkItems();
+
+            var workItems = workItem.Select(w => new WorkItemViewModel()
+            {
+                TaskId = w.TaskId,
+                Name = w.Name,
+                NoOfHours = w.NoOfHours,
+                IsCompleted = w.IsCompleted,
+            });
             //IList<TaskViewModel> test = GetTestData.GetTaskData();
             //foreach (var item in test)
             //{
             //    item.IsCompleted = item.IsCompleted == true ? "Completed" : "Not Completed";
             //}
-
-            return View(taskRepository);
+            return View(workItems);
         }
 
-       
+        private static WorkItemViewModel MapObjectsDTOtoViewModel(WorkItem dto)
+        {
+            return new WorkItemViewModel()
+            {
+                TaskId = dto.TaskId,
+                Name = dto.Name,
+                NoOfHours = dto.NoOfHours,
+                IsCompleted = dto.IsCompleted,
+            };
+        }
+        private static WorkItem MapObjectsViewModeltoDTO(WorkItemViewModel workItemViewModel)
+        {
+            return new WorkItem()
+            {
+                TaskId = workItemViewModel.TaskId,
+                Name = workItemViewModel.Name,
+                NoOfHours = workItemViewModel.NoOfHours,
+                IsCompleted = workItemViewModel.IsCompleted,
+            };
+        }
+
+
         // GET: TaskController/Create
-        public ActionResult Create()
+        [HttpGet]
+        public IActionResult Create()
         {
             return View();
         }
 
         // GET: TaskController/Details/5
-        public ActionResult Details(int taskId)
+        [HttpGet]
+        public async Task<ActionResult> Details(int id)
         {
-            var selectedTask = taskRepository.FirstOrDefault(x => x.TaskId == taskId);
-            return View(selectedTask);
+            var dto = await this.workItemService.GetWorkItemById(id);
+            WorkItemViewModel workItemViewModel = MapObjectsDTOtoViewModel(dto);
+            return View(workItemViewModel);
         }
 
-
         // GET: TaskController/Edit/5
-        public ActionResult Edit(int taskId)
+        public async Task<ActionResult> Edit(int id)
         {
-            //here, get the Task from the database
-            var selectedTask = taskRepository.Where(s => s.TaskId == taskId).FirstOrDefault();
-
-            return View(selectedTask);
+            var dto = await this.workItemService.GetWorkItemById(id);
+            WorkItemViewModel workItemViewModel = MapObjectsDTOtoViewModel(dto);
+            return View(workItemViewModel);
         }
 
         // GET: TaskController/Delete/5
-        public ActionResult Delete(int taskId)
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
-                var taskToRemove = taskRepository.FirstOrDefault(x => x.TaskId == taskId);
-                if (taskToRemove != null)
-                {
-                    taskRepository.Remove(taskToRemove);
-                }
-                return RedirectToAction(nameof(Index));
+                var isDeleted = await this.workItemService.DeleteWorkItem(id);
+                return RedirectToAction("Index");
             }
             catch
             {
                 return View();
             }
         }
-         
+
         #endregion
 
         #region POST 
         // POST: TaskController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> CreateAsync(WorkItemViewModel workItemViewModel)
         {
-            try
+            //checking model state
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    var emp = await this.workItemService.CreateWorkItem(MapObjectsViewModeltoDTO(workItemViewModel));
+                    return RedirectToAction("Index");
+                }
+
+                catch (Exception ex)
+                {
+                    return View(ex.InnerException.Message);
+                }
             }
-            catch
-            {
-                return View();
-            }
-        }
-         
-        // POST: TaskController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int taskId, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+
+            return View();
         }
 
-        // POST: TaskController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int taskId, IFormCollection collection)
+        // POST: TaskController/Edit/5
+        public async Task<ActionResult> EditAsync(WorkItemViewModel workItemViewModel)
         {
-            try
+            //checking model state
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var emp = await this.workItemService.UpdateWorkItem(MapObjectsViewModeltoDTO(workItemViewModel));
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View(workItemViewModel);
         }
 
         #endregion

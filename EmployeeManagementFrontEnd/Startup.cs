@@ -24,7 +24,10 @@ namespace EmployeeManagementPortal.MVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient<IEmployeeManagementService, EmployeeManagementService>();
+            services.AddHttpClient<IEmployeeService, EmployeeService>();
+            services.AddHttpClient<IWorkItemService, WorkItemService>();
+            services.AddHttpClient<IRolesService, RolesService>();
+            services.AddHttpClient<IEmployeeTaskService, EmployeeTaskService>();
             services.AddControllersWithViews();
         }
 

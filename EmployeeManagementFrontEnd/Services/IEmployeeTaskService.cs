@@ -7,12 +7,12 @@ using EmployeeManagement.Infra.Models;
 
 namespace EmployeeManagementPortal.MVC.Services
 {
-    //public interface IEmployeeTaskService
-    //{
-    //    Task<IEnumerable<EmployeeTask>> GetEmployeeTasks();
-    //    Task<EmployeeTask> CreateEmployeeTask(EmployeeTsask task);
-    //    Task<EmployeeTask> UpdateEmployeeTask(EmployeeTask task);
-    //    Task<bool> DeleteEmployeeTask(int id);
-    //    Task<EmployeeTask> GetEmployeeTaskId(int id);
-    //}
+    public interface IEmployeeTaskService
+    {
+        Task<IEnumerable<EmployeeTask>> GetEmployeeTasks();
+        Task<EmployeeTask> CreateEmployeeTask(EmployeeTask empTask);
+        Task<EmployeeTask> UpdateEmployeeTask(EmployeeTask empTask);
+        Task<bool> DeleteEmployeeTask(int id);
+        Task<EmployeeTask> GetEmployeeTaskById(int id);
+    }
 }

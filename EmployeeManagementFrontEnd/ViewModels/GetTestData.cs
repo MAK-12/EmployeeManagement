@@ -57,19 +57,19 @@ namespace EmployeeManagementPortal.MVC.ViewModels
             IList<EmployeeTasksViewModel> employeeTaskData = new List<EmployeeTasksViewModel>()
             {
                 new EmployeeTasksViewModel() { EmployeeTaskId = 1, EmployeeId = 1, TaskId = 1, TotalNoOfHours = 1, Priority = "High",
-                                                CurrentDate = DateTime.Now, StartDate  = DateTime.Now, EndDate = DateTime.Now,
+                                                CurrentDate = DateTime.Now, StartDate  = Convert.ToDateTime("1/2/2021 10:37:05 AM"), EndDate = DateTime.Now,
                                                 PayPerTask = 100 },
                 new EmployeeTasksViewModel() { EmployeeTaskId = 2, EmployeeId = 1, TaskId = 2, TotalNoOfHours = 2, Priority = "Medium",
                                                 CurrentDate = DateTime.Now, StartDate  = DateTime.Now, EndDate = DateTime.Now,
                                                 PayPerTask = 100 },
                 new EmployeeTasksViewModel() { EmployeeTaskId = 1, EmployeeId = 2, TaskId = 1, TotalNoOfHours = 2, Priority = "Low",
-                                                CurrentDate = DateTime.Now, StartDate  = DateTime.Now, EndDate = DateTime.Now,
+                                                CurrentDate = DateTime.Now, StartDate  = Convert.ToDateTime("6/2/2021 10:37:05 AM"), EndDate = DateTime.Now,
                                                 PayPerTask = 100 },
                 new EmployeeTasksViewModel() { EmployeeTaskId = 1, EmployeeId = 2, TaskId = 1, TotalNoOfHours = 2, Priority = "High",
                                                 CurrentDate = DateTime.Now, StartDate  = DateTime.Now, EndDate = DateTime.Now,
                                                 PayPerTask = 100 },
                 new EmployeeTasksViewModel() { EmployeeTaskId = 1, EmployeeId = 3, TaskId = 1, TotalNoOfHours = 2, Priority = "High",
-                                                CurrentDate = DateTime.Now, StartDate  = DateTime.Now, EndDate = DateTime.Now,
+                                                CurrentDate = DateTime.Now, StartDate  = Convert.ToDateTime("2/24/2021 10:37:05 AM"), EndDate = DateTime.Now,
                                                 PayPerTask = 100 }
 
             };

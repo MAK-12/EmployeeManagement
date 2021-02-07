@@ -15,7 +15,7 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         [Required(ErrorMessage = "Please enter Total No Of Hours.")]
         [Display(Name = "Total No Of Hours")]
         public int TotalNoOfHours { get; set; }
-        [Display(Name = "TCurrent Date")]
+        [Display(Name = "Current Date")]
         public DateTime? CurrentDate { get; set; }
         [Display(Name = "Start Date")]
         public DateTime? StartDate { get; set; }

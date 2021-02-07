@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace EmployeeManagementPortal.MVC.Services
 {
-    public interface IEmployeeManagementService
+    public interface IEmployeeService
     {
         Task<IEnumerable<Employee>> GetEmployees();
         Task<Employee> CreateEmployee(Employee emp);

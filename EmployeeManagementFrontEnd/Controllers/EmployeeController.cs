@@ -11,30 +11,31 @@ namespace EmployeeManagement.MVC.Controllers
 {
     public class EmployeeController : Controller
     {
-        //IList<EmployeeViewModel> employeeRepository = GetTestData.GetEmployeeData();
-        private IEmployeeManagementService employeeMGMTService;
+        IList<EmployeeViewModel> employeeTestDataRepository = GetTestData.GetEmployeeData();
 
-        public EmployeeController(IEmployeeManagementService employeeMGMTService)
+        private IEmployeeService employeeService;
+        public EmployeeController(IEmployeeService employeeService)
         {
-            this.employeeMGMTService = employeeMGMTService;
+            this.employeeService = employeeService;
         }
 
         #region Get
         //Default action...
         public async Task<IActionResult> IndexAsync()
         {
-            var emp = await this.employeeMGMTService.GetEmployees();
+            var employees = await this.employeeService.GetEmployees();
 
-            var employees = emp.Select(e => new EmployeeViewModel()
+            var employee = employees.Select(e => new EmployeeViewModel()
             {
                 EmployeeId = e.EmployeeId,
                 FirstName = e.FirstName,
                 Surname = e.Surname,
                 EmployeeRoleName = e.Role.RoleName,
             });
-            return View(employees);
+            return View(employee);
         }
 
+        // GET: EmployeeController/Create
         [HttpGet]
         public IActionResult Create()
         {
@@ -45,7 +46,7 @@ namespace EmployeeManagement.MVC.Controllers
         [HttpGet]
         public async Task<ActionResult> Details(int employeeId)
         {
-            var dto = await this.employeeMGMTService.GetEmployeeById(employeeId);
+            var dto = await this.employeeService.GetEmployeeById(employeeId);
             EmployeeViewModel employeeViewModel = MapObjectsDTOtoViewModel(dto);
             return View(employeeViewModel);
         }
@@ -84,7 +85,7 @@ namespace EmployeeManagement.MVC.Controllers
         // GET: Employee/Edit/5
         public async Task<ActionResult> Edit(int employeeId)
         {
-            var dto = await this.employeeMGMTService.GetEmployeeById(employeeId);
+            var dto = await this.employeeService.GetEmployeeById(employeeId);
             EmployeeViewModel employeeViewModel = MapObjectsDTOtoViewModel(dto);
             return View(employeeViewModel);
         }
@@ -101,7 +102,7 @@ namespace EmployeeManagement.MVC.Controllers
             {
                 try
                 {
-                    var emp = await this.employeeMGMTService.CreateEmployee(MapObjectsViewModeltoDTO(employeeViewModel));
+                    var emp = await this.employeeService.CreateEmployee(MapObjectsViewModeltoDTO(employeeViewModel));
                     return RedirectToAction("Index");
                 }
 
@@ -121,7 +122,7 @@ namespace EmployeeManagement.MVC.Controllers
             //checking model state
             if (ModelState.IsValid)
             {
-                var emp = await this.employeeMGMTService.UpdateEmployee(MapObjectsViewModeltoDTO(employeeViewModel));
+                var emp = await this.employeeService.UpdateEmployee(MapObjectsViewModeltoDTO(employeeViewModel));
                 return RedirectToAction("Index");
             }
             return View(employeeViewModel);
@@ -133,8 +134,7 @@ namespace EmployeeManagement.MVC.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-                var isDeleted = await this.employeeMGMTService.DeleteEmployee(employeeId);
+                var isDeleted = await this.employeeService.DeleteEmployee(employeeId);
                 return RedirectToAction("Index");
             }
             catch
@@ -145,7 +145,7 @@ namespace EmployeeManagement.MVC.Controllers
 
         public async Task<ActionResult> Search(string searchTerm)
         {
-            IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)await employeeMGMTService.GetEmployees();
+            IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)await employeeService.GetEmployees();
             var selectedEmployee = erer.Where(s => s.FirstName == searchTerm).FirstOrDefault();
 
             //var result = emp.Where(a => a.FirstName.Contains(searchTerm)).ToList();
@@ -157,18 +157,46 @@ namespace EmployeeManagement.MVC.Controllers
 
         //https://localhost:44396/Home/ViewPayslip/1123
         // GET: Employee/Edit/5
-        [Route("~/ViewPayslip/{accessCode}")]
+        //[Route("~/ViewPayslip/{accessCode}")]
         public async Task<ActionResult> GetEmployeeSalary(string accessCode)
         {
+            IList<EmployeeTasksViewModel> employeeTaskTestDataRepository = GetTestData.GetEmployeeTaskData();
+            EmployeeSalaryViewModel evm = new EmployeeSalaryViewModel();
+            evm.TotalNoOfHoursWorked = 0;
+            evm.Salary = 0;
+            DateTime monthStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            var todaysDateandTime = DateTime.Now;
+            var currentDate = todaysDateandTime.Date;
+            //Decimal? perDaySalary = item.TotalNoOfHours * item.PayPerTask;
 
-            //var selectedEmployee = erer.Where(s => s.AccessCode == accessCode).FirstOrDefault();
 
-            //List<EmployeeViewModel> dsds = 
+            //int totalNoOfHoursworkedinaMonth = 0;
+            //decimal salary =0;
 
-            //here, get the employee from the database
-            //var selectedEmployee = employeeRepository.Where(s => s.AccessCode == accessCode).FirstOrDefault();
-            //selectedEmployee
-            
+            //for testing hardcoding the Access code as ACC123Jhon refers to employee id 1 and emp name will be FNameJohn
+            var selectedEmployee = employeeTestDataRepository.Where(s => s.AccessCode == "ACC123Jhon").FirstOrDefault();
+            evm.EmployeeId = selectedEmployee.EmployeeId;
+            evm.FullName = selectedEmployee.FirstName + " " + selectedEmployee.Surname;
+
+            var empSalaryData = employeeTaskTestDataRepository.Where(s => s.EmployeeId == selectedEmployee.EmployeeId
+                                                    && s.StartDate >= monthStartDate && s.EndDate >= currentDate).ToList();
+
+            evm.StartDate = empSalaryData.Select(x => x.StartDate).FirstOrDefault();
+            evm.EndDate = empSalaryData.Select(x => x.EndDate).FirstOrDefault();
+
+            //Calculating the Employee Salary
+            foreach (var item in empSalaryData)
+            {
+                evm.TotalNoOfHoursWorked += item.TotalNoOfHours;
+                evm.Salary = (decimal)(evm.Salary + (item.TotalNoOfHours * item.PayPerTask));
+            }
+
+            ////Assgining value
+            //foreach (var item in empSalaryData)
+            //{
+            //    evm.TotalNoOfHoursWorked = totalNoOfHoursworkedinaMonth;
+            //    evm.Salary = salary.ToString();
+            //}
             return View();
         }
 
