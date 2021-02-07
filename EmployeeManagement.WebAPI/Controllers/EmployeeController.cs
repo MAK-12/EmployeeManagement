@@ -28,6 +28,13 @@ namespace EmployeeManagement.WebAPI.Controllers
             return this.Ok(employees);
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> Search(String searchText)
+        {
+            var employees = await _unitOfWork.EmployeeRepository.Find(searchText);
+            return this.Ok(employees);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {

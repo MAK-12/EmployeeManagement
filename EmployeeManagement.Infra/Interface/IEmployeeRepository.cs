@@ -6,6 +6,6 @@ namespace EmployeeManagement.Infra.Repositories
 {
     public interface IEmployeeRepository : IGenericRepository<Employee>
     {
-       // async Task<IEnumerable<Employee>> GetAll();
+        Task<IEnumerable<Employee>> Find(string searchText);
     }
 }

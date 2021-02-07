@@ -19,7 +19,7 @@ namespace EmployeeManagement.Infra.Repositories
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<EmployeeTask> EmployeeTask { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
-        public virtual DbSet<WorkItem> Task { get; set; }
+        public virtual DbSet<WorkItem> WorkItem { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

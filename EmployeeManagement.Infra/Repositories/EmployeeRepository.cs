@@ -18,7 +18,20 @@ namespace EmployeeManagement.Infra.Repositories
             return await this._context.Set<Employee>()
                 .Include(x => x.Role)
                 .AsQueryable()
-                .AsNoTracking().ToListAsync().ConfigureAwait(false);
+                .AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<Employee>> Find(string searchText)
+        {
+            return await this._context.Set<Employee>()
+                .Include(x => x.Role)
+                .AsQueryable()
+                .Where(e => e.FirstName == searchText || e.Surname == searchText)
+                .AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
     }
 }
