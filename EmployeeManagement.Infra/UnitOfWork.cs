@@ -10,6 +10,7 @@ namespace EmployeeManagement.Infra.Repositories
         private IEmployeeRepository employeeRepository;
         private IWorkItemRepository taskRepository;
         private IEmployeeTaskRepository employeeTaskRepository;
+        private IRoleRepository roleRepository;
 
 
         public UnitOfWork(DBContext bookStoreDbContext)
@@ -56,6 +57,20 @@ namespace EmployeeManagement.Infra.Repositories
                 }
 
                 return this.employeeTaskRepository;
+            }
+        }
+
+
+        public IRoleRepository RoleRepository
+        {
+            get
+            {
+                if (this.roleRepository == null)
+                {
+                    this.roleRepository = new RoleRepository(this._context);
+                }
+
+                return this.roleRepository;
             }
         }
 
