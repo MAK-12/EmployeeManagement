@@ -42,6 +42,7 @@ namespace EmployeeManagement.WebAPI.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> Search(String searchText)
         {
+            _logger.LogInformation("Search");
             var employees = await _unitOfWork.EmployeeRepository.Find(searchText);
             return this.Ok(employees);
         }
@@ -49,6 +50,7 @@ namespace EmployeeManagement.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
+            _logger.LogInformation("GetEmployeeById");
 
             var employeeDetail = await _unitOfWork.EmployeeRepository.Get(id);
             if (employeeDetail == null)

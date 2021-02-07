@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
 namespace EmployeeManagement.WebAPI
 {
@@ -26,13 +25,10 @@ namespace EmployeeManagement.WebAPI
 
             // DbConnection
             services.AddDbContext<DBContext>(opt => opt
-               .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
-          
+               .UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
 
             services.AddSwaggerGen();
-
-
+             
             services.AddControllers().AddNewtonsoftJson(options =>
             options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
@@ -49,12 +45,10 @@ namespace EmployeeManagement.WebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            
             app.UseAuthorization();
             app.UseSwagger();
-
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
+             
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
