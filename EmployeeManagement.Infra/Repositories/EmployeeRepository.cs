@@ -17,6 +17,7 @@ namespace EmployeeManagement.Infra.Repositories
         {
             return await this._context.Set<Employee>()
                 .Include(x => x.Role)
+                .Include(x => x.EmployeeTask).ThenInclude(y =>y.Task)
                 .AsQueryable()
                 .AsNoTracking()
                 .ToListAsync()

@@ -16,7 +16,7 @@ namespace EmployeeManagementPortal.MVC.Services
 
         public EmployeeTaskService(HttpClient client,IConfiguration configuration)
         {
-            client.BaseAddress = new Uri(_configuration["BaseUrl"]);
+            client.BaseAddress = new Uri(configuration["BaseUrl"]);
 
             Client = client;
         }
