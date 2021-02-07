@@ -28,6 +28,7 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         public DateTime? StartDate { get; set; }
         [Display(Name = "End Date")]
         public DateTime? EndDate { get; set; }
+        [Display(Name = "Total No Of Hours Worked")]
         public int TotalNoOfHoursWorked { get; set; }
 
         public decimal Salary { get; set; }

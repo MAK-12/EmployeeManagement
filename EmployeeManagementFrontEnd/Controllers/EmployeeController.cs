@@ -155,6 +155,13 @@ namespace EmployeeManagement.MVC.Controllers
 
         #endregion
 
+        [HttpGet]
+        public IActionResult GetEmployeeSalary()
+        {
+            return View();
+        }
+
+
         //https://localhost:44396/Home/ViewPayslip/1123
         // GET: Employee/Edit/5
         //[Route("~/ViewPayslip/{accessCode}")]
@@ -190,15 +197,22 @@ namespace EmployeeManagement.MVC.Controllers
                 evm.TotalNoOfHoursWorked += item.TotalNoOfHours;
                 evm.Salary = (decimal)(evm.Salary + (item.TotalNoOfHours * item.PayPerTask));
             }
-
-            ////Assgining value
-            //foreach (var item in empSalaryData)
-            //{
-            //    evm.TotalNoOfHoursWorked = totalNoOfHoursworkedinaMonth;
-            //    evm.Salary = salary.ToString();
-            //}
-            return View();
+            return View(evm);
         }
+
+        #region OptionsToLookat
+    //     if (result.IsLockedOut)
+    //            {
+    //                return View("AccountLocked");
+    //}
+    //ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
+
+        // ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
+                //return View("NotFound");
+
+
+        #endregion
+
 
         #region DeleteLater
         private Employee AssignValues(Employee employeeDTO, EmployeeViewModel employeeViewModel)
