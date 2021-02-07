@@ -16,24 +16,30 @@ namespace EmployeeManagementPortal.MVC.Controllers
         private IEmployeeTaskService employeeTaskService;
         private IEmployeeService employeeService;
         private IWorkItemService workItemService;
+        private IRolesService rolesService;
 
-        public EmployeeTaskController(IEmployeeTaskService employeeTaskService, IEmployeeService employeeService, IWorkItemService workItemService)
+        public EmployeeTaskController(IEmployeeTaskService employeeTaskService, IEmployeeService employeeService, IWorkItemService workItemService, IRolesService rolesService)
         {
             this.employeeTaskService = employeeTaskService;
             this.employeeService = employeeService;
             this.workItemService = workItemService;
+            this.rolesService = rolesService; 
         }
 
         #region Get
         //GET: EmployeeTaskController
         public async Task<IActionResult> Index()
         {
-            var employeeTasks = await this.employeeTaskService.GetEmployeeTasks();
+            var employeeTasksList = await this.employeeTaskService.GetEmployeeTasks();
+            var employeeList = await this.employeeService.GetEmployees();
+            var workItemList = await this.workItemService.GetWorkItems(); 
 
-            var employeeTask = employeeTasks.Select(e => new EmployeeTasksViewModel()
+            var employeeTask = employeeTasksList.Select(e => new EmployeeTasksViewModel()
             {
                 EmployeeTaskId = e.EmployeeTaskId,
                 TaskId = e.TaskId,
+                EmployeeName = employeeList.Where(x => x.EmployeeId == e.EmployeeId).Select(x => x.FirstName + " " + x.Surname).FirstOrDefault().ToString(),
+                TaskName = workItemList.Where(x => x.TaskId == e.TaskId).Select(x =>x.Name).FirstOrDefault().ToString(),
                 EmployeeId = e.EmployeeId,
                 TotalNoOfHours = e.TotalNoOfHours,
                 CurrentDate = e.CurrentDate,
@@ -90,7 +96,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            //.Result.ToList()
             var employeeList = await this.employeeService.GetEmployees();
             var workItemList = await this.workItemService.GetWorkItems();
             EmployeeTasksViewModel employeeTasksViewModel = new EmployeeTasksViewModel();
@@ -101,34 +106,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
             return View(employeeTasksViewModel);
         }
 
-
-        //private void GetCommittees()
-        //{
-        //    List<KeyValuePair<int, string>> committees = GetEmployeesForDropdown(true);
-        //    ViewBag.Committees = committees;
-        //    ViewBag.CommitteeList = ToSelectList(committees);
-        //}
-
-        //public List<KeyValuePair<int, string>> GetEmployeesForDropdown()
-        //{
-        //    var dto = this.employeeService.GetEmployees();
-
-        //    //dto.
-
-        //    //return dto.ToDictionary(t => t.ECSCommitteeId,
-        //    //                        t => t.ECSCommitteeTitle).ToList();
-
-        //    //using (var ctx = new CllrsOnlineEntities())
-        //    //{
-        //    //    if (includeInactive)
-        //    //        return ctx.ECSCommittees.ToDictionary(t => t.ECSCommitteeId, t => t.ECSCommitteeTitle).ToList();
-        //    //    else
-        //    //        return ctx.ECSCommittees.Where(a => a.IsECSCommitteeActive == true).ToDictionary(t => t.ECSCommitteeId, t => t.ECSCommitteeTitle).OrderBy(a => a.Value).ToList();
-        //    //}
-        //}
-
-
-        // GET: EmployeeTaskController/Edit/5
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
@@ -151,7 +128,11 @@ namespace EmployeeManagementPortal.MVC.Controllers
             {
                 try
                 {
+                    var dtemployeeList = await this.employeeService.GetEmployeeById(employeeTasksViewModel.EmployeeId);
+                    var dtRoleList = await this.rolesService.GetRoleById(dtemployeeList.RoleId);
                     employeeTasksViewModel.CurrentDate = DateTime.Now;
+                    employeeTasksViewModel.PayPerTask = dtRoleList.RatePerhour;
+
                     var emp = await this.employeeTaskService.CreateEmployeeTask(MapObjectsViewModeltoDTO(employeeTasksViewModel));
                     return RedirectToAction("Index");
                 }

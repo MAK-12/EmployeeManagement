@@ -26,6 +26,11 @@ namespace EmployeeManagementPortal.MVC.ViewModels
 
         [Display(Name = "Pay Per Task")]
         public decimal? PayPerTask { get; set; }
+
+        public string EmployeeName { get; set; }
+
+        public string TaskName { get; set; }
+
         public virtual EmployeeViewModel Employee { get; set; }
 
         public IEnumerable<Employee>  EmployeeList { get; set; }

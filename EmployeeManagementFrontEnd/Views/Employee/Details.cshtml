@@ -4,17 +4,16 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
-
 <div>
-    <h4>Employee</h4>
+    <h1>Employee</h1>
+    <h4>Employee Details</h4>
     <hr />
     <div class="row">
         <br />
         <div class="col-md-6"></div>
         <div class="col-md-6 footer-buttons">
             <a asp-action="Index" class="btn btn-outline-primary float-right">Back to List</a><span>&nbsp; &nbsp;</span>
-            <a asp-action="Edit" asp-controller="Employee" asp-route-employeeId="@Model.EmployeeId" style="margin-right: 5px;" class="btn btn-primary float-right">Edit</a> 
+            <a asp-action="Edit" asp-controller="Employee" asp-route-employeeId="@Model.EmployeeId" style="margin-right: 5px;" class="btn btn-primary float-right">Edit</a>
         </div>
     </div>
     <dl class="row">

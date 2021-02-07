@@ -1,5 +1,4 @@
-﻿@*@model IEnumerable<EmployeeManagementPortal.MVC.ViewModels.EmployeeSalaryViewModel>*@
-@model EmployeeManagementPortal.MVC.ViewModels.EmployeeSalaryViewModel
+﻿@model EmployeeManagementPortal.MVC.ViewModels.EmployeeSalaryViewModel
 
 @{
     ViewData["Title"] = "GetEmployeeSalary";
@@ -9,6 +8,7 @@
 
 <br />
 <form class="form-inline my-2 my-lg-0" asp-action="GetEmployeeSalary" asp-controller="Employee">
+    <label>Enter your access code</label>
     <input class="form-control mr-sm-2" name="accessCode" type="search" placeholder="search" aria-label="search" />
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">search</button>
 </form>

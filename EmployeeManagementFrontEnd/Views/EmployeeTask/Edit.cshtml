@@ -4,9 +4,8 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>Employee Tasks</h4>
+<h1>Employee Task</h1>
+<h4>Update Employee Task</h4>
 <hr />
 
 <form asp-action="Edit">
@@ -20,13 +19,6 @@
     </div>
     <div class="row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="EmployeeTaskId" class="control-label"></label>
-                <input asp-for="EmployeeTaskId" class="form-control" />
-                <span asp-validation-for="EmployeeTaskId" class="text-danger"></span>
-            </div>
-        </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="EmployeeId" class="control-label"></label>
@@ -46,41 +38,6 @@
                 <label asp-for="TotalNoOfHours" class="control-label"></label>
                 <input asp-for="TotalNoOfHours" class="form-control" />
                 <span asp-validation-for="TotalNoOfHours" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="CurrentDate" class="control-label"></label>
-                <input asp-for="CurrentDate" class="form-control" />
-                <span asp-validation-for="CurrentDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label"></label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="Priority" class="control-label"></label>
-                <input asp-for="Priority" class="form-control" />
-                <span asp-validation-for="Priority" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label asp-for="PayPerTask" class="control-label"></label>
-                <input asp-for="PayPerTask" class="form-control" />
-                <span asp-validation-for="PayPerTask" class="text-danger"></span>
             </div>
         </div>
     </div>

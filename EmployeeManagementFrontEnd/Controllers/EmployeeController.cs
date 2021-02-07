@@ -175,11 +175,6 @@ namespace EmployeeManagement.MVC.Controllers
             DateTime monthStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             var todaysDateandTime = DateTime.Now;
             var currentDate = todaysDateandTime.Date;
-            //Decimal? perDaySalary = item.TotalNoOfHours * item.PayPerTask;
-
-
-            //int totalNoOfHoursworkedinaMonth = 0;
-            //decimal salary =0;
 
             //for testing hardcoding the Access code as ACC123Jhon refers to employee id 1 and emp name will be FNameJohn
             var selectedEmployee = employeeTestDataRepository.Where(s => s.AccessCode == "ACC123Jhon").FirstOrDefault();
@@ -187,10 +182,13 @@ namespace EmployeeManagement.MVC.Controllers
             evm.FullName = selectedEmployee.FirstName + " " + selectedEmployee.Surname;
 
             var empSalaryData = employeeTaskTestDataRepository.Where(s => s.EmployeeId == selectedEmployee.EmployeeId
-                                                    && s.StartDate >= monthStartDate && s.EndDate >= currentDate).ToList();
+                                                    && s.CurrentDate >= monthStartDate && s.CurrentDate <= currentDate).ToList();
 
-            evm.StartDate = empSalaryData.Select(x => x.StartDate).FirstOrDefault();
-            evm.EndDate = empSalaryData.Select(x => x.EndDate).FirstOrDefault();
+            //evm.StartDate = empSalaryData.Select(x => x.StartDate).FirstOrDefault();
+            //evm.EndDate = empSalaryData.Select(x => x.EndDate).FirstOrDefault();
+
+            evm.StartDate = monthStartDate;
+            evm.EndDate = currentDate;
 
             //Calculating the Employee Salary
             foreach (var item in empSalaryData)

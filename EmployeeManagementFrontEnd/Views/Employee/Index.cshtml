@@ -4,20 +4,46 @@
     ViewData["Title"] = "Employees List";
 }
 
-<h1 style="text-align:center">Employees List</h1>
-
-<p>
-    <a asp-action="Create">Add empolyee</a>
-</p>
+<h1>Employee Details</h1>
+<br />
+<div class="row">
+    <div class="col-10">
+        <form class="form-inline my-2 my-lg-0" asp-action="search" asp-controller="Employee">
+            <input class="form-control mr-sm-2" name="searchTerm" type="search" placeholder="search" aria-label="search" />
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">search</button>
+        </form>
+    </div>
+    <div class="col-2">
+        <p><a asp-action="Create" class="btn btn-primary">Add empolyee</a></p>
+    </div>
+</div>
 
 <br />
-<form class="form-inline my-2 my-lg-0" asp-action="search" asp-controller="Employee">
-    <input class="form-control mr-sm-2" name="searchTerm" type="search" placeholder="search" aria-label="search" />
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">search</button>
-</form>
-<br />
+<script>
 
-<table class="table">
+    function RemoveEmployee(_e) {
+        debugger;
+        var url = "Employee/Delete";
+        var employeeId = $(_e).attr('asp-route-employeeid');
+        var result = confirm("Are you sure you want to delete the employee?")
+        if (result == true) {
+            $.ajax({
+                url: url,
+                data: { employeeId: employeeId },
+                type: "GET",
+                success: function (data) {
+                    //reload the page
+                    window.location.reload();
+                },
+                error: function (error) { }
+            });
+        }
+        else {
+          
+        }
+    }
+</script>
+<table class="table table-bordered">
     <thead>
         <tr>
             <th>
@@ -32,31 +58,33 @@
             <th>
                 @Html.DisplayNameFor(model => model.MobileNo)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayName("Actions")
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployeeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployeeRoleName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MobileNo)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-controller="Employee" asp-route-employeeId="@item.EmployeeId" class="btn btn-primary">Edit</a>
-                <a asp-action="Details" asp-controller="Employee" asp-route-employeeId="@item.EmployeeId" class="btn btn-primary">Details</a>
-                <a asp-action="Delete" asp-controller="Employee" asp-route-employeeId="@item.EmployeeId" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeRoleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MobileNo)
+                </td>
+                <td> 
+                    <a asp-action="Edit" asp-controller="Employee" asp-route-employeeId="@item.EmployeeId" class="btn btn-primary">Edit</a>
+                    <a asp-action="Details" asp-controller="Employee" asp-route-employeeId="@item.EmployeeId" class="btn btn-outline-info">Details</a>
+                    <a @*asp-action="Delete" asp-controller="Employee"*@ asp-route-employeeId="@item.EmployeeId" class="btn btn-success" onclick="RemoveEmployee(this)">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

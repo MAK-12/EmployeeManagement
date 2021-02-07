@@ -6,10 +6,20 @@
     <title>@ViewData["Title"] - Employee Management Portal</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <style type="text/css"> 
+        h1{
+            text-align:center;
+        } 
+
+    </style>
+
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        @*//class="navbar navbar-dark bg-primary"*@
+        @*navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3*@
+        <nav class="navbar navbar-dark bg-primary">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Employee" asp-action="Index">Employee Management Portal</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -22,7 +32,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="WorkItem" asp-action="Index">Tasks(Work)</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="WorkItem" asp-action="Index">Tasks</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="EmployeeTask" asp-action="Index">Assgin Tasks</a>
