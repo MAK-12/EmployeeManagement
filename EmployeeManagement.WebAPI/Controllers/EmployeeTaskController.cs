@@ -91,8 +91,6 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
             existingEmployeeTaskDetail.EmployeeId = employeeTask.EmployeeId;
             existingEmployeeTaskDetail.TotalNoOfHours = employeeTask.TotalNoOfHours;
             existingEmployeeTaskDetail.CurrentDate = employeeTask.CurrentDate;
-            existingEmployeeTaskDetail.StartDate = (DateTime)employeeTask.StartDate;
-            existingEmployeeTaskDetail.EndDate = (DateTime)employeeTask.EndDate;
             existingEmployeeTaskDetail.Priority = employeeTask.Priority;
             existingEmployeeTaskDetail.PayPerTask = employeeTask.PayPerTask;
 
