@@ -10,8 +10,6 @@ namespace EmployeeManagementPortal.MVC.Entities
         public int TaskId { get; set; }
         public int TotalNoOfHours { get; set; }
         public DateTime? CurrentDate { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
         public string Priority { get; set; }
         public decimal? PayPerTask { get; set; }
 
