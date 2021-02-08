@@ -18,8 +18,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
         {
             this.rolesService = rolesService;
         }
-
-        #region Get
         // GET: RoleController
         public async Task<IActionResult> Index()
         {
@@ -96,9 +94,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
                 return View();
             }
         }
-        #endregion
-
-        #region Post 
+          
         // POST: RoleController/Create
         [HttpPost]
         [ValidateAntiForgeryToken] 
@@ -136,6 +132,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
             return View(roleViewModel);
         } 
 
-        #endregion
+        
     }
 }

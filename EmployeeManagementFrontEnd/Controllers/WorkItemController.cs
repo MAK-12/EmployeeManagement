@@ -17,8 +17,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
         {
             this.workItemService = workItemService;
         }
-
-        #region GET
         // GET: TaskController
         public async Task<IActionResult> Index()
         {
@@ -101,9 +99,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
             }
         }
 
-        #endregion
-
-        #region POST 
+        
         // POST: TaskController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -139,6 +135,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
             return View(workItemViewModel);
         }
 
-        #endregion
+        
     }
 }

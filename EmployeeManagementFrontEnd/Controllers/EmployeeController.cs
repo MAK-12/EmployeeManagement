@@ -180,7 +180,7 @@ namespace EmployeeManagement.MVC.Controllers
             return View(evm);
         }
 
-        #region OptionsToLookat
+         
         //     if (result.IsLockedOut)
     //            {
     //                return View("AccountLocked");
@@ -189,7 +189,7 @@ namespace EmployeeManagement.MVC.Controllers
 
         // ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
                 //return View("NotFound");
-        #endregion 
+        
        
     }
 }
