@@ -21,6 +21,15 @@ namespace EmployeeManagement.Infra.Repositories
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<WorkItem> WorkItem { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=tcp:at-learnnowapp-dev.database.windows.net,1433;Initial Catalog=AT-LearnNowApp-Dev;Persist Security Info=False;User ID=learnnowuser;Password=Passw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Employee>(entity =>
@@ -70,16 +79,12 @@ namespace EmployeeManagement.Infra.Repositories
             {
                 entity.Property(e => e.CurrentDate).HasColumnType("date");
 
-                entity.Property(e => e.EndDate).HasColumnType("date");
-
                 entity.Property(e => e.PayPerTask).HasColumnType("decimal(18, 0)");
 
                 entity.Property(e => e.Priority)
                     .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false);
-
-                entity.Property(e => e.StartDate).HasColumnType("date");
 
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.EmployeeTask)

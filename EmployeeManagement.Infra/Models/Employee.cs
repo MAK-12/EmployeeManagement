@@ -19,7 +19,6 @@ namespace EmployeeManagement.Infra.Models
         public string EmailAddress { get; set; }
         public string PhysicalAddress { get; set; }
         public string AccessCode { get; set; }
-        public bool? IsPermanentEmployee { get; set; }
         public int RoleId { get; set; }
 
         public virtual Roles Role { get; set; }
