@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EmployeeManagement.Infra.Models
+namespace EmployeeManagementPortal.MVC.Entities
 {
-    public partial class EmployeeTask
+    public class EmployeeTask
     {
         public int EmployeeTaskId { get; set; }
         public int EmployeeId { get; set; }
