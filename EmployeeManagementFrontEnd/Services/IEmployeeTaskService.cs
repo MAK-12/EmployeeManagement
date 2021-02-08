@@ -15,7 +15,7 @@ namespace EmployeeManagementPortal.MVC.Services
         Task<bool> DeleteEmployeeTask(int id);
         Task<EmployeeTask> GetEmployeeTaskById(int id);
 
-        Task<EmployeeTask> GetEmpHourCapacityOfTheDate(int empId, DateTime date);
+        Task<EmployeeTask> GetEmpHourCapacityOfTheDate(int id, DateTime startDate, DateTime? endDate);
 
         Task<IEnumerable<EmployeeTask>> GetEmployeesAndWorkItems(String searchText);
     }

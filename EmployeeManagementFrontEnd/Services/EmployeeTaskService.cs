@@ -72,16 +72,16 @@ namespace EmployeeManagementPortal.MVC.Services
             var r = JsonConvert.DeserializeObject<EmployeeTask>(responseStream);
             return r;
         }
-         public async Task<EmployeeTask> GetEmpHourCapacityOfTheDate(int id, DateTime date)
+         public async Task<EmployeeTask> GetEmpHourCapacityOfTheDate(int id, DateTime startDate, DateTime? endDate)
         {
-            var response = await Client.GetAsync($"/EmployeeTask/{id}");
+            var response = await Client.GetAsync($"/EmployeeTask/{id}?&startDate={startDate}&endDate={endDate}");
             var responseStream = await response.Content.ReadAsStringAsync();
             var r = JsonConvert.DeserializeObject<EmployeeTask>(responseStream);
             return r;
         }
         public async Task<IEnumerable<EmployeeTask>> GetEmployeesAndWorkItems(String searchText)
         {
-            var response = await Client.GetAsync("/EmployeeTask");
+            var response = await Client.GetAsync($"/EmployeeTask?&searchText={searchText}");
             var responseStream = await response.Content.ReadAsStringAsync();
             var r = JsonConvert.DeserializeObject<List<EmployeeTask>>(responseStream);
             return r;
