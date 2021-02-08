@@ -17,7 +17,7 @@ namespace EmployeeManagement.WebAPI
             Configuration = configuration;
 
             Log.Logger = new LoggerConfiguration()
-                         .MinimumLevel.Debug()
+                         .MinimumLevel.Information()
                         .WriteTo.Console()
                          .WriteTo.File("D://loggers//log-.txt", rollingInterval: RollingInterval.Day)
                         .CreateLogger();

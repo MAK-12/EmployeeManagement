@@ -6,6 +6,7 @@ using EmployeeManagementPortal.MVC.Common;
 using EmployeeManagementPortal.MVC.Services;
 using EmployeeManagementPortal.MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace EmployeeManagement.MVC.Controllers
 {
@@ -13,17 +14,23 @@ namespace EmployeeManagement.MVC.Controllers
     {
         private IEmployeeService _employeeService;
         private IObjectMapper _objectMapper;
-        
+        private readonly ILogger _logger;
 
-        public EmployeeController(IEmployeeService employeeService, IObjectMapper objectMapper)
+        public EmployeeController(IEmployeeService employeeService, IObjectMapper objectMapper, ILogger<EmployeeController> logger)
         {
-            _employeeService = employeeService;
+           _employeeService = employeeService;
            _objectMapper = objectMapper;
+           _logger = logger;
         }
 
         //Default action...
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
+            _logger.LogInformation("GetAllEmployees");
             var employees = await _employeeService.GetEmployees();
             //dto
 
@@ -48,6 +55,7 @@ namespace EmployeeManagement.MVC.Controllers
         [HttpGet]
         public async Task<ActionResult> Details(int id)
         {
+            _logger.LogInformation("GetEmployeeById");
             var dto = await _employeeService.GetEmployeeById(id);
             EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(dto);
             return View(employeeViewModel);
@@ -58,6 +66,7 @@ namespace EmployeeManagement.MVC.Controllers
         // GET: Employee/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
+            _logger.LogInformation("Update");
             var dto = await _employeeService.GetEmployeeById(id);
             EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(dto);
             return View(employeeViewModel);
@@ -69,7 +78,7 @@ namespace EmployeeManagement.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync(EmployeeViewModel employeeViewModel)
         {
-            //checking model state
+           //checking model state
             if (ModelState.IsValid)
             {
                 try
@@ -80,6 +89,7 @@ namespace EmployeeManagement.MVC.Controllers
 
                 catch (Exception ex)
                 {
+                    _logger.LogError("Error Creating Employee {0}",ex.Message);
                     return View(ex.InnerException.Message);
                 }
             }

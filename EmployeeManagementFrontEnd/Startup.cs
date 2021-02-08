@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,12 @@ namespace EmployeeManagementPortal.MVC
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            Log.Logger = new LoggerConfiguration()
+                         .MinimumLevel.Information()
+                        .WriteTo.Console()
+                         .WriteTo.File("D://loggers//log-.txt", rollingInterval: RollingInterval.Day)
+                        .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
