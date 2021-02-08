@@ -5,7 +5,8 @@
 }
 
 <h1>Employee Details</h1>
-<br />
+<br /> 
+
 <div class="row">
     <div class="col-10">
         <form class="form-inline my-2 my-lg-0" asp-action="search" asp-controller="Employee">
@@ -14,7 +15,7 @@
         </form>
     </div>
     <div class="col-2">
-        <p><a asp-action="Create" class="btn btn-primary">Add empolyee</a></p>
+        <p><a asp-action="Create" class="btn btn-primary">Add Empolyee</a></p>
     </div>
 </div>
 
@@ -24,7 +25,7 @@
     function RemoveEmployee(_e) {
         debugger;
         var url = "Employee/Delete";
-        var employeeId = $(_e).attr('asp-route-employeeid');
+        var employeeId = $(_e).attr('asp-route-id');
         var result = confirm("Are you sure you want to delete the employee?")
         if (result == true) {
             $.ajax({
@@ -39,7 +40,7 @@
             });
         }
         else {
-          
+
         }
     }
 </script>
@@ -79,10 +80,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.MobileNo)
                 </td>
-                <td> 
-                    <a asp-action="Edit" asp-controller="Employee" asp-route-employeeId="@item.EmployeeId" class="btn btn-primary">Edit</a>
-                    <a asp-action="Details" asp-controller="Employee" asp-route-employeeId="@item.EmployeeId" class="btn btn-outline-info">Details</a>
-                    <a @*asp-action="Delete" asp-controller="Employee"*@ asp-route-employeeId="@item.EmployeeId" class="btn btn-success" onclick="RemoveEmployee(this)">Delete</a>
+                <td>
+                    <a asp-action="Details" asp-controller="Employee" asp-route-id="@item.EmployeeId" class="btn btn-info">Details</a>
+                    <a asp-action="Edit" asp-controller="Employee" asp-route-id="@item.EmployeeId" class="btn btn-warning">Edit</a>
+                    <a @*asp-action="Delete" asp-controller="Employee"*@ asp-route-id="@item.EmployeeId" class="btn btn-danger" onclick="RemoveEmployee(this)">Delete</a>
                 </td>
             </tr>
         }

@@ -24,7 +24,7 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         public string MobileNo { get; set; }
         [Display(Name = "Email Address")]
         public string EmailAddress { get; set; }
-     
+        [Display(Name = "Address")]
         public string PhysicalAddress { get; set; }
 
         [Required(ErrorMessage = "Please enter Access Code.")]

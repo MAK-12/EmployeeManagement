@@ -1,8 +1,8 @@
 ﻿@model EmployeeManagementPortal.MVC.ViewModels.EmployeeTasksViewModel
 
 @{
-    ViewData["Title"] = "Details";
-} 
+    ViewData["Title"] = "Employee Task Details";
+}
 <div>
     <h1>Employee Task</h1>
     <h4>Employee Task Details</h4>
@@ -11,66 +11,34 @@
         <br />
         <div class="col-md-6"></div>
         <div class="col-md-6 footer-buttons">
-            <a asp-action="Index" class="btn btn-outline-primary float-right">Back to List</a><span>&nbsp; &nbsp;</span>
-            @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ })
-            <input type="submit" value="Edit" style="margin-right: 5px;" class="btn btn-primary float-right" />
+            <a asp-action="Index" class="btn btn-outline-default float-right">Back to List</a><span>&nbsp; &nbsp;</span>
+            <a asp-action="Edit" asp-controller="EmployeeTask" asp-route-id="@Model.EmployeeTaskId" style="margin-right: 5px;" class="btn btn-warning float-right">Edit</a>
         </div>
     </div>
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EmployeeTaskId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EmployeeTaskId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EmployeeId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EmployeeId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TaskId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TaskId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TotalNoOfHours)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TotalNoOfHours)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CurrentDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CurrentDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Priority)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Priority)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PayPerTask)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PayPerTask)
-        </dd>
-    </dl>
+      <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label"></label>
+                <input asp-for="EmployeeId" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="TaskId" class="control-label"></label>
+                <input asp-for="TaskId" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="TotalNoOfHours" class="control-label"></label>
+                <input asp-for="TotalNoOfHours" class="form-control" readonly />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Priority" class="control-label"></label>
+                <input asp-for="Priority" class="form-control" readonly />
+            </div>
+        </div>
+    </div>
 </div>
-

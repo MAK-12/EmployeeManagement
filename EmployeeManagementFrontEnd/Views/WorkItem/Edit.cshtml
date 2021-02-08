@@ -1,12 +1,11 @@
 ﻿@model EmployeeManagementPortal.MVC.ViewModels.WorkItemViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Update Task Details";
 }
 
-<h1>Edit</h1>
-
-<h4>Tasks</h4>
+<h1>Task</h1>
+<h4>Update Task Details</h4>
 <hr />
 
 <form asp-action="Edit">
@@ -14,8 +13,8 @@
         <br />
         <div class="col-md-6"></div>
         <div class="col-md-6 footer-buttons">
-            <a asp-action="Index" class="btn btn-outline-primary float-right">Back to List</a><span>&nbsp; &nbsp;</span>
-            <input type="submit" value="Save" style="margin-right: 5px;" class="btn btn-primary float-right" />
+            <a asp-action="Index" class="btn btn-outline-default float-right">Back to List</a><span>&nbsp; &nbsp;</span>
+            <input type="submit" value="Save" style="margin-right: 5px;" class="btn btn-success float-right" />
         </div>
     </div>
     <div class="row">

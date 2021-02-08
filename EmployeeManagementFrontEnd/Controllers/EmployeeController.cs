@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EmployeeManagement.Infra.Models;
 using EmployeeManagementPortal.MVC.Common;
 using EmployeeManagementPortal.MVC.Services;
 using EmployeeManagementPortal.MVC.ViewModels;
@@ -47,9 +46,9 @@ namespace EmployeeManagement.MVC.Controllers
 
         // GET: Employee/Details/5
         [HttpGet]
-        public async Task<ActionResult> Details(int employeeId)
+        public async Task<ActionResult> Details(int id)
         {
-            var dto = await _employeeService.GetEmployeeById(employeeId);
+            var dto = await _employeeService.GetEmployeeById(id);
             EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(dto);
             return View(employeeViewModel);
         }
@@ -57,9 +56,9 @@ namespace EmployeeManagement.MVC.Controllers
        
 
         // GET: Employee/Edit/5
-        public async Task<ActionResult> Edit(int employeeId)
+        public async Task<ActionResult> Edit(int id)
         {
-            var dto = await _employeeService.GetEmployeeById(employeeId);
+            var dto = await _employeeService.GetEmployeeById(id);
             EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(dto);
             return View(employeeViewModel);
         }
@@ -103,11 +102,11 @@ namespace EmployeeManagement.MVC.Controllers
 
         // GET: Employee/Delete/5
         [HttpGet]
-        public async Task<ActionResult> Delete(int employeeId)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                var isDeleted = await _employeeService.DeleteEmployee(employeeId);
+                var isDeleted = await _employeeService.DeleteEmployee(id);
                 return RedirectToAction("Index");
             }
             catch
