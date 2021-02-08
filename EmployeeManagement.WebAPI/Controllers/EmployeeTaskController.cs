@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace EmployeeTaskManagement.WebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class EmployeeTaskController : ControllerBase
     {
 

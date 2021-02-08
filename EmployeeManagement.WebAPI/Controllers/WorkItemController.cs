@@ -9,7 +9,7 @@ using EmployeeManagement.Infra.Repositories;
 namespace TaskManagement.WebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class WorkItemController : ControllerBase
     {
 

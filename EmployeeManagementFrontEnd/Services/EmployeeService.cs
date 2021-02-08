@@ -1,4 +1,5 @@
 ﻿using EmployeeManagement.Infra.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,17 +12,20 @@ namespace EmployeeManagementPortal.MVC.Services
     public class EmployeeService: IEmployeeService
     {
         public HttpClient Client { get; }
+        IConfiguration _configuration;
 
-        public EmployeeService(HttpClient client)
+        private readonly string employeeEndpoint = "/api/employee";
+
+        public EmployeeService(HttpClient client, IConfiguration configuration)
         {
-            client.BaseAddress = new Uri("https://localhost:44341/employee");
+            client.BaseAddress = new Uri(configuration["BaseUrl"]);
 
             Client = client;
         }
 
         public async Task<IEnumerable<Employee>> GetEmployees()
         {
-            var response = await Client.GetAsync("/employee");
+            var response = await Client.GetAsync(employeeEndpoint);
             var responseStream = await response.Content.ReadAsStringAsync();
             var r = JsonConvert.DeserializeObject<List<Employee>>(responseStream);
             return r;
@@ -32,8 +36,7 @@ namespace EmployeeManagementPortal.MVC.Services
             var json = JsonConvert.SerializeObject(emp);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await Client.PostAsync(
-                "/employee", data);
+            var response = await Client.PostAsync(employeeEndpoint, data);
 
 
 
@@ -46,7 +49,7 @@ namespace EmployeeManagementPortal.MVC.Services
             var json = JsonConvert.SerializeObject(emp);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await Client.PatchAsync($"/employee/{emp.EmployeeId}", data);
+            var response = await Client.PatchAsync($"/{employeeEndpoint}/{emp.EmployeeId}", data);
 
             var responseStream = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<Employee>(responseStream);
@@ -54,7 +57,7 @@ namespace EmployeeManagementPortal.MVC.Services
 
         public async Task<bool> DeleteEmployee(int id)
         {
-            var response = await Client.DeleteAsync($"/employee/{id}");
+            var response = await Client.DeleteAsync($"/{id}");
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return true;
@@ -65,7 +68,7 @@ namespace EmployeeManagementPortal.MVC.Services
 
         public async Task<Employee> GetEmployeeById(int id)
         {
-            var response = await Client.GetAsync($"/employee/{id}"); 
+            var response = await Client.GetAsync($"{employeeEndpoint}/{id}"); 
                 var responseStream = await response.Content.ReadAsStringAsync();
                 var r = JsonConvert.DeserializeObject<Employee>(responseStream); 
             return r;
