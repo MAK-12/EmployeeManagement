@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using EmployeeManagement.Infra.Models;
+using EmployeeManagementPortal.WebAPI.Models;
 
 namespace EmployeeTaskManagement.WebAPI.Controllers
 {
@@ -28,6 +29,13 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
             return this.Ok(employees);
         }
 
+        [HttpGet("search/{empId}")]
+        public async Task<IActionResult> GetEmpHourCapacityOfTheDate(int empId, DateTime date)
+        {
+            var empTasks = await _unitOfWork.EmployeeTaskRepository.FindAsync(empTask => empTask.EmployeeId == empId && empTask.CurrentDate == date);
+            return this.Ok(empTasks);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -46,6 +54,19 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
         {
             var employeeTasks = await _unitOfWork.EmployeeTaskRepository.Find(searchText);
             return this.Ok(employeeTasks);
+        }
+
+        [HttpGet("employees-tasks")]
+        public async Task<IActionResult> GetEmployeesAndWorkItems(String searchText)
+        {
+            var employees = await _unitOfWork.EmployeeRepository.GetAll();
+            var tasks = await _unitOfWork.TaskRepository.GetAll();
+            var employeesAndTasks = new EmployeeAndTaskList()
+            {
+                Employees = employees,
+                WorkItems = tasks,
+            };
+            return this.Ok(employeesAndTasks);
         }
 
         [HttpPost]

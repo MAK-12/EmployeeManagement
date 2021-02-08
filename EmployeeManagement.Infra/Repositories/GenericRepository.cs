@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace EmployeeManagement.Infra.Repositories
@@ -42,6 +44,15 @@ namespace EmployeeManagement.Infra.Repositories
         {
             this._context.Attach(entity);
             return this._context.Remove(entity).Entity;
+        }
+
+        public virtual async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await this._context.Set<T>()
+                .AsQueryable()
+                .Where(predicate)
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
     }
 }
