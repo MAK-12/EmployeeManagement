@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using EmployeeManagement.Infra.Models;
 using EmployeeManagementPortal.WebAPI.Models;
+using System.Collections.Generic;
 
 namespace EmployeeTaskManagement.WebAPI.Controllers
 {
@@ -30,9 +31,20 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
         }
 
         [HttpGet("search/{empId}")]
-        public async Task<IActionResult> GetEmpHourCapacityOfTheDate(int empId, DateTime date)
+        public async Task<IActionResult> GetEmpHourCapacityOfTheDate(int empId, DateTime startDate, DateTime? endDate)
         {
-            var empTasks = await _unitOfWork.EmployeeTaskRepository.FindAsync(empTask => empTask.EmployeeId == empId && empTask.CurrentDate == date);
+            IEnumerable<EmployeeTask> empTasks = new List<EmployeeTask>();
+
+            if (endDate == null)
+            {
+                empTasks = await _unitOfWork.EmployeeTaskRepository.FindAsync(empTask => empTask.EmployeeId == empId && empTask.CurrentDate == startDate);
+                return this.Ok(empTasks);
+            }
+
+            empTasks = await _unitOfWork.EmployeeTaskRepository.FindAsync(empTask => empTask.EmployeeId == empId && (empTask.CurrentDate >= startDate && empTask.CurrentDate <= endDate));
+
+
+
             return this.Ok(empTasks);
         }
 
