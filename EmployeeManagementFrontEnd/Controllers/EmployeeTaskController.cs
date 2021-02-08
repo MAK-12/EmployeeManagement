@@ -42,9 +42,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
                 TaskName = workItemList.Where(x => x.TaskId == e.TaskId).Select(x =>x.Name).FirstOrDefault().ToString(),
                 EmployeeId = e.EmployeeId,
                 TotalNoOfHours = e.TotalNoOfHours,
-                CurrentDate = e.CurrentDate,
-                StartDate = e.StartDate,
-                EndDate = e.EndDate,
+                CurrentDate = e.CurrentDate, 
                 Priority = e.Priority,
                 PayPerTask = e.PayPerTask
             });
@@ -60,8 +58,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
                 EmployeeId = dto.EmployeeId,
                 TotalNoOfHours = dto.TotalNoOfHours,
                 CurrentDate = dto.CurrentDate,
-                StartDate = dto.StartDate,
-                EndDate = dto.EndDate,
                 Priority = dto.Priority,
                 PayPerTask = dto.PayPerTask
             };
@@ -75,8 +71,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
                 EmployeeId = employeeTasksViewModel.EmployeeId,
                 TotalNoOfHours = employeeTasksViewModel.TotalNoOfHours,
                 CurrentDate = employeeTasksViewModel.CurrentDate,
-                StartDate = (DateTime)employeeTasksViewModel.StartDate,
-                EndDate = (DateTime)employeeTasksViewModel.EndDate,
                 Priority = employeeTasksViewModel.Priority,
                 PayPerTask = employeeTasksViewModel.PayPerTask
             };

@@ -15,8 +15,8 @@
             <a asp-action="Edit" asp-controller="EmployeeTask" asp-route-id="@Model.EmployeeTaskId" style="margin-right: 5px;" class="btn btn-warning float-right">Edit</a>
         </div>
     </div>
-      <div class="row">
-        <div class="col-md-6">
+    <div class="row">
+        @*<div class="col-md-6">
             <div class="form-group">
                 <label asp-for="EmployeeId" class="control-label"></label>
                 <input asp-for="EmployeeId" class="form-control" readonly />
@@ -26,6 +26,24 @@
             <div class="form-group">
                 <label asp-for="TaskId" class="control-label"></label>
                 <input asp-for="TaskId" class="form-control" readonly />
+            </div>
+        </div>*@
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="EmployeeName" class="control-label"></label>
+                <select asp-for="EmployeeId" asp-items="@(new SelectList(Model.EmployeeList,"EmployeeId", "FirstName"))" class="custom-select mr-sm-2">
+                    <option value="">Please Select</option>
+                </select>
+                <span asp-validation-for="Employee.EmployeeId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="TaskName" class="control-label"></label>
+                <select asp-for="TaskId" asp-items="@(new SelectList(Model.WorkItemList,"TaskId", "Name"))" class="custom-select mr-sm-2">
+                    <option value="">Please Select</option>
+                </select>
+                <span asp-validation-for="Task.TaskId" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
