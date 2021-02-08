@@ -5,12 +5,12 @@
 }
 
 <h1>View Employee Salary</h1>
-
+<hr />
 <br />
 <form class="form-inline my-2 my-lg-0" asp-action="GetEmployeeSalary" asp-controller="Employee">
-    <label>Enter your access code</label>
-    <input class="form-control mr-sm-2" name="accessCode" type="search" placeholder="search" aria-label="search" />
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">search</button>
+    <label>Enter your access code</label><span>&nbsp; &nbsp;&nbsp;&nbsp;</span>
+    <input class="form-control mr-sm-2" name="accessCode" type="search" placeholder="Sri123xyz" aria-label="search" />
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">View My Salary</button>
 </form>
 <br />
 
@@ -42,25 +42,25 @@
         </thead>
         <tbody>
             <tr>
-                    <td>
-                        @Html.DisplayFor(model => model.EmployeeId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.FullName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.StartDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.EndDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.TotalNoOfHoursWorked)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.Salary)
-                    </td>
-                </tr>
+                <td>
+                    @Html.DisplayFor(model => model.EmployeeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.StartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.EndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.TotalNoOfHoursWorked)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Salary)
+                </td>
+            </tr>
         </tbody>
     </table>
 

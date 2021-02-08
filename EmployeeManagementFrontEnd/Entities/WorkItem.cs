@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EmployeeManagement.Infra.Models
+namespace EmployeeManagementPortal.MVC.Entities
 {
-    public partial class WorkItem
+    public class WorkItem
     {
-        public WorkItem()
-        {
-            EmployeeTask = new HashSet<EmployeeTask>();
-        }
-
         public int TaskId { get; set; }
         public string Name { get; set; }
         public int NoOfHours { get; set; }

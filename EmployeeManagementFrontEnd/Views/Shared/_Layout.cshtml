@@ -9,17 +9,23 @@
     <style type="text/css"> 
         h1{
             text-align:center;
-        } 
+        }
 
-    </style>
+        p#btnAdd {
+            text-align: right;
+        }
 
+        .table td,th {
+            text-align: center;
+        }
+    </style> 
 
 </head>
 <body>
     <header>
         @*//class="navbar navbar-dark bg-primary"*@
         @*navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3*@
-        <nav class="navbar navbar-dark bg-primary">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Employee" asp-action="Index">Employee Management Portal</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"

@@ -66,6 +66,15 @@ namespace EmployeeManagementPortal.MVC.Controllers
             return View(roleViewModel);
         }
 
+        // GET: RoleController/Edit/5
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
+        {
+            var dto = await this.rolesService.GetRoleById(id);
+            RoleViewModel roleViewModel = MapObjectsDTOtoViewModel(dto);
+            return View(roleViewModel);
+        }
+
         // GET: RoleController/Create
         [HttpGet]
         public IActionResult Create()
@@ -73,7 +82,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
             return View();
         }
 
-        // GET: RoleController/Edit/5
+        // GET: RoleController/Delete/5
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {

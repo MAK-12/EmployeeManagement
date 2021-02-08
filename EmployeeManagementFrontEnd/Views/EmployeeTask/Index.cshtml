@@ -1,15 +1,16 @@
 ﻿@model IEnumerable<EmployeeManagementPortal.MVC.ViewModels.EmployeeTasksViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Employees Tasks List";
 }
 
-<h1>Employee Task Details</h1>
-<br />
-<p>
-    <a asp-action="Create">Create New</a>
+<h1>Employee Task Details</h1> 
+
+<p id='btnAdd'>
+    <a asp-action="Create" class="btn btn-primary">Assign Task</a>
 </p>
-<table class="table">
+<br /> 
+<table class="table table-bordered">
     <thead>
         <tr>
             <th>
@@ -24,7 +25,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.CurrentDate)
             </th>
-            <th></th>
+            <th align="center">
+                @Html.DisplayName("Actions")
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -44,10 +47,9 @@
                     @Html.DisplayFor(modelItem => item.CurrentDate)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-controller="EmployeeTask" asp-route-id="@item.EmployeeTaskId" class="btn btn-primary">Edit</a>
-                    <a asp-action="Details" asp-controller="EmployeeTask" asp-route-id="@item.EmployeeTaskId" class="btn btn-primary">Details</a>
-                    <a asp-action="Delete" asp-controller="EmployeeTask" asp-route-id="@item.EmployeeTaskId" class="btn btn-danger">Delete</a>
-
+                    <a asp-action="Details" asp-controller="EmployeeTask" asp-route-id="@item.EmployeeTaskId" class="btn btn-info">Details</a>
+                    <a asp-action="Edit" asp-controller="EmployeeTask" asp-route-id="@item.EmployeeTaskId" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-controller="EmployeeTask" asp-route-id="@item.EmployeeTaskId" class="btn btn-danger">Delete</a> 
                 </td>
             </tr>
         }

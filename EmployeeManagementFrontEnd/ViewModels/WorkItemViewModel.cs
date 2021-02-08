@@ -15,7 +15,7 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Please Enter No Of Hours.")]
-        [Display(Name = "No Of Hours")]
+        [Display(Name = "Task Duration")]
         public int NoOfHours { get; set; }
 
         [Display(Name = "Is Task(Work) Completed")]

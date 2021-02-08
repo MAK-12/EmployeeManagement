@@ -1,29 +1,20 @@
 ﻿@model IEnumerable<EmployeeManagementPortal.MVC.ViewModels.WorkItemViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Tasks List";
 }
 
-<h1>Index</h1>
+<h1>Task Details</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
+<p id='btnAdd'>
+    <a asp-action="Create" class="btn btn-primary">Add New Task</a>
 </p>
-<br />
+<br /> 
 
-<form class="form-inline my-2 my-lg-0" asp-action="search" asp-controller="Task">
-    <input class="form-control mr-sm-2" name="searchTerm" type="search" placeholder="search" aria-label="search" />
-    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">search</button>
-</form>
-
-<br />
-<table class="table">
+<table class="table table-bordered">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.TaskId)
-            </th>
-            <th>
+             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
@@ -32,17 +23,16 @@
             <th>
                 @Html.DisplayNameFor(model => model.IsCompleted)
             </th>
-            <th></th>
+            <th align="center">
+                @Html.DisplayName("Actions")
+            </th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TaskId)
-                </td>
-                <td>
+                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
@@ -52,9 +42,9 @@
                     @Html.DisplayFor(modelItem => item.IsCompleted)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { taskId = item.TaskId }) |
-                    @Html.ActionLink("Details", "Details", new { taskId = item.TaskId }) |
-                    @Html.ActionLink("Delete", "Delete", new { taskId = item.TaskId })
+                    <a asp-action="Details" asp-controller="WorkItem" asp-route-id="@item.TaskId" class="btn btn-info">Details</a>
+                    <a asp-action="Edit" asp-controller="WorkItem" asp-route-id="@item.TaskId" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-controller="WorkItem" asp-route-id="@item.TaskId" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }

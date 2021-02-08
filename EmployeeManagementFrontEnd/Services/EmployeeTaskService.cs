@@ -72,5 +72,19 @@ namespace EmployeeManagementPortal.MVC.Services
             var r = JsonConvert.DeserializeObject<EmployeeTask>(responseStream);
             return r;
         }
+         public async Task<EmployeeTask> GetEmpHourCapacityOfTheDate(int id, DateTime date)
+        {
+            var response = await Client.GetAsync($"/EmployeeTask/{id}");
+            var responseStream = await response.Content.ReadAsStringAsync();
+            var r = JsonConvert.DeserializeObject<EmployeeTask>(responseStream);
+            return r;
+        }
+        public async Task<IEnumerable<EmployeeTask>> GetEmployeesAndWorkItems(String searchText)
+        {
+            var response = await Client.GetAsync("/EmployeeTask");
+            var responseStream = await response.Content.ReadAsStringAsync();
+            var r = JsonConvert.DeserializeObject<List<EmployeeTask>>(responseStream);
+            return r;
+        }
     }
 }

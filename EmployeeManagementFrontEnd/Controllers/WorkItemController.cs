@@ -70,29 +70,29 @@ namespace EmployeeManagementPortal.MVC.Controllers
 
         // GET: TaskController/Details/5
         [HttpGet("id")]
-        public async Task<ActionResult> Details(int taskId)
+        public async Task<ActionResult> Details(int id)
         {
-            var dto = await this.workItemService.GetWorkItemById(taskId);
+            var dto = await this.workItemService.GetWorkItemById(id);
             WorkItemViewModel workItemViewModel = MapObjectsDTOtoViewModel(dto);
             return View(workItemViewModel);
         }
 
         // GET: TaskController/Edit/5
         [HttpGet]
-        public async Task<ActionResult> Edit(int taskId)
+        public async Task<ActionResult> Edit(int id)
         {
-            var dto = await this.workItemService.GetWorkItemById(taskId);
+            var dto = await this.workItemService.GetWorkItemById(id);
             WorkItemViewModel workItemViewModel = MapObjectsDTOtoViewModel(dto);
             return View(workItemViewModel);
         }
 
         // GET: TaskController/Delete/5
         [HttpGet]
-        public async Task<ActionResult> Delete(int taskId)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                var isDeleted = await this.workItemService.DeleteWorkItem(taskId);
+                var isDeleted = await this.workItemService.DeleteWorkItem(id);
                 return RedirectToAction("Index");
             }
             catch

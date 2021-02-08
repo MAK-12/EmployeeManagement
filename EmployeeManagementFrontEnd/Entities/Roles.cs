@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EmployeeManagement.Infra.Models
+namespace EmployeeManagementPortal.MVC.Entities
 {
-    public partial class Roles
-    {
-        public Roles()
-        {
-            Employee = new HashSet<Employee>();
-        }
+    public class Roles
+    { 
 
         public int RoleId { get; set; }
         public string RoleName { get; set; }
