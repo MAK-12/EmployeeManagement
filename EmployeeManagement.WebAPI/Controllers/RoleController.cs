@@ -12,7 +12,7 @@ namespace RoleManagement.WebAPI.Controllers
     public class RoleController : ControllerBase
     {
 
-        private readonly ILogger<RoleController> _logger;
+        private readonly ILogger _logger;
         private IUnitOfWork _unitOfWork;
 
         public RoleController(ILogger<RoleController> logger, IUnitOfWork unitOfWork)
@@ -24,6 +24,7 @@ namespace RoleManagement.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
+            _logger.LogInformation("GetAllRoles");
             var roles = await _unitOfWork.RoleRepository.GetAll();
             return this.Ok(roles);
         }

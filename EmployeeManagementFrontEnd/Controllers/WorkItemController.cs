@@ -70,9 +70,9 @@ namespace EmployeeManagementPortal.MVC.Controllers
 
         // GET: TaskController/Details/5
         [HttpGet("id")]
-        public async Task<ActionResult> Details(int taskId)
+        public async Task<ActionResult> Details(int id)
         {
-            var dto = await this.workItemService.GetWorkItemById(taskId);
+            var dto = await this.workItemService.GetWorkItemById(id);
             WorkItemViewModel workItemViewModel = MapObjectsDTOtoViewModel(dto);
             return View(workItemViewModel);
         }

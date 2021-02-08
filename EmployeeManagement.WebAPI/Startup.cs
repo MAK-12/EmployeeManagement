@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 namespace EmployeeManagement.WebAPI
 {
@@ -14,6 +15,12 @@ namespace EmployeeManagement.WebAPI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            Log.Logger = new LoggerConfiguration()
+                         .MinimumLevel.Debug()
+                        .WriteTo.Console()
+                         .WriteTo.File("D://loggers//log-.txt", rollingInterval: RollingInterval.Day)
+                        .CreateLogger();
         }
 
         public IConfiguration Configuration { get; }
