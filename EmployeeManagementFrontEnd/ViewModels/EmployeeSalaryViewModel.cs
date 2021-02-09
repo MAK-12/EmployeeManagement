@@ -22,9 +22,12 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         public string AccessCode { get; set; }
         public string EmployeeRoleName { get; set; }
 
+        [Required(ErrorMessage = "Please Select Start Date.")]
         [Display(Name = "Start Date")]
         [DataType(DataType.Date)]
         public DateTime? StartDate { get; set; }
+
+        [Required(ErrorMessage = "Please Select End Date.")]
         [Display(Name = "End Date")]
         [DataType(DataType.Date)]
         public DateTime? EndDate { get; set; }

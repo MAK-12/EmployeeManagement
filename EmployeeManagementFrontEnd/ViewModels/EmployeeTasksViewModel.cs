@@ -29,6 +29,8 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         [Display(Name = "Task Name")]
         public string TaskName { get; set; }
 
+        public int EmployeeCapacity { get; set; }
+
         public virtual EmployeeViewModel Employee { get; set; }
 
         public virtual WorkItemViewModel Task { get; set; }

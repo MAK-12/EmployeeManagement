@@ -45,6 +45,7 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CurrentDate)
+                    @*@Html.DisplayFor(modelItem => item.CurrentDate.Value?.ToString("MM/DD/YY"))*@
                 </td>
                 <td>
                     <a asp-action="Details" asp-controller="EmployeeTask" asp-route-id="@item.EmployeeTaskId" class="btn btn-info">Details</a>

@@ -4,9 +4,10 @@
     ViewData["Title"] = "Assgin Task";
 }
 
-<h1>Assgin Task</h1> 
+<h1>Assgin Task</h1>
 
 <hr />
+
 <form asp-action="Create">
     <div class="row">
         <br />
@@ -36,7 +37,7 @@
                 <select asp-for="TaskId" asp-items="@(new SelectList(Model.WorkItems,"TaskId", "Name"))" class="custom-select mr-sm-2">
                     <option value="">Please Select</option>
                 </select>
-                <span asp-validation-for="Task.TaskId" class="text-danger"></span>
+                <span asp-validation-for="Task.Name" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
@@ -46,7 +47,7 @@
                 <input asp-for="TotalNoOfHours" class="form-control" />
                 <span asp-validation-for="TotalNoOfHours" class="text-danger"></span>
             </div>
-        </div> 
+        </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Priority" class="control-label"></label>

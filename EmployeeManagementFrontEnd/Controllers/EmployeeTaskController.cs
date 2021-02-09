@@ -65,30 +65,72 @@ namespace EmployeeManagementPortal.MVC.Controllers
             return View(employeeTasksViewModel);
         }
 
-
         // POST: EmployeeTaskController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync(EmployeeTasksViewModel employeeTasksViewModel)
         {
+            bool isEmployeeHaveCapacity = true;
+            isEmployeeHaveCapacity = await CheckIfnewTaskCanBeAssginedtoEmployee(employeeTasksViewModel, isEmployeeHaveCapacity);
+
             //checking model state
             if (ModelState.IsValid)
             {
-                try
+                if (isEmployeeHaveCapacity)
                 {
-                    await GetCurrentRatePerHour(employeeTasksViewModel);
+                    try
+                    {
+                        await GetCurrentRatePerHour(employeeTasksViewModel);
 
-                    var emp = await this.employeeTaskService.CreateEmployeeTask(_objectMapper.EmployeeTasksViewModelToEmployeeTasks(employeeTasksViewModel));
-                    return RedirectToAction("Index");
+                        var emp = await this.employeeTaskService.CreateEmployeeTask(_objectMapper.EmployeeTasksViewModelToEmployeeTasks(employeeTasksViewModel));
+                        return RedirectToAction("Index");
+                    }
+
+                    catch (Exception ex)
+                    {
+                       
+                    }
                 }
-
-                catch (Exception ex)
+                else
                 {
-                    return View(ex.InnerException.Message);
+                    ModelState.AddModelError("TotalNoOfHours", "Employee doesnt have capacity to Assgin this task");
                 }
             }
 
-            return View();
+            EmployeeTasksViewModel empTaskView = new EmployeeTasksViewModel();
+            var employeeList = await this.employeeService.GetEmployees();
+            var workItemList = await this.workItemService.GetWorkItems();
+
+            empTaskView.Employees = employeeList;
+            empTaskView.WorkItems = workItemList;
+
+            return View(empTaskView);
+        }
+
+        //Business Rule: 12 Hours Validation-An employee can be assigned multiple tasks but cannot work more than 12 hours a day
+        private async Task<bool> CheckIfnewTaskCanBeAssginedtoEmployee(EmployeeTasksViewModel employeeTasksViewModel, bool isEmployeeHaveCapacity)
+        {
+
+            var todaysDateandTime = DateTime.Now;
+            var currentDate = todaysDateandTime.Date;
+            var employeeCapacity = await this.employeeTaskService.GetEmpHourCapacityOfTheDate(employeeTasksViewModel.EmployeeId, currentDate, null);
+            var assginedtaskDuration = await this.workItemService.GetWorkItemById(employeeTasksViewModel.TaskId);
+            int totalNoOfHoursWorked = 0;
+            int empCapacity = 0;
+
+            //Calculating the Employee Salary
+            foreach (var item in employeeCapacity)
+            {
+                totalNoOfHoursWorked += item.TotalNoOfHours;
+            }
+            empCapacity = 12 - totalNoOfHoursWorked;
+
+            if ((employeeTasksViewModel.TotalNoOfHours > empCapacity) || (assginedtaskDuration.NoOfHours > empCapacity))
+            {
+                isEmployeeHaveCapacity = false;
+            }
+
+            return isEmployeeHaveCapacity;
         }
 
         // POST: EmployeeTaskController/Edit/5
@@ -207,13 +249,27 @@ namespace EmployeeManagementPortal.MVC.Controllers
                 FullName = x.Employee.FirstName + " " + x.Employee.Surname,
                 Date = x.CurrentDate,
                 TotalHours = x.TotalNoOfHours,
-            });
+            }).GroupBy(r => new { r.EmployeeId, r.Date }).OrderBy(g => g.Key.EmployeeId).ToList();
 
-            //var groupedCustomerList = employeesTotalHoursPerDayViewModel.GroupBy(u => u.EmployeeId)
-            //                                                            .Select(grp => grp.ToList())
-            //                                                            .ToList();
 
-            return View(employeesTotalHoursPerDayViewModel);
+            //List<EmployeesTotalHoursPerDayViewModel> empTaskList = new List<EmployeesTotalHoursPerDayViewModel>();
+            var invoiceSum = employeeTasksList.Select(x =>
+              new EmployeesTotalHoursPerDayViewModel
+              {
+                  FullName = x.Employee.FirstName,
+                  Date = x.CurrentDate,
+                  TotalHours = x.TotalNoOfHours
+              })
+            .GroupBy(s => new { s.FullName, s.Date })
+            .Select(g =>
+                  new EmployeesTotalHoursPerDayViewModel
+                  {
+                      FullName = g.Key.FullName,
+                      Date = g.Key.Date,
+                      TotalHours = (int)g.Sum(x => Math.Round(Convert.ToDecimal(x.TotalHours), 2)),
+                  }
+            );
+            return View(invoiceSum);
         }
 
 
