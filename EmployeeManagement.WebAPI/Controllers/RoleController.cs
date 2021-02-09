@@ -8,7 +8,7 @@ using EmployeeManagement.Infra.Models;
 namespace RoleManagement.WebAPI.Controllers
 {
     [ApiController]
-    [Route("api/Roles")]
+    [Route("api/[controller]")]
     public class RoleController : ControllerBase
     {
 

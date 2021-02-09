@@ -43,8 +43,7 @@ namespace TaskManagement.WebAPI.Controllers
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
-        {
-
+        { 
             var taskDetail = await _unitOfWork.TaskRepository.Get(id);
             if (taskDetail == null)
             {

@@ -19,9 +19,11 @@
     </div>
     <div class="row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.HiddenFor(model => model.TaskId)
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
+                <span class="text-danger">*</span>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
@@ -29,6 +31,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="NoOfHours" class="control-label"></label>
+                <span class="text-danger">*</span>
                 <input asp-for="NoOfHours" class="form-control" />
                 <span asp-validation-for="NoOfHours" class="text-danger"></span>
             </div>
@@ -36,7 +39,11 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="IsCompleted" class="control-label"></label>
-                <input asp-for="IsCompleted" class="form-control" />
+                <span class="text-danger">*</span>
+                <select asp-for="IsCompleted" class="form-control">
+                    <option value="true">Completed</option>
+                    <option value="false">Not Completed</option>
+                </select>
                 <span asp-validation-for="IsCompleted" class="text-danger"></span>
             </div>
         </div>

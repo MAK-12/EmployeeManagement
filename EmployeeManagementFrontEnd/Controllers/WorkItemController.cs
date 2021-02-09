@@ -27,7 +27,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
                 TaskId = w.TaskId,
                 Name = w.Name,
                 NoOfHours = w.NoOfHours,
-                IsCompleted = w.IsCompleted,
+                IsTaskCompleted = w.IsCompleted == true ? "Completed" : "Not Completed",
             });
             //IList<TaskViewModel> test = GetTestData.GetTaskData();
             //foreach (var item in test)
@@ -45,6 +45,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
                 Name = dto.Name,
                 NoOfHours = dto.NoOfHours,
                 IsCompleted = dto.IsCompleted,
+                IsTaskCompleted = dto.IsCompleted == true ? "Completed" : "Not Completed",
             };
         }
         private static WorkItem MapObjectsViewModeltoDTO(WorkItemViewModel workItemViewModel)

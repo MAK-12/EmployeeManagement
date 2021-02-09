@@ -1,16 +1,20 @@
-﻿using EmployeeManagement.Infra.Models;
+﻿using EmployeeManagementPortal.MVC.Entities;
 using EmployeeManagementPortal.MVC.ViewModels;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EmployeeManagementPortal.MVC.Common
 {
     public interface IObjectMapper
     {
-        EmployeeViewModel EmployeeToEmployeeViewModel(Employee dto);
+        EmployeeViewModel EmployeeToEmployeeViewModel(EmployeeManagement.Infra.Models.Employee dto);
 
-        Employee EmployeeViewModelToEmployee(EmployeeViewModel employeeViewModel);
+        EmployeeManagement.Infra.Models.Employee EmployeeViewModelToEmployee(EmployeeViewModel employeeViewModel);
+
+        EmployeeTasksViewModel EmployeeTaskToEmployeeTasksViewModel(EmployeeTask dto);
+
+        EmployeeTask EmployeeTasksViewModelToEmployeeTasks(EmployeeTasksViewModel employeeTasksViewModel);
+
+       
+        EmployeeTasksViewModel MapemployeesAndworkItemstoViewModel(IEnumerable<EmployeeAndTaskList> employeeAndTaskList);
     }
 }

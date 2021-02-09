@@ -39,9 +39,12 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
             {
                 empTasks = await _unitOfWork.EmployeeTaskRepository.FindAsync(empTask => empTask.EmployeeId == empId && empTask.CurrentDate == startDate);
                 return this.Ok(empTasks);
-            }
+            } 
 
-            empTasks = await _unitOfWork.EmployeeTaskRepository.FindAsync(empTask => empTask.EmployeeId == empId && (empTask.CurrentDate >= startDate && empTask.CurrentDate <= endDate));
+            else
+            {
+                empTasks = await _unitOfWork.EmployeeTaskRepository.FindAsync(empTask => empTask.EmployeeId == empId && (empTask.CurrentDate >= startDate && empTask.CurrentDate <= endDate));
+            }
 
 
 

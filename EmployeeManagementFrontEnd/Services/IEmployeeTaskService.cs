@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using EmployeeManagement.Infra.Models;
-
+using EmployeeManagementPortal.MVC.Entities; 
 
 namespace EmployeeManagementPortal.MVC.Services
 {
@@ -17,6 +15,6 @@ namespace EmployeeManagementPortal.MVC.Services
 
         Task<EmployeeTask> GetEmpHourCapacityOfTheDate(int id, DateTime startDate, DateTime? endDate);
 
-        Task<IEnumerable<EmployeeTask>> GetEmployeesAndWorkItems(String searchText);
+        Task<IEnumerable<EmployeeAndTaskList>> GetEmployeesAndWorkItems(String searchText);
     }
 }

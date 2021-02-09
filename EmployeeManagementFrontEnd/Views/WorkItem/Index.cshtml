@@ -39,7 +39,7 @@
                     @Html.DisplayFor(modelItem => item.NoOfHours)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsCompleted)
+                    @Html.DisplayFor(modelItem => item.IsTaskCompleted)
                 </td>
                 <td>
                     <a asp-action="Details" asp-controller="WorkItem" asp-route-id="@item.TaskId" class="btn btn-info">Details</a>

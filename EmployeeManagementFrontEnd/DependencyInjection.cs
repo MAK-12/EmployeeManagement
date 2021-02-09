@@ -10,10 +10,7 @@ namespace EmployeeManagementPortal.MVC
     public static class DependencyInjection
     {
         public static IServiceCollection AddRepository(this IServiceCollection services)
-        {
-            //services.AddHttpClient<IEmployeeManagementService, EmployeeManagementService>();
-
-
+        { 
             return services;
         }
     }

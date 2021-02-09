@@ -24,12 +24,14 @@
             <div class="form-group">
                 <label asp-for="EmployeeCode" class="control-label"></label>
                 <input asp-for="EmployeeCode" class="form-control" />
+                <span class="text-danger">*</span>
                 <span asp-validation-for="EmployeeCode" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
+                <span class="text-danger">*</span>
                 <input asp-for="FirstName" class="form-control" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
@@ -37,13 +39,13 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="MiddleName" class="control-label"></label>
-                <input asp-for="MiddleName" class="form-control" />
-                <span asp-validation-for="MiddleName" class="text-danger"></span>
+                <input asp-for="MiddleName" class="form-control" /> 
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Surname" class="control-label"></label>
+                <span class="text-danger">*</span>
                 <input asp-for="Surname" class="form-control" />
                 <span asp-validation-for="Surname" class="text-danger"></span>
             </div>
@@ -51,43 +53,35 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="MobileNo" class="control-label"></label>
-                <input asp-for="MobileNo" class="form-control" />
-                <span asp-validation-for="MobileNo" class="text-danger"></span>
+                <input asp-for="MobileNo" class="form-control" /> 
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="EmailAddress" class="control-label"></label>
-                <input asp-for="EmailAddress" class="form-control" />
-                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                <input asp-for="EmailAddress" class="form-control" /> 
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="PhysicalAddress" class="control-label"></label>
-                <input asp-for="PhysicalAddress" class="form-control" />
-                <span asp-validation-for="PhysicalAddress" class="text-danger"></span>
+                <input asp-for="PhysicalAddress" class="form-control" /> 
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="AccessCode" class="control-label"></label>
+                <span class="text-danger">*</span>
                 <input asp-for="AccessCode" class="form-control" />
                 <span asp-validation-for="AccessCode" class="text-danger"></span>
             </div>
         </div>
-        @*<div class="col-md-6">
-                <div class="form-group">
-                    <label asp-for="EmployeeRoleCategory" class="control-label"></label>
-                    <input asp-for="EmployeeRoleCategory" class="form-control" />
-                    <span asp-validation-for="EmployeeRoleCategory" class="text-danger"></span>
-                </div>
-            </div>*@
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="RoleId" class="control-label"></label>
-                <input asp-for="RoleId" class="form-control" />
-                <span asp-validation-for="RoleId" class="text-danger"></span>
+                <label asp-for="EmployeeCode" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <input asp-for="EmployeeCode" class="form-control" />
+                <span asp-validation-for="EmployeeCode" class="text-danger"></span>
             </div>
         </div>
     </div>

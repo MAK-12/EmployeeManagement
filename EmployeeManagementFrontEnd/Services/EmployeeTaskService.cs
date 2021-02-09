@@ -1,29 +1,29 @@
-﻿using EmployeeManagement.Infra.Models;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+//using EmployeeManagement.Infra.Models;
+using EmployeeManagementPortal.MVC.Entities;
 
 namespace EmployeeManagementPortal.MVC.Services
 {
     public class EmployeeTaskService : IEmployeeTaskService
     {
-        IConfiguration _configuration;
         public HttpClient Client { get; }
+        IConfiguration _configuration;
+        private readonly string employeeTaskEndpoint = "/api/EmployeeTask";
 
-        public EmployeeTaskService(HttpClient client,IConfiguration configuration)
+        public EmployeeTaskService(HttpClient client, IConfiguration configuration)
         {
             client.BaseAddress = new Uri(configuration["BaseUrl"]);
-
             Client = client;
         }
-
         public async Task<IEnumerable<EmployeeTask>> GetEmployeeTasks()
         {
-            var response = await Client.GetAsync("/EmployeeTask");
+            var response = await Client.GetAsync(employeeTaskEndpoint);
             var responseStream = await response.Content.ReadAsStringAsync();
             var r = JsonConvert.DeserializeObject<List<EmployeeTask>>(responseStream);
             return r;
@@ -34,10 +34,7 @@ namespace EmployeeManagementPortal.MVC.Services
             var json = JsonConvert.SerializeObject(empTask);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await Client.PostAsync(
-                _configuration["EmployeeRelationURL"], data);
-
-
+            var response = await Client.PostAsync(employeeTaskEndpoint, data);
 
             var responseStream = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<EmployeeTask>(responseStream);
@@ -48,7 +45,7 @@ namespace EmployeeManagementPortal.MVC.Services
             var json = JsonConvert.SerializeObject(empTask);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await Client.PatchAsync(string.Concat(_configuration["EmployeeRelationURL"],"/",empTask.EmployeeTaskId), data);
+            var response = await Client.PatchAsync($"{employeeTaskEndpoint}/{empTask.EmployeeTaskId}", data);
 
             var responseStream = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject<EmployeeTask>(responseStream);
@@ -56,7 +53,7 @@ namespace EmployeeManagementPortal.MVC.Services
 
         public async Task<bool> DeleteEmployeeTask(int id)
         {
-            var response = await Client.DeleteAsync($"/EmployeeTask/{id}");
+            var response = await Client.DeleteAsync($"/{id}");
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return true;
@@ -67,23 +64,24 @@ namespace EmployeeManagementPortal.MVC.Services
 
         public async Task<EmployeeTask> GetEmployeeTaskById(int id)
         {
-            var response = await Client.GetAsync($"/EmployeeTask/{id}");
+            var response = await Client.GetAsync($"{employeeTaskEndpoint}/{id}");
             var responseStream = await response.Content.ReadAsStringAsync();
             var r = JsonConvert.DeserializeObject<EmployeeTask>(responseStream);
             return r;
         }
-         public async Task<EmployeeTask> GetEmpHourCapacityOfTheDate(int id, DateTime startDate, DateTime? endDate)
+        public async Task<EmployeeTask> GetEmpHourCapacityOfTheDate(int id, DateTime startDate, DateTime? endDate)
         {
-            var response = await Client.GetAsync($"/EmployeeTask/{id}?&startDate={startDate}&endDate={endDate}");
+            var response = await Client.GetAsync($"{employeeTaskEndpoint}/{id}?&startDate={startDate}&endDate={endDate}");
             var responseStream = await response.Content.ReadAsStringAsync();
             var r = JsonConvert.DeserializeObject<EmployeeTask>(responseStream);
             return r;
         }
-        public async Task<IEnumerable<EmployeeTask>> GetEmployeesAndWorkItems(String searchText)
+         
+        public async Task<IEnumerable<EmployeeAndTaskList>> GetEmployeesAndWorkItems(String searchText)
         {
-            var response = await Client.GetAsync($"/EmployeeTask?&searchText={searchText}");
+            var response = await Client.GetAsync($"{employeeTaskEndpoint}?&searchText={searchText}");
             var responseStream = await response.Content.ReadAsStringAsync();
-            var r = JsonConvert.DeserializeObject<List<EmployeeTask>>(responseStream);
+            var r = JsonConvert.DeserializeObject<List<EmployeeAndTaskList>>(responseStream);
             return r;
         }
     }

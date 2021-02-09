@@ -20,6 +20,9 @@ namespace EmployeeManagementPortal.MVC.ViewModels
 
         [Display(Name = "Is Task(Work) Completed")]
         public bool? IsCompleted { get; set; }
+
+        [Display(Name = "Is Task(Work) Completed")]
+        public string IsTaskCompleted { get; set; }
         public List<EmployeeTasksViewModel> EmployeeTasks { get; set; }
     }
 }

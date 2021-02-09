@@ -36,8 +36,8 @@ namespace EmployeeManagementPortal.MVC
             services.AddHttpClient<IWorkItemService, WorkItemService>();
             services.AddHttpClient<IRolesService, RolesService>();
             services.AddHttpClient<IEmployeeTaskService, EmployeeTaskService>();
-            
-            services.AddSingleton<IObjectMapper, ObjectMapper>(); 
+
+            services.AddSingleton<IObjectMapper, ObjectMapper>();
             services.AddControllersWithViews();
         }
 

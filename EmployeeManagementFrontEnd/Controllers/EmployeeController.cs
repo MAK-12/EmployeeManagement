@@ -8,6 +8,7 @@ using EmployeeManagementPortal.MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
+
 namespace EmployeeManagement.MVC.Controllers
 {
     public class EmployeeController : Controller
@@ -23,11 +24,6 @@ namespace EmployeeManagement.MVC.Controllers
            _logger = logger;
         }
 
-        //Default action...
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public async Task<IActionResult> Index()
         {
             _logger.LogInformation("GetAllEmployees");
@@ -39,6 +35,7 @@ namespace EmployeeManagement.MVC.Controllers
                 EmployeeId = e.EmployeeId,
                 FullName = e.FirstName + " " + e.Surname,
                 MobileNo = e.MobileNo,
+                EmailAddress = e.EmailAddress,
                 EmployeeRoleName = e.Role.RoleName,
             });
             return View(employee);
@@ -135,61 +132,10 @@ namespace EmployeeManagement.MVC.Controllers
             return View(selectedEmployee);
         }
 
-      
-
         [HttpGet]
         public IActionResult GetEmployeeSalary()
         {
             return View();
         }
-
-
-        //https://localhost:44396/Home/ViewPayslip/1123
-        // GET: Employee/Edit/5
-        //[Route("~/ViewPayslip/{accessCode}")]
-        public async Task<ActionResult> GetEmployeeSalary(string accessCode)
-        {
-            //IList<EmployeeTasksViewModel> employeeTaskTestDataRepository = GetTestData.GetEmployeeTaskData();
-            EmployeeSalaryViewModel evm = new EmployeeSalaryViewModel();
-            evm.TotalNoOfHoursWorked = 0;
-            evm.Salary = 0;
-            DateTime monthStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            var todaysDateandTime = DateTime.Now;
-            var currentDate = todaysDateandTime.Date;
-
-            ////for testing hardcoding the Access code as ACC123Jhon refers to employee id 1 and emp name will be FNameJohn
-            //var selectedEmployee = employeeTestDataRepository.Where(s => s.AccessCode == "ACC123Jhon").FirstOrDefault();
-            //evm.EmployeeId = selectedEmployee.EmployeeId;
-            //evm.FullName = selectedEmployee.FirstName + " " + selectedEmployee.Surname;
-
-            //var empSalaryData = employeeTaskTestDataRepository.Where(s => s.EmployeeId == selectedEmployee.EmployeeId
-            //                                        && s.CurrentDate >= monthStartDate && s.CurrentDate <= currentDate).ToList();
-
-            ////evm.StartDate = empSalaryData.Select(x => x.StartDate).FirstOrDefault();
-            ////evm.EndDate = empSalaryData.Select(x => x.EndDate).FirstOrDefault();
-
-            //evm.StartDate = monthStartDate;
-            //evm.EndDate = currentDate;
-
-            ////Calculating the Employee Salary
-            //foreach (var item in empSalaryData)
-            //{
-            //    evm.TotalNoOfHoursWorked += item.TotalNoOfHours;
-            //    evm.Salary = (decimal)(evm.Salary + (item.TotalNoOfHours * item.PayPerTask));
-            //}
-            return View(evm);
-        }
-
-         
-        //     if (result.IsLockedOut)
-    //            {
-    //                return View("AccountLocked");
-    //}
-    //ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
-
-        // ViewBag.ErrorMessage = $"Role with Id = {id} cannot be found";
-                //return View("NotFound");
-        
-       
     }
 }

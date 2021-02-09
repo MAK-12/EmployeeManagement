@@ -1,16 +1,14 @@
-﻿using EmployeeManagement.Infra.Models;
+﻿using EmployeeManagementPortal.MVC.Entities;
 using EmployeeManagementPortal.MVC.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EmployeeManagementPortal.MVC.Common
 {
-    public class ObjectMapper:IObjectMapper
+    public class ObjectMapper : IObjectMapper
     {
 
-        public EmployeeViewModel EmployeeToEmployeeViewModel(Employee dto)
+        public EmployeeViewModel EmployeeToEmployeeViewModel(EmployeeManagement.Infra.Models.Employee dto)
         {
             return new EmployeeViewModel()
             {
@@ -26,9 +24,9 @@ namespace EmployeeManagementPortal.MVC.Common
             };
         }
 
-        public Employee EmployeeViewModelToEmployee(EmployeeViewModel employeeViewModel)
+        public EmployeeManagement.Infra.Models.Employee EmployeeViewModelToEmployee(EmployeeViewModel employeeViewModel)
         {
-            return new Employee()
+            return new EmployeeManagement.Infra.Models.Employee()
             {
                 FirstName = employeeViewModel.FirstName,
                 AccessCode = employeeViewModel.AccessCode,
@@ -42,5 +40,46 @@ namespace EmployeeManagementPortal.MVC.Common
                 RoleId = 1,
             };
         }
+
+        public EmployeeTasksViewModel EmployeeTaskToEmployeeTasksViewModel(EmployeeTask dto)
+        {
+            return new EmployeeTasksViewModel()
+            {
+                EmployeeTaskId = dto.EmployeeTaskId,
+                EmployeeId = dto.EmployeeId,
+                TaskId = dto.TaskId,
+                TotalNoOfHours = dto.TotalNoOfHours,
+                CurrentDate = dto.CurrentDate,
+                Priority = dto.Priority,
+                PayPerTask = dto.PayPerTask,
+                EmployeeName = dto.Employee.FirstName + " " + dto.Employee.Surname,
+                TaskName = dto.Task.Name,
+            };
+        }
+
+        public EmployeeTask EmployeeTasksViewModelToEmployeeTasks(EmployeeTasksViewModel employeeTasksViewModel)
+        {
+            return new EmployeeTask()
+            {
+                EmployeeTaskId = employeeTasksViewModel.EmployeeTaskId,
+                EmployeeId = employeeTasksViewModel.EmployeeId,
+                TaskId = employeeTasksViewModel.TaskId,
+                TotalNoOfHours = employeeTasksViewModel.TotalNoOfHours,
+                CurrentDate = employeeTasksViewModel.CurrentDate,
+                Priority = employeeTasksViewModel.Priority,
+                PayPerTask = employeeTasksViewModel.PayPerTask,
+            };
+        }
+        public EmployeeTasksViewModel MapemployeesAndworkItemstoViewModel(IEnumerable<EmployeeAndTaskList> employeeAndTaskList)
+        {
+            var empTasksViewModel = employeeAndTaskList.Select(e => new EmployeeTasksViewModel()
+            {
+                EmployeeList = (IEnumerable<EmployeeViewModel>)e.Employees,
+                WorkItemList = (IEnumerable<WorkItemViewModel>)e.WorkItems,
+            });
+
+            return (EmployeeTasksViewModel)empTasksViewModel;
+        }
+
     }
 }

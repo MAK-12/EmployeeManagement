@@ -5,12 +5,12 @@
 }
 
 <h1>Employee Details</h1>
-<br /> 
+<br />
 
 <div class="row">
     <div class="col-10">
         <form class="form-inline my-2 my-lg-0" asp-action="search" asp-controller="Employee">
-            <input class="form-control mr-sm-2" name="searchTerm" type="search" placeholder="search" aria-label="search" />
+            <input class="form-control mr-sm-2" name="searchTerm" type="search" placeholder="search" aria-label="search" required />
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">search</button>
         </form>
     </div>
@@ -19,41 +19,11 @@
     </div>
 </div>
 
-<br />
-<script>
-
-    function RemoveEmployee(_e) {
-        var url = "Employee/Delete";
-        var employeeId = $(_e).attr('asp-route-id');
-        var result = confirm("Are you sure you want to delete the employee?")
-        if (result == true) {
-            window.location.href = url;
-        }
-        else {
-            window.location.reload();
-        }
-
-        //if (result == true) {
-        //    $.ajax({
-        //        url: url,
-        //        data: { employeeId: employeeId },
-        //        type: "GET",
-        //        success: function (data) {
-        //            //reload the page
-        //            window.location.reload();
-        //        },
-        //        error: function (error) { }
-        //    });
-        //}
-        //else {
-
-        //}
-    }
-</script>
+<br /> 
 <table class="table table-bordered">
     <thead>
         <tr>
-              <th>
+            <th>
                 @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
@@ -63,6 +33,9 @@
                 @Html.DisplayNameFor(model => model.MobileNo)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.EmailAddress)
+            </th>
+            <th>
                 @Html.DisplayName("Actions")
             </th>
         </tr>
@@ -70,22 +43,25 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeRoleName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MobileNo)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-controller="Employee" asp-route-id="@item.EmployeeId" class="btn btn-info">Details</a>
-                    <a asp-action="Edit" asp-controller="Employee" asp-route-id="@item.EmployeeId" class="btn btn-warning">Edit</a>
-                    <a asp-route-id="@item.EmployeeId" class="btn btn-danger" onclick="RemoveEmployee(this)">Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeRoleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MobileNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailAddress)
+            </td>
+            <td>
+                <a asp-action="Details" asp-controller="Employee" asp-route-id="@item.EmployeeId" class="btn btn-info">Details</a>
+                <a asp-action="Edit" asp-controller="Employee" asp-route-id="@item.EmployeeId" class="btn btn-warning">Edit</a>
+                <a asp-action="Delete" asp-controller="Employee" asp-route-id="@item.EmployeeId" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

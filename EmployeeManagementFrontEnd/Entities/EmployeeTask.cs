@@ -16,4 +16,10 @@ namespace EmployeeManagementPortal.MVC.Entities
         public virtual Employee Employee { get; set; }
         public virtual WorkItem Task { get; set; }
     }
+
+    public class EmployeeAndTaskList
+    {
+        public IEnumerable<Employee> Employees;
+        public IEnumerable<WorkItem> WorkItems;
+    }
 }
