@@ -8,7 +8,7 @@ namespace EmployeeManagementPortal.MVC.Common
     public class ObjectMapper : IObjectMapper
     {
 
-        public EmployeeViewModel EmployeeToEmployeeViewModel(EmployeeManagement.Infra.Models.Employee dto)
+        public EmployeeViewModel EmployeeToEmployeeViewModel(Employee dto)
         {
             return new EmployeeViewModel()
             {
@@ -24,9 +24,9 @@ namespace EmployeeManagementPortal.MVC.Common
             };
         }
 
-        public EmployeeManagement.Infra.Models.Employee EmployeeViewModelToEmployee(EmployeeViewModel employeeViewModel)
+        public Employee EmployeeViewModelToEmployee(EmployeeViewModel employeeViewModel)
         {
-            return new EmployeeManagement.Infra.Models.Employee()
+            return new Employee()
             {
                 FirstName = employeeViewModel.FirstName,
                 AccessCode = employeeViewModel.AccessCode,

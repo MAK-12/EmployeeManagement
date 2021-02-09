@@ -6,14 +6,13 @@ namespace EmployeeManagementPortal.MVC.Common
 {
     public interface IObjectMapper
     {
-        EmployeeViewModel EmployeeToEmployeeViewModel(EmployeeManagement.Infra.Models.Employee dto);
+        EmployeeViewModel EmployeeToEmployeeViewModel(Employee dto);
 
-        EmployeeManagement.Infra.Models.Employee EmployeeViewModelToEmployee(EmployeeViewModel employeeViewModel);
+        Employee EmployeeViewModelToEmployee(EmployeeViewModel employeeViewModel);
 
         EmployeeTasksViewModel EmployeeTaskToEmployeeTasksViewModel(EmployeeTask dto);
 
-        EmployeeTask EmployeeTasksViewModelToEmployeeTasks(EmployeeTasksViewModel employeeTasksViewModel);
-
+        EmployeeTask EmployeeTasksViewModelToEmployeeTasks(EmployeeTasksViewModel employeeTasksViewModel); 
        
         EmployeeTasksViewModel MapemployeesAndworkItemstoViewModel(IEnumerable<EmployeeAndTaskList> employeeAndTaskList);
     }

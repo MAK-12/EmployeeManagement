@@ -1,4 +1,4 @@
-﻿using EmployeeManagement.Infra.Models;
+﻿using EmployeeManagementPortal.MVC.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

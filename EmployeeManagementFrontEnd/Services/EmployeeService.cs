@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using EmployeeManagement.Infra.Models;
+using EmployeeManagementPortal.MVC.Entities;
 
 namespace EmployeeManagementPortal.MVC.Services
 {

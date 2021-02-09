@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EmployeeManagement.Infra.Models;
+using Microsoft.AspNetCore.Mvc;
+using EmployeeManagementPortal.MVC.Entities;
 using EmployeeManagementPortal.MVC.Services;
 using EmployeeManagementPortal.MVC.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace EmployeeManagementPortal.MVC.Controllers
 {
