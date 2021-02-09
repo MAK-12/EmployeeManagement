@@ -50,7 +50,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
         public async Task<ActionResult> Edit(int id)
         {
             EmployeeTasksViewModel employeeTasksViewModel = await GetEmployeeTaskDataToViewModel(id);
-            await ListOfEmployeesAndTaskstoViewModelforDropDown(employeeTasksViewModel);
+            await LoadEmployeesAndTasks(employeeTasksViewModel);
 
             return View(employeeTasksViewModel);
         }
@@ -60,18 +60,17 @@ namespace EmployeeManagementPortal.MVC.Controllers
         public async Task<IActionResult> Create()
         {
             EmployeeTasksViewModel employeeTasksViewModel = new EmployeeTasksViewModel();
-            await ListOfEmployeesAndTaskstoViewModelforDropDown(employeeTasksViewModel);
+            await LoadEmployeesAndTasks(employeeTasksViewModel);
 
             return View(employeeTasksViewModel);
         }
 
         // POST: EmployeeTaskController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync(EmployeeTasksViewModel employeeTasksViewModel)
         {
             bool isEmployeeHaveCapacity = true;
-            isEmployeeHaveCapacity = await CheckIfnewTaskCanBeAssginedtoEmployee(employeeTasksViewModel, isEmployeeHaveCapacity);
+            isEmployeeHaveCapacity = await IsEmployeeAvailable(employeeTasksViewModel, isEmployeeHaveCapacity);
 
             //checking model state
             if (ModelState.IsValid)
@@ -108,7 +107,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
         }
 
         //Business Rule: 12 Hours Validation-An employee can be assigned multiple tasks but cannot work more than 12 hours a day
-        private async Task<bool> CheckIfnewTaskCanBeAssginedtoEmployee(EmployeeTasksViewModel employeeTasksViewModel, bool isEmployeeHaveCapacity)
+        private async Task<bool> IsEmployeeAvailable(EmployeeTasksViewModel employeeTasksViewModel, bool isEmployeeHaveCapacity)
         {
 
             var todaysDateandTime = DateTime.Now;
@@ -135,7 +134,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
 
         // POST: EmployeeTaskController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(EmployeeTasksViewModel employeeTasksViewModel)
         {
             //checking model state
@@ -300,7 +298,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
 
 
         //Get List of All Employees and Tasks(work items) assigns to View Model object
-        private async Task ListOfEmployeesAndTaskstoViewModelforDropDown(EmployeeTasksViewModel employeeTasksViewModel)
+        private async Task LoadEmployeesAndTasks(EmployeeTasksViewModel employeeTasksViewModel)
         {
             var employeeList = await this.employeeService.GetEmployees();
             var workItemList = await this.workItemService.GetWorkItems();

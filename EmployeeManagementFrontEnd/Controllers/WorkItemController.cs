@@ -9,9 +9,7 @@ using EmployeeManagementPortal.MVC.Entities;
 
 namespace EmployeeManagementPortal.MVC.Controllers
 {
-    /// <summary>
-    ///  Create Tasks
-    /// </summary>
+    
     public class WorkItemController : Controller
     {
         private IWorkItemService workItemService;
@@ -100,7 +98,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
         
         // POST: TaskController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync(WorkItemViewModel workItemViewModel)
         {
             //checking model state

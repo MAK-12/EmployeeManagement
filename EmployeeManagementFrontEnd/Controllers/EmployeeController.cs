@@ -33,9 +33,6 @@ namespace EmployeeManagement.MVC.Controllers
         {
             _logger.LogInformation("GetAllEmployees");
             var employees = await _employeeService.GetEmployees();
-            //EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(employees);
-            //return View(employeeViewModel);
-
             var employee = employees.Select(e => new EmployeeViewModel()
             {
                 EmployeeId = e.EmployeeId,
@@ -46,19 +43,6 @@ namespace EmployeeManagement.MVC.Controllers
             });
             return View(employee);
         }
-
-        private IActionResult NewMethod(IEnumerable<EmployeeManagementPortal.MVC.Entities.Employee> employees)
-        {
-            var employee = employees.Select(e => new EmployeeViewModel()
-            {
-                EmployeeId = e.EmployeeId,
-                FullName = e.FirstName + " " + e.Surname,
-                MobileNo = e.MobileNo,
-                EmailAddress = e.EmailAddress,
-                EmployeeRoleName = e.Role.RoleName,
-            });
-            return View(employee);
-        } 
 
         // GET: EmployeeController/Create
         [HttpGet]
@@ -72,25 +56,22 @@ namespace EmployeeManagement.MVC.Controllers
         public async Task<ActionResult> Details(int id)
         {
             _logger.LogInformation("GetEmployeeById");
-            var dto = await _employeeService.GetEmployeeById(id);
-            EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(dto);
+            var employee = await _employeeService.GetEmployeeById(id);
+            EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(employee);
             return View(employeeViewModel);
         }
-
-
 
         // GET: Employee/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
             _logger.LogInformation("Update");
-            var dto = await _employeeService.GetEmployeeById(id);
-            EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(dto);
+            var employee = await _employeeService.GetEmployeeById(id);
+            EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(employee);
             return View(employeeViewModel);
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost] 
         public async Task<ActionResult> CreateAsync(EmployeeViewModel employeeViewModel)
         {
             //checking model state
@@ -113,7 +94,6 @@ namespace EmployeeManagement.MVC.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditAsync(EmployeeViewModel employeeViewModel)
         {
             //checking model state
@@ -139,12 +119,6 @@ namespace EmployeeManagement.MVC.Controllers
             {
                 return View();
             }
-        }
-
-        [HttpGet]
-        public IActionResult GetEmployeeSalary()
-        {
-            return View();
         }
     }
 }

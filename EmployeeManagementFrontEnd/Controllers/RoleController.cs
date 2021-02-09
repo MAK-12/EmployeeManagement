@@ -9,10 +9,6 @@ using EmployeeManagementPortal.MVC.ViewModels;
 
 namespace EmployeeManagementPortal.MVC.Controllers
 {
-    /// <summary>
-    ///  Create and Edit Employee Roles and Change Employee Role rate per hour
-    /// </summary>
-
     public class RoleController : Controller
     {
         private IRolesService rolesService;
@@ -21,7 +17,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
         {
             this.rolesService = rolesService;
         }
-        // GET: RoleController
+
         public async Task<IActionResult> Index()
         {
             var roles = await this.rolesService.GetRoles();
@@ -100,7 +96,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
           
         // POST: RoleController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken] 
         public async Task<ActionResult> CreateAsync(RoleViewModel roleViewModel)
         {
             //checking model state
@@ -123,7 +118,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
 
         // POST: RoleController/Edit/5 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(RoleViewModel roleViewModel)
         {
             //checking model state
