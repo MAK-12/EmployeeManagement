@@ -1,6 +1,7 @@
 ﻿using EmployeeManagementPortal.MVC.Entities;
 using EmployeeManagementPortal.MVC.ViewModels;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EmployeeManagementPortal.MVC.Common
 {
@@ -12,8 +13,11 @@ namespace EmployeeManagementPortal.MVC.Common
 
         EmployeeTasksViewModel EmployeeTaskToEmployeeTasksViewModel(EmployeeTask dto);
 
-        EmployeeTask EmployeeTasksViewModelToEmployeeTasks(EmployeeTasksViewModel employeeTasksViewModel); 
-       
-        EmployeeTasksViewModel MapemployeesAndworkItemstoViewModel(IEnumerable<EmployeeAndTaskList> employeeAndTaskList);
+        EmployeeTask EmployeeTasksViewModelToEmployeeTasks(EmployeeTasksViewModel employeeTasksViewModel);
+
+        IEnumerable<EmployeeTasksViewModel> EmployeeTasksDTOObjectsToViewModel(IEnumerable<EmployeeTask> employeeTasksList, IEnumerable<Employee> employeesList, IEnumerable<WorkItem> workItemsList);
+
+        EmployeeTasksViewModel ListOfEmployeesAndTaskstoViewModelforDropDown(IEnumerable<Employee> emp, IEnumerable<WorkItem> workItem);
+
     }
 }

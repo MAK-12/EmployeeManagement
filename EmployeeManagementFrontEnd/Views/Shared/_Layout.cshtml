@@ -6,25 +6,23 @@
     <title>@ViewData["Title"] - Employee Management Portal</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <style type="text/css"> 
-        h1{
-            text-align:center;
+    <style type="text/css">
+        h1 {
+            text-align: center;
         }
 
         p#btnAdd {
             text-align: right;
         }
 
-        .table td,th {
+        .table td, th {
             text-align: center;
         }
-    </style> 
+    </style>
 
 </head>
 <body>
     <header>
-        @*//class="navbar navbar-dark bg-primary"*@
-        @*navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3*@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Employee" asp-action="Index">Employee Management Portal</a>
@@ -34,8 +32,16 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Employees
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
+                                @*<a class="nav-link text-dark" asp-area="" asp-controller="EmployeeTask" asp-action="GetEmpHourCapacityOfTheDate">Employee Hour Capacity Of The Date</a>*@
+                                <a class="nav-link text-dark" asp-area="" asp-controller="EmployeeTask" asp-action="ViewTotalDuetoEmployee">Due to Employee</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="EmployeeTask" asp-action="ViewEmployeesTotalHoursPerDay">Employees Total Hours PerDay</a>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="WorkItem" asp-action="Index">Tasks</a>

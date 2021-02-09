@@ -1,16 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EmployeeManagementPortal.MVC.Common;
+﻿using EmployeeManagementPortal.MVC.Common;
 using EmployeeManagementPortal.MVC.Services;
 using EmployeeManagementPortal.MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 
 
 namespace EmployeeManagement.MVC.Controllers
 {
+    /// <summary>
+    ///  Create and Edit Casual Employees 
+    /// </summary>
+
     public class EmployeeController : Controller
     {
         private IEmployeeService _employeeService;
@@ -19,16 +24,17 @@ namespace EmployeeManagement.MVC.Controllers
 
         public EmployeeController(IEmployeeService employeeService, IObjectMapper objectMapper, ILogger<EmployeeController> logger)
         {
-           _employeeService = employeeService;
-           _objectMapper = objectMapper;
-           _logger = logger;
+            _employeeService = employeeService;
+            _objectMapper = objectMapper;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
             _logger.LogInformation("GetAllEmployees");
             var employees = await _employeeService.GetEmployees();
-            //dto
+            //EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(employees);
+            //return View(employeeViewModel);
 
             var employee = employees.Select(e => new EmployeeViewModel()
             {
@@ -40,6 +46,19 @@ namespace EmployeeManagement.MVC.Controllers
             });
             return View(employee);
         }
+
+        private IActionResult NewMethod(IEnumerable<EmployeeManagementPortal.MVC.Entities.Employee> employees)
+        {
+            var employee = employees.Select(e => new EmployeeViewModel()
+            {
+                EmployeeId = e.EmployeeId,
+                FullName = e.FirstName + " " + e.Surname,
+                MobileNo = e.MobileNo,
+                EmailAddress = e.EmailAddress,
+                EmployeeRoleName = e.Role.RoleName,
+            });
+            return View(employee);
+        } 
 
         // GET: EmployeeController/Create
         [HttpGet]
@@ -57,8 +76,8 @@ namespace EmployeeManagement.MVC.Controllers
             EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(dto);
             return View(employeeViewModel);
         }
-       
-       
+
+
 
         // GET: Employee/Edit/5
         public async Task<ActionResult> Edit(int id)
@@ -69,13 +88,12 @@ namespace EmployeeManagement.MVC.Controllers
             return View(employeeViewModel);
         }
 
-      
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateAsync(EmployeeViewModel employeeViewModel)
         {
-           //checking model state
+            //checking model state
             if (ModelState.IsValid)
             {
                 try
@@ -86,7 +104,7 @@ namespace EmployeeManagement.MVC.Controllers
 
                 catch (Exception ex)
                 {
-                    _logger.LogError("Error Creating Employee {0}",ex.Message);
+                    _logger.LogError("Error Creating Employee {0}", ex.Message);
                     return View(ex.InnerException.Message);
                 }
             }
@@ -107,6 +125,7 @@ namespace EmployeeManagement.MVC.Controllers
             return View(employeeViewModel);
         }
 
+
         // GET: Employee/Delete/5
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
@@ -124,12 +143,16 @@ namespace EmployeeManagement.MVC.Controllers
 
         public async Task<ActionResult> Search(string searchTerm)
         {
-            IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)await _employeeService.GetEmployees();
-            var selectedEmployee = erer.Where(s => s.FirstName == searchTerm).FirstOrDefault();
+
+
+            //IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)await _employeeService.GetEmployees();
+            //var selectedEmployee = erer.Where(s => s.FirstName == searchTerm).FirstOrDefault();
 
             //var result = emp.Where(a => a.FirstName.Contains(searchTerm)).ToList();
             //return View("index", result);
-            return View(selectedEmployee);
+            //selectedEmployee
+            return View();
+
         }
 
         [HttpGet]

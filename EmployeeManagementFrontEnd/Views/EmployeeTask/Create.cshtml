@@ -23,7 +23,7 @@
             <div class="form-group">
                 <label asp-for="EmployeeName" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="EmployeeId" asp-items="@(new SelectList(Model.EmployeeList,"EmployeeId", "FirstName"))" class="custom-select mr-sm-2">
+                <select asp-for="EmployeeId" asp-items="@(new SelectList(Model.Employees,"EmployeeId", "FirstName"))" class="custom-select mr-sm-2">
                     <option value="">Please Select</option>
                 </select>
                 <span asp-validation-for="Employee.EmployeeId" class="text-danger"></span>
@@ -33,7 +33,7 @@
             <div class="form-group">
                 <label asp-for="TaskName" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <select asp-for="TaskId" asp-items="@(new SelectList(Model.WorkItemList,"TaskId", "Name"))" class="custom-select mr-sm-2">
+                <select asp-for="TaskId" asp-items="@(new SelectList(Model.WorkItems,"TaskId", "Name"))" class="custom-select mr-sm-2">
                     <option value="">Please Select</option>
                 </select>
                 <span asp-validation-for="Task.TaskId" class="text-danger"></span>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmployeeManagementPortal.MVC.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -34,7 +35,11 @@ namespace EmployeeManagementPortal.MVC.ViewModels
 
         public IEnumerable<WorkItemViewModel> WorkItemList { get; set; }
 
-       
+        public IEnumerable<Employee> Employees { get; set; }
+
+        public IEnumerable<WorkItem> WorkItems { get; set; }
+
+
 
 
     }

@@ -15,7 +15,7 @@ namespace EmployeeManagement.Infra.Repositories
             _context = context;
         }
 
-        public async Task<T> Get(int id)
+        public virtual async Task<T> Get(int id)
         {
             return await _context.Set<T>().FindAsync(id);
         }

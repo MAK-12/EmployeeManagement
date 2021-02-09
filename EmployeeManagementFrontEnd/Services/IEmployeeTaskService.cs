@@ -13,7 +13,7 @@ namespace EmployeeManagementPortal.MVC.Services
         Task<bool> DeleteEmployeeTask(int id);
         Task<EmployeeTask> GetEmployeeTaskById(int id);
 
-        Task<EmployeeTask> GetEmpHourCapacityOfTheDate(int id, DateTime startDate, DateTime? endDate);
+        Task<IEnumerable<EmployeeTask>> GetEmpHourCapacityOfTheDate(int id, DateTime startDate, DateTime? endDate);
 
         Task<IEnumerable<EmployeeAndTaskList>> GetEmployeesAndWorkItems(String searchText);
     }

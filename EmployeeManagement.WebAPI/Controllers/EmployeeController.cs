@@ -61,6 +61,19 @@ namespace EmployeeManagement.WebAPI.Controllers
             return this.Ok(employeeDetail);
         }
 
+        [HttpGet("accessCode")]
+        public async Task<IActionResult> GetEmployeeDetailsByaccessCode(string accessCode)
+        {
+            _logger.LogInformation("GetEmployeeById");
+            var employeeDetail = await _unitOfWork.EmployeeRepository.GetEmployeeDetailsByaccessCode(accessCode);
+            if (employeeDetail == null)
+            {
+                return NotFound();
+            }
+
+            return this.Ok(employeeDetail);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(Employee employee)
         {
@@ -87,7 +100,7 @@ namespace EmployeeManagement.WebAPI.Controllers
             existingEmployeeDetail.Surname = employee.Surname;
             existingEmployeeDetail.MiddleName = employee.MiddleName;
             existingEmployeeDetail.PhysicalAddress = employee.PhysicalAddress;
-            existingEmployeeDetail.RoleId = 1;
+            existingEmployeeDetail.RoleId = employee.RoleId;
 
             _unitOfWork.EmployeeRepository.Update(existingEmployeeDetail);
             await this._unitOfWork.SaveChangesAsync();

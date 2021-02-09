@@ -45,9 +45,7 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
             {
                 empTasks = await _unitOfWork.EmployeeTaskRepository.FindAsync(empTask => empTask.EmployeeId == empId && (empTask.CurrentDate >= startDate && empTask.CurrentDate <= endDate));
             }
-
-
-
+             
             return this.Ok(empTasks);
         }
 
@@ -71,8 +69,9 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
             return this.Ok(employeeTasks);
         }
 
+        //https://localhost:44341/api/EmployeeTask/employees-tasks?&searchText=test
         [HttpGet("employees-tasks")]
-        public async Task<IActionResult> GetEmployeesAndWorkItems(String searchText)
+        public async Task<IActionResult> GetEmployeesAndWorkItems(string searchText)
         {
             var employees = await _unitOfWork.EmployeeRepository.GetAll();
             var tasks = await _unitOfWork.TaskRepository.GetAll();

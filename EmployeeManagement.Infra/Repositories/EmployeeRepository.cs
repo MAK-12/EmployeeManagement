@@ -33,6 +33,19 @@ namespace EmployeeManagement.Infra.Repositories
                 .AsNoTracking()
                 .ToListAsync()
                 .ConfigureAwait(false);
+        } 
+
+        public async Task<Employee> GetEmployeeDetailsByaccessCode(string accessCode)
+        {
+            var employees = await this._context.Set<Employee>()
+                .Include(x => x.Role)
+                .AsQueryable()
+                .Where(e => e.AccessCode == accessCode)
+                .AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+            return employees.FirstOrDefault();
         }
     }
 }

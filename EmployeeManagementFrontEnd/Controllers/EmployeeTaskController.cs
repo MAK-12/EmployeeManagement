@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagementPortal.MVC.Common;
@@ -9,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagementPortal.MVC.Controllers
 {
+    /// <summary>
+    /// Assign Casual Employees to one or more Tasks and A Task can have multiple Employees assigned
+    /// </summary>
     public class EmployeeTaskController : Controller
     {
         private IEmployeeTaskService employeeTaskService;
@@ -26,127 +30,45 @@ namespace EmployeeManagementPortal.MVC.Controllers
             _objectMapper = objectMapper;
         }
 
-        //GET: EmployeeTaskController
         public async Task<IActionResult> Index()
         {
-            var employeeTasksList = await this.employeeTaskService.GetEmployeeTasks();
-            var employeeList = await this.employeeService.GetEmployees();
-            var workItemList = await this.workItemService.GetWorkItems();
+            IEnumerable<EmployeeTasksViewModel> employeeTask = await GetEmployeeTasksDataToViewModel();
 
-            var employeeTask = employeeTasksList.Select(e => new EmployeeTasksViewModel()
-            {
-                EmployeeTaskId = e.EmployeeTaskId,
-                TaskId = e.TaskId,
-                EmployeeName = employeeList.Where(x => x.EmployeeId == e.EmployeeId).Select(x => x.FirstName + " " + x.Surname).FirstOrDefault().ToString(),
-                TaskName = workItemList.Where(x => x.TaskId == e.TaskId).Select(x => x.Name).FirstOrDefault().ToString(),
-                EmployeeId = e.EmployeeId,
-                TotalNoOfHours = e.TotalNoOfHours,
-                CurrentDate = e.CurrentDate,
-                Priority = e.Priority,
-                PayPerTask = e.PayPerTask
-            });
             return View(employeeTask);
         }
-
-        private static EmployeeTasksViewModel MapObjectsDTOtoViewModel(EmployeeTask dto)
-        {
-            return new EmployeeTasksViewModel()
-            {
-                EmployeeTaskId = dto.EmployeeTaskId,
-                TaskId = dto.TaskId,
-                EmployeeId = dto.EmployeeId,
-                TotalNoOfHours = dto.TotalNoOfHours,
-                CurrentDate = dto.CurrentDate,
-                Priority = dto.Priority,
-                PayPerTask = dto.PayPerTask
-            };
-        }
-        private static EmployeeTask MapObjectsViewModeltoDTO(EmployeeTasksViewModel employeeTasksViewModel)
-        {
-            return new EmployeeTask()
-            {
-                EmployeeTaskId = employeeTasksViewModel.EmployeeTaskId,
-                TaskId = employeeTasksViewModel.TaskId,
-                EmployeeId = employeeTasksViewModel.EmployeeId,
-                TotalNoOfHours = employeeTasksViewModel.TotalNoOfHours,
-                CurrentDate = employeeTasksViewModel.CurrentDate,
-                Priority = employeeTasksViewModel.Priority,
-                PayPerTask = employeeTasksViewModel.PayPerTask
-            };
-        }
-
 
         // GET: EmployeeTaskController/Details/5
         [HttpGet]
         public async Task<ActionResult> Details(int id)
         {
-            var dto = await this.employeeTaskService.GetEmployeeTaskById(id);
-            EmployeeTasksViewModel employeeTasksViewModel = MapObjectsDTOtoViewModel(dto);
-            return View(employeeTasksViewModel);
-        }
+            EmployeeTasksViewModel employeeTasksViewModel = await GetEmployeeTaskDataToViewModel(id);
 
-
-        //https://localhost:44396/Home/ViewPayslip/1123
-        // GET: Employee/Edit/5
-        //[Route("~/ViewPayslip/{accessCode}")]
-        public async Task<ActionResult> GetEmployeeSalary(string accessCode)
-        {
-            EmployeeSalaryViewModel evm = new EmployeeSalaryViewModel();
-            evm.TotalNoOfHoursWorked = 0;
-            evm.Salary = 0;
-            DateTime monthStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            var todaysDateandTime = DateTime.Now;
-            var currentDate = todaysDateandTime.Date;
-
-            // var dto = await this.employeeTaskService.GetEmpHourCapacityOfTheDate(id);
-            // EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(dto);
-            //return View(employeeViewModel);
-
-
-            ////for testing hardcoding the Access code as ACC123Jhon refers to employee id 1 and emp name will be FNameJohn
-            //var selectedEmployee = employeeTestDataRepository.Where(s => s.AccessCode == "ACC123Jhon").FirstOrDefault();
-            //evm.EmployeeId = selectedEmployee.EmployeeId;
-            //evm.FullName = selectedEmployee.FirstName + " " + selectedEmployee.Surname;
-
-            //var empSalaryData = employeeTaskTestDataRepository.Where(s => s.EmployeeId == selectedEmployee.EmployeeId
-            //                                        && s.CurrentDate >= monthStartDate && s.CurrentDate <= currentDate).ToList();
-
-            ////evm.StartDate = empSalaryData.Select(x => x.StartDate).FirstOrDefault();
-            ////evm.EndDate = empSalaryData.Select(x => x.EndDate).FirstOrDefault();
-
-            //evm.StartDate = monthStartDate;
-            //evm.EndDate = currentDate;
-
-            ////Calculating the Employee Salary
-            //foreach (var item in empSalaryData)
-            //{
-            //    evm.TotalNoOfHoursWorked += item.TotalNoOfHours;
-            //    evm.Salary = (decimal)(evm.Salary + (item.TotalNoOfHours * item.PayPerTask));
-            //}
-            return View(evm);
-        }
-
-        // GET: EmployeeTaskController/Create
-        [HttpGet]
-        public async Task<IActionResult> Create()
-        {
-            var employeesAndworkItems = await this.employeeTaskService.GetEmployeesAndWorkItems("test");
-            EmployeeTasksViewModel employeeTasksViewModel = _objectMapper.MapemployeesAndworkItemstoViewModel(employeesAndworkItems);
             return View(employeeTasksViewModel);
         }
 
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            var dto = await this.employeeTaskService.GetEmployeeTaskById(id);
-            EmployeeTasksViewModel employeeTasksViewModel = MapObjectsDTOtoViewModel(dto);
+            EmployeeTasksViewModel employeeTasksViewModel = await GetEmployeeTaskDataToViewModel(id);
+            await ListOfEmployeesAndTaskstoViewModelforDropDown(employeeTasksViewModel);
+
             return View(employeeTasksViewModel);
         }
+
+        // GET: EmployeeTaskController/Create
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            EmployeeTasksViewModel employeeTasksViewModel = new EmployeeTasksViewModel();
+            await ListOfEmployeesAndTaskstoViewModelforDropDown(employeeTasksViewModel);
+
+            return View(employeeTasksViewModel);
+        }
+
 
         // POST: EmployeeTaskController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
         public async Task<ActionResult> CreateAsync(EmployeeTasksViewModel employeeTasksViewModel)
         {
             //checking model state
@@ -154,12 +76,9 @@ namespace EmployeeManagementPortal.MVC.Controllers
             {
                 try
                 {
-                    var dtemployeeList = await this.employeeService.GetEmployeeById(employeeTasksViewModel.EmployeeId);
-                    var dtRoleList = await this.rolesService.GetRoleById(dtemployeeList.RoleId);
-                    employeeTasksViewModel.CurrentDate = DateTime.Now;
-                    employeeTasksViewModel.PayPerTask = dtRoleList.RatePerhour;
+                    await GetCurrentRatePerHour(employeeTasksViewModel);
 
-                    var emp = await this.employeeTaskService.CreateEmployeeTask(MapObjectsViewModeltoDTO(employeeTasksViewModel));
+                    var emp = await this.employeeTaskService.CreateEmployeeTask(_objectMapper.EmployeeTasksViewModelToEmployeeTasks(employeeTasksViewModel));
                     return RedirectToAction("Index");
                 }
 
@@ -180,11 +99,11 @@ namespace EmployeeManagementPortal.MVC.Controllers
             //checking model state
             if (ModelState.IsValid)
             {
-                var emp = await this.employeeTaskService.UpdateEmployeeTask(MapObjectsViewModeltoDTO(employeeTasksViewModel));
+                var emp = await this.employeeTaskService.UpdateEmployeeTask(_objectMapper.EmployeeTasksViewModelToEmployeeTasks(employeeTasksViewModel));
                 return RedirectToAction("Index");
             }
             return View(employeeTasksViewModel);
-        } 
+        }
 
         // Get: EmployeeTaskController/Delete/5 
         [HttpGet]
@@ -202,5 +121,147 @@ namespace EmployeeManagementPortal.MVC.Controllers
         }
 
 
+        [HttpGet]
+        public async Task<ActionResult> ViewTotalDuetoEmployee()
+        {
+            EmployeeSalaryViewModel employeeSalaryViewModel = new EmployeeSalaryViewModel();
+            await GetAllEmployees(employeeSalaryViewModel);
+            employeeSalaryViewModel.DispalyGrid = false;
+            return View(employeeSalaryViewModel);
+        }
+
+
+        //View total due to Casual Employee over a specific timeframe.
+        [HttpPost]
+        public async Task<ActionResult> ViewTotalDuetoEmployee(int EmployeeId, DateTime startDate, DateTime endDate)
+        {
+            EmployeeSalaryViewModel evm = new EmployeeSalaryViewModel();
+            evm.TotalNoOfHoursWorked = 0;
+            evm.Salary = 0;
+
+            var dtoEmpTask = await this.employeeTaskService.GetEmpHourCapacityOfTheDate(EmployeeId, startDate, endDate);
+
+            var dtemployeeList = await this.employeeService.GetEmployeeById(dtoEmpTask.Select(x => x.EmployeeId).FirstOrDefault());
+            evm.FullName = dtemployeeList.FirstName + " " + dtemployeeList.Surname;
+            evm.DispalyGrid = true;
+
+            //Calculating the Employee Salary
+            foreach (var item in dtoEmpTask)
+            {
+                evm.TotalNoOfHoursWorked += item.TotalNoOfHours;
+                evm.Salary = (decimal)(evm.Salary + (item.TotalNoOfHours * item.PayPerTask));
+            }
+
+
+            return View(evm);
+        }
+
+
+        [HttpGet]
+        public async Task<ActionResult> GetEmployeeSalary()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<ActionResult> GetEmployeeSalary(EmployeeSalaryViewModel employeeSalaryViewModel)
+        {
+            EmployeeSalaryViewModel evm = new EmployeeSalaryViewModel();
+            evm.TotalNoOfHoursWorked = 0;
+            evm.Salary = 0;
+            DateTime monthStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            var todaysDateandTime = DateTime.Now;
+            var currentDate = todaysDateandTime.Date;
+
+            //Selecting Employee matches accessCode
+            var dtemployeeList = await this.employeeService.GetEmployeeDetailsByaccessCode(employeeSalaryViewModel.AccessCode);
+
+            //Getting Data from EmployeeTask(SalaryData) by passing EmployeeId and startDate
+            var empSalaryData = await this.employeeTaskService.GetEmpHourCapacityOfTheDate(dtemployeeList.EmployeeId, monthStartDate, currentDate);
+
+
+            evm.FullName = dtemployeeList.FirstName + " " + dtemployeeList.Surname;
+
+            evm.StartDate = monthStartDate;
+            evm.EndDate = currentDate;
+
+            //Calculating the Employee Salary
+            foreach (var item in empSalaryData)
+            {
+                evm.TotalNoOfHoursWorked += item.TotalNoOfHours;
+                evm.Salary = (decimal)(evm.Salary + (item.TotalNoOfHours * item.PayPerTask));
+            }
+            return View(evm);
+        }
+
+        //Total Hours Per Employee Per Day
+        [HttpGet]
+        public async Task<ActionResult> ViewEmployeesTotalHoursPerDay()
+        {
+            //Get All Employee Tasks 
+            var employeeTasksList = await this.employeeTaskService.GetEmployeeTasks();
+
+            var employeesTotalHoursPerDayViewModel = employeeTasksList.Select(x => new EmployeesTotalHoursPerDayViewModel()
+            {
+                FullName = x.Employee.FirstName + " " + x.Employee.Surname,
+                Date = x.CurrentDate,
+                TotalHours = x.TotalNoOfHours,
+            });
+
+            //var groupedCustomerList = employeesTotalHoursPerDayViewModel.GroupBy(u => u.EmployeeId)
+            //                                                            .Select(grp => grp.ToList())
+            //                                                            .ToList();
+
+            return View(employeesTotalHoursPerDayViewModel);
+        }
+
+
+        //Gets Data of All EmployeeTasks
+        private async Task<IEnumerable<EmployeeTasksViewModel>> GetEmployeeTasksDataToViewModel()
+        {
+            var employeeTasksList = await this.employeeTaskService.GetEmployeeTasks();
+            var employeesList = await this.employeeService.GetEmployees();
+            var workItemsList = await this.workItemService.GetWorkItems();
+
+            IEnumerable<EmployeeTasksViewModel> employeeTask = _objectMapper.EmployeeTasksDTOObjectsToViewModel(employeeTasksList, employeesList, workItemsList);
+            return employeeTask;
+        }
+
+        //Gets Data for Specific Employee Task
+        private async Task<EmployeeTasksViewModel> GetEmployeeTaskDataToViewModel(int id)
+        {
+            var dto = await this.employeeTaskService.GetEmployeeTaskById(id);
+            EmployeeTasksViewModel employeeTasksViewModel = _objectMapper.EmployeeTaskToEmployeeTasksViewModel(dto);
+            return employeeTasksViewModel;
+        }
+
+        private async Task GetAllEmployees(EmployeeSalaryViewModel employeeSalaryViewModel)
+        {
+            var employeeList = await this.employeeService.GetEmployees();
+            employeeSalaryViewModel.Employees = employeeList;
+        }
+
+
+        //Get List of All Employees and Tasks(work items) assigns to View Model object
+        private async Task ListOfEmployeesAndTaskstoViewModelforDropDown(EmployeeTasksViewModel employeeTasksViewModel)
+        {
+            var employeeList = await this.employeeService.GetEmployees();
+            var workItemList = await this.workItemService.GetWorkItems();
+
+            employeeTasksViewModel.Employees = employeeList;
+            employeeTasksViewModel.WorkItems = workItemList;
+        }
+
+        //Business Rule: "Changing the hourly rate or changing the casual employee role should not affect previously
+        //captured hours" i.e reason we getting the rate perhour from the Roles table and Saving in EmployeeTask tabele
+        private async Task GetCurrentRatePerHour(EmployeeTasksViewModel employeeTasksViewModel)
+        {
+            var dtemployeeList = await this.employeeService.GetEmployeeById(employeeTasksViewModel.EmployeeId);
+            var dtRoleList = await this.rolesService.GetRoleById(dtemployeeList.RoleId);
+
+            employeeTasksViewModel.CurrentDate = DateTime.Now;
+            employeeTasksViewModel.PayPerTask = dtRoleList.RatePerhour;
+        }
     }
 }

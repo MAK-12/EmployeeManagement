@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmployeeManagementPortal.MVC.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -22,14 +23,20 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         public string EmployeeRoleName { get; set; }
 
         [Display(Name = "Start Date")]
+        [DataType(DataType.Date)]
         public DateTime? StartDate { get; set; }
         [Display(Name = "End Date")]
+        [DataType(DataType.Date)]
         public DateTime? EndDate { get; set; }
         [Display(Name = "Total No Of Hours Worked")]
         public int TotalNoOfHoursWorked { get; set; }
 
         public decimal Salary { get; set; }
 
-        public int RoleId { get; set; } 
+        public int RoleId { get; set; }
+
+        public bool DispalyGrid { get; set; }
+
+        public IEnumerable<Employee> Employees { get; set; }
     }
 }

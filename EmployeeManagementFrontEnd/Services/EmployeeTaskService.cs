@@ -44,6 +44,8 @@ namespace EmployeeManagementPortal.MVC.Services
             var json = JsonConvert.SerializeObject(empTask);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
+           
+
             var response = await Client.PatchAsync($"{employeeTaskEndpoint}/{empTask.EmployeeTaskId}", data);
 
             var responseStream = await response.Content.ReadAsStringAsync();
@@ -52,7 +54,7 @@ namespace EmployeeManagementPortal.MVC.Services
 
         public async Task<bool> DeleteEmployeeTask(int id)
         {
-            var response = await Client.DeleteAsync($"/{id}");
+            var response = await Client.DeleteAsync($"{employeeTaskEndpoint}/{id}");
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return true;
@@ -68,17 +70,22 @@ namespace EmployeeManagementPortal.MVC.Services
             var r = JsonConvert.DeserializeObject<EmployeeTask>(responseStream);
             return r;
         }
-        public async Task<EmployeeTask> GetEmpHourCapacityOfTheDate(int id, DateTime startDate, DateTime? endDate)
+        public async Task<IEnumerable<EmployeeTask>> GetEmpHourCapacityOfTheDate(int id, DateTime startDate, DateTime? endDate)
         {
-            var response = await Client.GetAsync($"{employeeTaskEndpoint}/{id}?&startDate={startDate}&endDate={endDate}");
+            
+            string customRoute = employeeTaskEndpoint + "/search";
+            var response = await Client.GetAsync($"{customRoute}/{id}?&startDate={startDate}&endDate={endDate}");
             var responseStream = await response.Content.ReadAsStringAsync();
-            var r = JsonConvert.DeserializeObject<EmployeeTask>(responseStream);
+            var r = JsonConvert.DeserializeObject<List<EmployeeTask>>(responseStream);
+           
             return r;
         }
          
         public async Task<IEnumerable<EmployeeAndTaskList>> GetEmployeesAndWorkItems(String searchText)
         {
-            var response = await Client.GetAsync($"{employeeTaskEndpoint}?&searchText={searchText}");
+            string customRoute = "api/EmployeeTask/employees-tasks";
+
+            var response = await Client.GetAsync($"{customRoute}?&searchText={searchText}");
             var responseStream = await response.Content.ReadAsStringAsync();
             var r = JsonConvert.DeserializeObject<List<EmployeeAndTaskList>>(responseStream);
             return r;

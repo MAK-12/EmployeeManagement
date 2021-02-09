@@ -11,6 +11,8 @@ namespace EmployeeManagementPortal.MVC.Services
         Task<Employee> UpdateEmployee(Employee emp);
         Task<bool> DeleteEmployee(int id); 
         Task<Employee> GetEmployeeById(int id);
-        
+        Task<Employee> GetEmployeeDetailsByaccessCode(string accessCode);
+
+
     }
 }

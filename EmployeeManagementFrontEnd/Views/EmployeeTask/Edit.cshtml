@@ -24,16 +24,20 @@
             <div class="form-group">
                 <label asp-for="EmployeeName" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <input asp-for="EmployeeId" class="form-control" />
-                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                <select asp-for="EmployeeId" asp-items="@(new SelectList(Model.Employees,"EmployeeId", "FirstName", Model.EmployeeId))" class="custom-select mr-sm-2">
+                    <option value="">Please Select</option>
+                </select>
+                <span asp-validation-for="Employee.EmployeeId" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="TaskName" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <input asp-for="TaskId" class="form-control" />
-                <span asp-validation-for="TaskId" class="text-danger"></span>
+                <select asp-for="TaskId" asp-items="@(new SelectList(Model.WorkItems,"TaskId", "Name", Model.TaskId))" class="custom-select mr-sm-2">
+                    <option value="">Please Select</option>
+                </select>
+                <span asp-validation-for="Task.TaskId" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6">

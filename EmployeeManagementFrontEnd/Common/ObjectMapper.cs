@@ -37,7 +37,7 @@ namespace EmployeeManagementPortal.MVC.Common
                 Surname = employeeViewModel.Surname,
                 MiddleName = employeeViewModel.MiddleName,
                 PhysicalAddress = employeeViewModel.PhysicalAddress,
-                RoleId = 1,
+                RoleId = employeeViewModel.RoleId,
             };
         }
 
@@ -70,16 +70,31 @@ namespace EmployeeManagementPortal.MVC.Common
                 PayPerTask = employeeTasksViewModel.PayPerTask,
             };
         }
-        public EmployeeTasksViewModel MapemployeesAndworkItemstoViewModel(IEnumerable<EmployeeAndTaskList> employeeAndTaskList)
-        {
-            var empTasksViewModel = employeeAndTaskList.Select(e => new EmployeeTasksViewModel()
-            {
-                EmployeeList = (IEnumerable<EmployeeViewModel>)e.Employees,
-                WorkItemList = (IEnumerable<WorkItemViewModel>)e.WorkItems,
-            });
 
-            return (EmployeeTasksViewModel)empTasksViewModel;
+        public IEnumerable<EmployeeTasksViewModel> EmployeeTasksDTOObjectsToViewModel(IEnumerable<EmployeeTask> employeeTasksList, IEnumerable<Employee> employeesList, IEnumerable<WorkItem> workItemsList)
+        {
+            return employeeTasksList.Select(e => new EmployeeTasksViewModel()
+            {
+                EmployeeTaskId = e.EmployeeTaskId,
+                TaskId = e.TaskId,
+                EmployeeName = employeesList.Where(x => x.EmployeeId == e.EmployeeId).Select(x => x.FirstName + " " + x.Surname).FirstOrDefault().ToString(),
+                TaskName = workItemsList.Where(x => x.TaskId == e.TaskId).Select(x => x.Name).FirstOrDefault().ToString(),
+                EmployeeId = e.EmployeeId,
+                TotalNoOfHours = e.TotalNoOfHours,
+                CurrentDate = e.CurrentDate,
+                Priority = e.Priority,
+                PayPerTask = e.PayPerTask
+            });
         }
 
+        //Delete Later
+        public EmployeeTasksViewModel ListOfEmployeesAndTaskstoViewModelforDropDown(IEnumerable<Employee> emp, IEnumerable<WorkItem> workItem)
+        {
+            return new EmployeeTasksViewModel()
+            {
+                Employees = emp,
+                WorkItems = workItem,
+            };
+        }
     }
 }

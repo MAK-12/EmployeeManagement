@@ -9,6 +9,10 @@ using EmployeeManagementPortal.MVC.ViewModels;
 
 namespace EmployeeManagementPortal.MVC.Controllers
 {
+    /// <summary>
+    ///  Create and Edit Employee Roles and Change Employee Role rate per hour
+    /// </summary>
+
     public class RoleController : Controller
     {
         private IRolesService rolesService;

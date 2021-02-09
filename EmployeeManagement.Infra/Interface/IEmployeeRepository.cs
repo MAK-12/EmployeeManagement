@@ -7,5 +7,7 @@ namespace EmployeeManagement.Infra.Repositories
     public interface IEmployeeRepository : IGenericRepository<Employee>
     {
         Task<IEnumerable<Employee>> Find(string searchText);
+
+        Task<Employee> GetEmployeeDetailsByaccessCode(string accessCode);
     }
 }

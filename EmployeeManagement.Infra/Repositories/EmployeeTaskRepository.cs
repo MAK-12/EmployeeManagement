@@ -32,5 +32,19 @@ namespace EmployeeTaskManagement.Infra.Repositories
                 .ToListAsync()
                 .ConfigureAwait(false);
         }
+
+        public override async Task<EmployeeTask> Get(int id)
+        {
+            var e = await this._context.Set<EmployeeTask>()
+                .Include(x => x.Employee).ThenInclude(x => x.Role)
+                .Include(x => x.Task)
+                .AsQueryable()
+                .Where(e => e.EmployeeTaskId == id)
+                .AsNoTracking()
+                .ToListAsync()
+                .ConfigureAwait(false); 
+
+            return e.FirstOrDefault();
+        }
     }
 }
