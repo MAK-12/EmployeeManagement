@@ -31,11 +31,6 @@ namespace EmployeeManagementPortal.MVC.Controllers
                 NoOfHours = w.NoOfHours,
                 IsTaskCompleted = w.IsCompleted == true ? "Completed" : "Not Completed",
             });
-            //IList<TaskViewModel> test = GetTestData.GetTaskData();
-            //foreach (var item in test)
-            //{
-            //    item.IsCompleted = item.IsCompleted == true ? "Completed" : "Not Completed";
-            //}
             return View(workItems);
         }
 
@@ -70,7 +65,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
         }
 
         // GET: TaskController/Details/5
-        [HttpGet("id")]
+        [HttpGet]
         public async Task<ActionResult> Details(int id)
         {
             var dto = await this.workItemService.GetWorkItemById(id);

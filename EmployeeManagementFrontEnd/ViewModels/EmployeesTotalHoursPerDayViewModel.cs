@@ -17,7 +17,7 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         public string FullName { get; set; }
 
 
-        [Display(Name = "Start Date")]
+        [Display(Name = "Date")]
         [DataType(DataType.Date)]
         public DateTime? Date { get; set; }
 

@@ -7,19 +7,11 @@
 <h1>Employee Details</h1>
 <br />
 
-<div class="row">
-    <div class="col-10">
-        <form class="form-inline my-2 my-lg-0" asp-action="search" asp-controller="Employee">
-            <input class="form-control mr-sm-2" name="searchTerm" type="search" placeholder="search" aria-label="search" required />
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">search</button>
-        </form>
-    </div>
-    <div class="col-2">
-        <p><a asp-action="Create" class="btn btn-primary">Add Empolyee</a></p>
-    </div>
-</div>
+<p id='btnAdd'>
+    <a asp-action="Create" class="btn btn-primary">Assign New Empolyee</a>
+</p>
 
-<br /> 
+<br />
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -43,25 +35,25 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployeeRoleName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MobileNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmailAddress)
-            </td>
-            <td>
-                <a asp-action="Details" asp-controller="Employee" asp-route-id="@item.EmployeeId" class="btn btn-info">Details</a>
-                <a asp-action="Edit" asp-controller="Employee" asp-route-id="@item.EmployeeId" class="btn btn-warning">Edit</a>
-                <a asp-action="Delete" asp-controller="Employee" asp-route-id="@item.EmployeeId" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeRoleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MobileNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmailAddress)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-controller="Employee" asp-route-id="@item.EmployeeId" class="btn btn-info">Details</a>
+                    <a asp-action="Edit" asp-controller="Employee" asp-route-id="@item.EmployeeId" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-controller="Employee" asp-route-id="@item.EmployeeId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

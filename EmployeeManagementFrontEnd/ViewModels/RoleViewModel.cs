@@ -15,6 +15,8 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         [Required(ErrorMessage = "Please enter Role Name.")]
         [Display(Name = "Role Name")]
         public string RoleName { get; set; }
+
+        [Display(Name = "Role Description")]
         public string RoleDescription { get; set; }
 
         [Required(ErrorMessage = "Please enter Rate Per Hour.")]

@@ -16,15 +16,17 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         [Required(ErrorMessage = "Please Enter No Of Hours.")]
         [Display(Name = "No Of Hours")]
         public int TotalNoOfHours { get; set; }
-        [Display(Name = "Current Date")]
+        [Display(Name = "Date")]
         public DateTime? CurrentDate { get; set; } 
         public string Priority { get; set; }
 
         [Display(Name = "Pay Per Task")]
         public decimal? PayPerTask { get; set; }
 
+        [Display(Name = "Employee Name")]
         public string EmployeeName { get; set; }
 
+        [Display(Name = "Task Name")]
         public string TaskName { get; set; }
 
         public virtual EmployeeViewModel Employee { get; set; }

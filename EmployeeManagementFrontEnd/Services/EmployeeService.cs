@@ -17,7 +17,7 @@ namespace EmployeeManagementPortal.MVC.Services
 
         public EmployeeService(HttpClient client, IConfiguration configuration)
         {
-            client.BaseAddress = new Uri(configuration["BaseUrl"]); 
+            client.BaseAddress = new Uri(configuration["BaseUrl"]);
             Client = client;
         }
 
@@ -73,9 +73,6 @@ namespace EmployeeManagementPortal.MVC.Services
         public async Task<Employee> GetEmployeeDetailsByaccessCode(string accessCode)
         {
             string customRoute = employeeEndpoint + "/accessCode";
-
-            //https://localhost:44341/api/employee/accessCode?&accessCode=Scott3331988
-
             var response = await Client.GetAsync($"{customRoute}?&accessCode={accessCode}");
             var responseStream = await response.Content.ReadAsStringAsync();
             var r = JsonConvert.DeserializeObject<Employee>(responseStream);

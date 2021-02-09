@@ -141,20 +141,6 @@ namespace EmployeeManagement.MVC.Controllers
             }
         }
 
-        public async Task<ActionResult> Search(string searchTerm)
-        {
-
-
-            //IEnumerable<EmployeeViewModel> erer = (IEnumerable<EmployeeViewModel>)await _employeeService.GetEmployees();
-            //var selectedEmployee = erer.Where(s => s.FirstName == searchTerm).FirstOrDefault();
-
-            //var result = emp.Where(a => a.FirstName.Contains(searchTerm)).ToList();
-            //return View("index", result);
-            //selectedEmployee
-            return View();
-
-        }
-
         [HttpGet]
         public IActionResult GetEmployeeSalary()
         {
