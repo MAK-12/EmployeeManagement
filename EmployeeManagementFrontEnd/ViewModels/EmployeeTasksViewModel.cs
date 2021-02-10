@@ -1,9 +1,7 @@
-﻿using EmployeeManagementPortal.MVC.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using EmployeeManagementPortal.MVC.Entities;
 
 namespace EmployeeManagementPortal.MVC.ViewModels
 {
@@ -17,7 +15,7 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         [Display(Name = "No Of Hours")]
         public int TotalNoOfHours { get; set; }
         [Display(Name = "Date")]
-        public DateTime? CurrentDate { get; set; } 
+        public DateTime? CurrentDate { get; set; }
         public string Priority { get; set; }
 
         [Display(Name = "Pay Per Task")]
@@ -35,7 +33,7 @@ namespace EmployeeManagementPortal.MVC.ViewModels
 
         public virtual WorkItemViewModel Task { get; set; }
 
-        public IEnumerable<EmployeeViewModel>  EmployeeList { get; set; }
+        public IEnumerable<EmployeeViewModel> EmployeeList { get; set; }
 
         public IEnumerable<WorkItemViewModel> WorkItemList { get; set; }
 

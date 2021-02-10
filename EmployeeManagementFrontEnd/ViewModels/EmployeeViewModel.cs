@@ -1,5 +1,4 @@
-﻿using EmployeeManagementPortal.MVC.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeManagementPortal.MVC.ViewModels

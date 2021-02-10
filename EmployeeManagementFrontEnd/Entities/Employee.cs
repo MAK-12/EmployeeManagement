@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace EmployeeManagementPortal.MVC.Entities
 {
@@ -14,7 +13,7 @@ namespace EmployeeManagementPortal.MVC.Entities
         public string EmailAddress { get; set; }
         public string PhysicalAddress { get; set; }
         public string AccessCode { get; set; }
-        public int RoleId { get; set; } 
+        public int RoleId { get; set; }
         public virtual Roles Role { get; set; }
         public virtual ICollection<EmployeeTask> EmployeeTask { get; set; }
     }
