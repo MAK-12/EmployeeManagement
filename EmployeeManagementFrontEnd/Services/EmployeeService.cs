@@ -13,6 +13,7 @@ namespace EmployeeManagementPortal.MVC.Services
     {
         public HttpClient Client { get; }
         IConfiguration _configuration;
+
         private readonly string employeeEndpoint = "/api/employee";
 
         public EmployeeService(HttpClient client, IConfiguration configuration)

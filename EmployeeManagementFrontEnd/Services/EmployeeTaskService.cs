@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json; 
+using Newtonsoft.Json;
 using EmployeeManagementPortal.MVC.Entities;
 
 namespace EmployeeManagementPortal.MVC.Services
@@ -44,8 +44,6 @@ namespace EmployeeManagementPortal.MVC.Services
             var json = JsonConvert.SerializeObject(empTask);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-           
-
             var response = await Client.PatchAsync($"{employeeTaskEndpoint}/{empTask.EmployeeTaskId}", data);
 
             var responseStream = await response.Content.ReadAsStringAsync();
@@ -72,15 +70,15 @@ namespace EmployeeManagementPortal.MVC.Services
         }
         public async Task<IEnumerable<EmployeeTask>> GetEmpHourCapacityOfTheDate(int id, DateTime startDate, DateTime? endDate)
         {
-            
+
             string customRoute = employeeTaskEndpoint + "/search";
             var response = await Client.GetAsync($"{customRoute}/{id}?&startDate={startDate}&endDate={endDate}");
             var responseStream = await response.Content.ReadAsStringAsync();
             var r = JsonConvert.DeserializeObject<List<EmployeeTask>>(responseStream);
-           
+
             return r;
         }
-         
+
         public async Task<IEnumerable<EmployeeAndTaskList>> GetEmployeesAndWorkItems(String searchText)
         {
             string customRoute = "api/EmployeeTask/employees-tasks";
