@@ -35,7 +35,7 @@ namespace EmployeeManagement.WebAPI
             services.AddDbContext<DBContext>(opt => opt
                .UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-          
+
 
             services.AddSwaggerGen();
 

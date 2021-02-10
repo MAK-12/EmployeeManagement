@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,13 +11,10 @@ namespace TaskManagement.WebAPI.Controllers
     [Route("api/[controller]")]
     public class WorkItemController : ControllerBase
     {
-
-        private readonly ILogger<WorkItemController> _logger;
         private IUnitOfWork _unitOfWork;
 
-        public WorkItemController(ILogger<WorkItemController> logger, IUnitOfWork unitOfWork)
+        public WorkItemController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
             _unitOfWork = unitOfWork;
         }
 
@@ -43,7 +39,7 @@ namespace TaskManagement.WebAPI.Controllers
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
-        { 
+        {
             var taskDetail = await _unitOfWork.TaskRepository.Get(id);
             if (taskDetail == null)
             {
@@ -68,7 +64,7 @@ namespace TaskManagement.WebAPI.Controllers
             _unitOfWork.TaskRepository.Add(task);
             await this._unitOfWork.SaveChangesAsync();
 
-            return  this.Ok(task);
+            return this.Ok(task);
         }
 
         [HttpPatch("{id}")]

@@ -1,9 +1,8 @@
-﻿using EmployeeManagement.Infra.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using EmployeeManagement.Infra.Models;
+using EmployeeManagement.Infra.Repositories;
 
 namespace EmployeeManagement.WebAPI.Controllers
 {
@@ -11,13 +10,10 @@ namespace EmployeeManagement.WebAPI.Controllers
     [Route("api/[controller]")]
     public class EmployeeController : ControllerBase
     {
-
-        private readonly ILogger<EmployeeController> _logger;
         private IUnitOfWork _unitOfWork;
 
-        public EmployeeController(ILogger<EmployeeController> logger, IUnitOfWork unitOfWork)
+        public EmployeeController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
             _unitOfWork = unitOfWork;
         }
 
@@ -26,14 +22,13 @@ namespace EmployeeManagement.WebAPI.Controllers
         {
             try
             {
-                _logger.LogInformation("GetEmployees");
+
                 var employees = await _unitOfWork.EmployeeRepository.GetAll();
                 return this.Ok(employees);
 
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
                 throw ex;
             }
 
@@ -42,16 +37,13 @@ namespace EmployeeManagement.WebAPI.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> Search(String searchText)
         {
-            _logger.LogInformation("SearchEmployees");
             var employees = await _unitOfWork.EmployeeRepository.Find(searchText);
             return this.Ok(employees);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
-        {
-
-            _logger.LogInformation("GetEmployeeById");
+        { 
             var employeeDetail = await _unitOfWork.EmployeeRepository.Get(id);
             if (employeeDetail == null)
             {
@@ -64,7 +56,6 @@ namespace EmployeeManagement.WebAPI.Controllers
         [HttpGet("accessCode")]
         public async Task<IActionResult> GetEmployeeDetailsByaccessCode(string accessCode)
         {
-            _logger.LogInformation("GetEmployeeById");
             var employeeDetail = await _unitOfWork.EmployeeRepository.GetEmployeeDetailsByaccessCode(accessCode);
             if (employeeDetail == null)
             {
@@ -92,22 +83,13 @@ namespace EmployeeManagement.WebAPI.Controllers
                 return NotFound();
             }
 
-            existingEmployeeDetail.FirstName = employee.FirstName;
-            existingEmployeeDetail.AccessCode = employee.AccessCode;
-            existingEmployeeDetail.EmailAddress = employee.EmailAddress;
-            existingEmployeeDetail.EmployeeCode = employee.EmployeeCode;
-            existingEmployeeDetail.MobileNo = employee.MobileNo;
-            existingEmployeeDetail.Surname = employee.Surname;
-            existingEmployeeDetail.MiddleName = employee.MiddleName;
-            existingEmployeeDetail.PhysicalAddress = employee.PhysicalAddress;
-            existingEmployeeDetail.RoleId = employee.RoleId;
+            MapEmployeeObjects(employee, existingEmployeeDetail);
 
             _unitOfWork.EmployeeRepository.Update(existingEmployeeDetail);
             await this._unitOfWork.SaveChangesAsync();
 
             return this.Ok(employee);
-        }
-
+        } 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -122,6 +104,19 @@ namespace EmployeeManagement.WebAPI.Controllers
             await this._unitOfWork.SaveChangesAsync();
 
             return this.Ok(true);
+        }
+
+        private static void MapEmployeeObjects(Employee employee, Employee existingEmployeeDetail)
+        {
+            existingEmployeeDetail.FirstName = employee.FirstName;
+            existingEmployeeDetail.AccessCode = employee.AccessCode;
+            existingEmployeeDetail.EmailAddress = employee.EmailAddress;
+            existingEmployeeDetail.EmployeeCode = employee.EmployeeCode;
+            existingEmployeeDetail.MobileNo = employee.MobileNo;
+            existingEmployeeDetail.Surname = employee.Surname;
+            existingEmployeeDetail.MiddleName = employee.MiddleName;
+            existingEmployeeDetail.PhysicalAddress = employee.PhysicalAddress;
+            existingEmployeeDetail.RoleId = employee.RoleId;
         }
     }
 }

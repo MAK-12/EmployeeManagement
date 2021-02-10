@@ -1,8 +1,5 @@
-﻿using EmployeeManagement.Infra.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using EmployeeManagement.Infra.Models;
 
 namespace EmployeeManagementPortal.WebAPI.Models
 {

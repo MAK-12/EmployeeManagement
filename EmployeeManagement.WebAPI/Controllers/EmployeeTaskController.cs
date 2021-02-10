@@ -1,11 +1,11 @@
-﻿using EmployeeManagement.Infra.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
+using EmployeeManagement.Infra.Repositories;
 using EmployeeManagement.Infra.Models;
 using EmployeeManagementPortal.WebAPI.Models;
-using System.Collections.Generic;
 
 namespace EmployeeTaskManagement.WebAPI.Controllers
 {
@@ -39,13 +39,13 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
             {
                 empTasks = await _unitOfWork.EmployeeTaskRepository.FindAsync(empTask => empTask.EmployeeId == empId && empTask.CurrentDate == startDate);
                 return this.Ok(empTasks);
-            } 
+            }
 
             else
             {
                 empTasks = await _unitOfWork.EmployeeTaskRepository.FindAsync(empTask => empTask.EmployeeId == empId && (empTask.CurrentDate >= startDate && empTask.CurrentDate <= endDate));
             }
-             
+
             return this.Ok(empTasks);
         }
 
@@ -69,7 +69,6 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
             return this.Ok(employeeTasks);
         }
 
-        //https://localhost:44341/api/EmployeeTask/employees-tasks?&searchText=test
         [HttpGet("employees-tasks")]
         public async Task<IActionResult> GetEmployeesAndWorkItems(string searchText)
         {
@@ -89,7 +88,7 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
             _unitOfWork.EmployeeTaskRepository.Add(employee);
             await this._unitOfWork.SaveChangesAsync();
 
-            return  this.Ok(employee);
+            return this.Ok(employee);
         }
 
         [HttpPatch("{id}")]
@@ -101,18 +100,13 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
                 return NotFound();
             }
 
-            existingEmployeeTaskDetail.TaskId = employeeTask.TaskId;
-            existingEmployeeTaskDetail.EmployeeId = employeeTask.EmployeeId;
-            existingEmployeeTaskDetail.TotalNoOfHours = employeeTask.TotalNoOfHours;
-            existingEmployeeTaskDetail.CurrentDate = employeeTask.CurrentDate;
-            existingEmployeeTaskDetail.Priority = employeeTask.Priority;
-            existingEmployeeTaskDetail.PayPerTask = employeeTask.PayPerTask;
+            MapEmployeeTaskDetails(employeeTask, existingEmployeeTaskDetail);
 
             _unitOfWork.EmployeeTaskRepository.Update(existingEmployeeTaskDetail);
             await this._unitOfWork.SaveChangesAsync();
 
             return this.Ok(existingEmployeeTaskDetail);
-        }
+        } 
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -128,6 +122,16 @@ namespace EmployeeTaskManagement.WebAPI.Controllers
             await this._unitOfWork.SaveChangesAsync();
 
             return this.Ok(true);
+        }
+
+        private static void MapEmployeeTaskDetails(EmployeeTask employeeTask, EmployeeTask existingEmployeeTaskDetail)
+        {
+            existingEmployeeTaskDetail.TaskId = employeeTask.TaskId;
+            existingEmployeeTaskDetail.EmployeeId = employeeTask.EmployeeId;
+            existingEmployeeTaskDetail.TotalNoOfHours = employeeTask.TotalNoOfHours;
+            existingEmployeeTaskDetail.CurrentDate = employeeTask.CurrentDate;
+            existingEmployeeTaskDetail.Priority = employeeTask.Priority;
+            existingEmployeeTaskDetail.PayPerTask = employeeTask.PayPerTask;
         }
     }
 }

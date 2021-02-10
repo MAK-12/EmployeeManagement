@@ -1,9 +1,9 @@
-﻿using EmployeeManagement.Infra.Repositories;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
 using EmployeeManagement.Infra.Models;
+using EmployeeManagement.Infra.Repositories;
 
 namespace RoleManagement.WebAPI.Controllers
 {
@@ -55,7 +55,7 @@ namespace RoleManagement.WebAPI.Controllers
             _unitOfWork.RoleRepository.Add(role);
             await this._unitOfWork.SaveChangesAsync();
 
-            return  this.Ok(role);
+            return this.Ok(role);
         }
 
         [HttpPatch("{id}")]
