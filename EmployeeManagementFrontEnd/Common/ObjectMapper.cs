@@ -1,26 +1,26 @@
-﻿using EmployeeManagementPortal.MVC.Entities;
-using EmployeeManagementPortal.MVC.ViewModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using EmployeeManagementPortal.MVC.Entities;
+using EmployeeManagementPortal.MVC.ViewModels;
 
 namespace EmployeeManagementPortal.MVC.Common
 {
     public class ObjectMapper : IObjectMapper
     {
 
-        public EmployeeViewModel EmployeeToEmployeeViewModel(Employee dto)
+        public EmployeeViewModel EmployeeToEmployeeViewModel(Employee employeeEntity)
         {
             return new EmployeeViewModel()
             {
-                FirstName = dto.FirstName,
-                AccessCode = dto.AccessCode,
-                EmailAddress = dto.EmailAddress,
-                EmployeeCode = dto.EmployeeCode,
-                EmployeeId = dto.EmployeeId,
-                MobileNo = dto.MobileNo,
-                Surname = dto.Surname,
-                MiddleName = dto.MiddleName,
-                PhysicalAddress = dto.PhysicalAddress
+                FirstName = employeeEntity.FirstName,
+                AccessCode = employeeEntity.AccessCode,
+                EmailAddress = employeeEntity.EmailAddress,
+                EmployeeCode = employeeEntity.EmployeeCode,
+                EmployeeId = employeeEntity.EmployeeId,
+                MobileNo = employeeEntity.MobileNo,
+                Surname = employeeEntity.Surname,
+                MiddleName = employeeEntity.MiddleName,
+                PhysicalAddress = employeeEntity.PhysicalAddress
             };
         }
 
@@ -41,19 +41,19 @@ namespace EmployeeManagementPortal.MVC.Common
             };
         }
 
-        public EmployeeTasksViewModel EmployeeTaskToEmployeeTasksViewModel(EmployeeTask dto)
+        public EmployeeTasksViewModel EmployeeTaskToEmployeeTasksViewModel(EmployeeTask employeeTaskEntity)
         {
             return new EmployeeTasksViewModel()
             {
-                EmployeeTaskId = dto.EmployeeTaskId,
-                EmployeeId = dto.EmployeeId,
-                TaskId = dto.TaskId,
-                TotalNoOfHours = dto.TotalNoOfHours,
-                CurrentDate = dto.CurrentDate,
-                Priority = dto.Priority,
-                PayPerTask = dto.PayPerTask,
-                EmployeeName = dto.Employee.FirstName + " " + dto.Employee.Surname,
-                TaskName = dto.Task.Name,
+                EmployeeTaskId = employeeTaskEntity.EmployeeTaskId,
+                EmployeeId = employeeTaskEntity.EmployeeId,
+                TaskId = employeeTaskEntity.TaskId,
+                TotalNoOfHours = employeeTaskEntity.TotalNoOfHours,
+                CurrentDate = employeeTaskEntity.CurrentDate,
+                Priority = employeeTaskEntity.Priority,
+                PayPerTask = employeeTaskEntity.PayPerTask,
+                EmployeeName = employeeTaskEntity.Employee.FirstName + " " + employeeTaskEntity.Employee.Surname,
+                TaskName = employeeTaskEntity.Task.Name,
             };
         }
 
@@ -71,14 +71,14 @@ namespace EmployeeManagementPortal.MVC.Common
             };
         }
 
-        public IEnumerable<EmployeeTasksViewModel> EmployeeTasksDTOObjectsToViewModel(IEnumerable<EmployeeTask> employeeTasksList, IEnumerable<Employee> employeesList, IEnumerable<WorkItem> workItemsList)
+        public IEnumerable<EmployeeTasksViewModel> EmployeeTasksDTOObjectsToViewModel(IEnumerable<EmployeeTask> employeeTasksCollection, IEnumerable<Employee> employeesCollection, IEnumerable<WorkItem> workItemCollection)
         {
-            return employeeTasksList.Select(e => new EmployeeTasksViewModel()
+            return employeeTasksCollection.Select(e => new EmployeeTasksViewModel()
             {
                 EmployeeTaskId = e.EmployeeTaskId,
                 TaskId = e.TaskId,
-                EmployeeName = employeesList.Where(x => x.EmployeeId == e.EmployeeId).Select(x => x.FirstName + " " + x.Surname).FirstOrDefault().ToString(),
-                TaskName = workItemsList.Where(x => x.TaskId == e.TaskId).Select(x => x.Name).FirstOrDefault().ToString(),
+                EmployeeName = employeesCollection.Where(x => x.EmployeeId == e.EmployeeId).Select(x => x.FirstName + " " + x.Surname).FirstOrDefault().ToString(),
+                TaskName = workItemCollection.Where(x => x.TaskId == e.TaskId).Select(x => x.Name).FirstOrDefault().ToString(),
                 EmployeeId = e.EmployeeId,
                 TotalNoOfHours = e.TotalNoOfHours,
                 CurrentDate = e.CurrentDate,
@@ -87,13 +87,48 @@ namespace EmployeeManagementPortal.MVC.Common
             });
         }
 
-        //Delete Later
-        public EmployeeTasksViewModel ListOfEmployeesAndTaskstoViewModelforDropDown(IEnumerable<Employee> emp, IEnumerable<WorkItem> workItem)
+
+        public WorkItemViewModel WorkItemEnityToWorkItemViewModel(WorkItem workItemEnity)
         {
-            return new EmployeeTasksViewModel()
+            return new WorkItemViewModel()
             {
-                Employees = emp,
-                WorkItems = workItem,
+                TaskId = workItemEnity.TaskId,
+                Name = workItemEnity.Name,
+                NoOfHours = workItemEnity.NoOfHours,
+                IsCompleted = workItemEnity.IsCompleted,
+                IsTaskCompleted = workItemEnity.IsCompleted == true ? "Completed" : "Not Completed",
+            };
+        }
+        public WorkItem WorkItemViewModelToWorkItemEnity(WorkItemViewModel workItemViewModel)
+        {
+            return new WorkItem()
+            {
+                TaskId = workItemViewModel.TaskId,
+                Name = workItemViewModel.Name,
+                NoOfHours = workItemViewModel.NoOfHours,
+                IsCompleted = workItemViewModel.IsCompleted,
+            };
+        }
+
+        public RoleViewModel RoleEntityToRoleViewModel(Roles roleEntity)
+        {
+            return new RoleViewModel()
+            {
+                RoleId = roleEntity.RoleId,
+                RoleName = roleEntity.RoleName,
+                RoleDescription = roleEntity.RoleDescription,
+                RatePerhour = roleEntity.RatePerhour,
+            };
+        }
+
+        public Roles RoleViewModelToRoleEntity(RoleViewModel roleViewModel)
+        {
+            return new Roles()
+            {
+                RoleId = roleViewModel.RoleId,
+                RoleName = roleViewModel.RoleName,
+                RoleDescription = roleViewModel.RoleDescription,
+                RatePerhour = roleViewModel.RatePerhour,
             };
         }
     }

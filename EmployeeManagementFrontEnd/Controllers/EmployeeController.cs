@@ -1,27 +1,24 @@
-﻿using EmployeeManagementPortal.MVC.Common;
-using EmployeeManagementPortal.MVC.Services;
-using EmployeeManagementPortal.MVC.ViewModels;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-
-
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using EmployeeManagementPortal.MVC.Common;
+using EmployeeManagementPortal.MVC.Services;
+using EmployeeManagementPortal.MVC.ViewModels;
+using System.Collections.Generic;
 
 namespace EmployeeManagement.MVC.Controllers
 {
     /// <summary>
     ///  Create and Edit Casual Employees 
     /// </summary>
-
     public class EmployeeController : Controller
     {
         private IEmployeeService _employeeService;
+        private IRolesService _rolesService;
         private IObjectMapper _objectMapper;
         private readonly ILogger _logger;
-        private IRolesService _rolesService;
 
         public EmployeeController(IEmployeeService employeeService, IRolesService rolesService, IObjectMapper objectMapper, ILogger<EmployeeController> logger)
         {
@@ -33,16 +30,9 @@ namespace EmployeeManagement.MVC.Controllers
 
         public async Task<IActionResult> Index()
         {
-            _logger.LogInformation("GetAllEmployees");
-            var employees = await _employeeService.GetEmployees();
-            var employee = employees.Select(e => new EmployeeViewModel()
-            {
-                EmployeeId = e.EmployeeId,
-                FullName = e.FirstName + " " + e.Surname,
-                MobileNo = e.MobileNo,
-                EmailAddress = e.EmailAddress,
-                EmployeeRoleName = e.Role.RoleName,
-            });
+            _logger.LogInformation("Get All Employees");
+            IEnumerable<EmployeeViewModel> employee = await GetAllEmployees();
+
             return View(employee);
         }
 
@@ -51,7 +41,7 @@ namespace EmployeeManagement.MVC.Controllers
         public async Task<ActionResult> Create()
         {
             EmployeeViewModel employeeViewModel = new EmployeeViewModel();
-            await LoadRoles(employeeViewModel);
+            await LoadEmployeeRoles(employeeViewModel);
 
             return View(employeeViewModel);
         }
@@ -60,41 +50,47 @@ namespace EmployeeManagement.MVC.Controllers
         [HttpGet]
         public async Task<ActionResult> Details(int id)
         {
-            _logger.LogInformation("GetEmployeeById");
+            _logger.LogInformation("Loading Employee Details to View");
+
             var employee = await _employeeService.GetEmployeeById(id);
             EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(employee);
+
             return View(employeeViewModel);
         }
 
         // GET: Employee/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
-            _logger.LogInformation("Update");
-            var employee = await _employeeService.GetEmployeeById(id);
-            EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(employee);
-            var employeeRole = await _rolesService.GetRoleById(employeeViewModel.RoleId);
-            employeeViewModel.EmployeeRoleName = employeeRole.RoleName;
-            employeeViewModel.RoleId = employeeRole.RoleId;
+            _logger.LogInformation("Loading Employee Details to Edit");
 
-            await LoadRoles(employeeViewModel);
+            EmployeeViewModel employeeViewModel = await LoadEmployeeDetails(id);
 
             return View(employeeViewModel);
         }
 
-        private async Task LoadRoles(EmployeeViewModel employeeViewModel)
+        // GET: Employee/Delete/5
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
         {
-            var rolesList = await _rolesService.GetRoles();
-            var roleViewModel = rolesList.Select(p => new RoleViewModel
+            _logger.LogInformation("Deleting Employee");
+            try
             {
-                RoleId = p.RoleId,
-                RoleName = p.RoleName
-            }).ToList();
-            employeeViewModel.Role = roleViewModel;
+                var isDeleted = await _employeeService.DeleteEmployee(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error Deleting Employee {0}", ex.Message);
+                return View(ex.InnerException.Message);
+            }
         }
+
 
         [HttpPost]
         public async Task<ActionResult> CreateAsync(EmployeeViewModel employeeViewModel)
         {
+            _logger.LogInformation("Creating A New Employee");
+
             //checking model state
             if (ModelState.IsValid)
             {
@@ -106,7 +102,7 @@ namespace EmployeeManagement.MVC.Controllers
 
                 catch (Exception ex)
                 {
-                    _logger.LogError("Error Creating Employee {0}", ex.Message);
+                    _logger.LogError("Error Creating a New Employee {0}", ex.Message);
                     return View(ex.InnerException.Message);
                 }
             }
@@ -117,28 +113,64 @@ namespace EmployeeManagement.MVC.Controllers
         [HttpPost]
         public async Task<ActionResult> EditAsync(EmployeeViewModel employeeViewModel)
         {
-            //checking model state
-            if (ModelState.IsValid)
-            {
-                var emp = await _employeeService.UpdateEmployee(_objectMapper.EmployeeViewModelToEmployee(employeeViewModel));
-                return RedirectToAction("Index");
-            }
-            return View(employeeViewModel);
-        } 
-
-        // GET: Employee/Delete/5
-        [HttpGet]
-        public async Task<ActionResult> Delete(int id)
-        {
+            _logger.LogInformation("Updating Employee Details");
             try
             {
-                var isDeleted = await _employeeService.DeleteEmployee(id);
-                return RedirectToAction("Index");
+                //checking model state
+                if (ModelState.IsValid)
+                {
+                    var emp = await _employeeService.UpdateEmployee(_objectMapper.EmployeeViewModelToEmployee(employeeViewModel));
+                    return RedirectToAction("Index");
+                }
             }
-            catch
+
+            catch (Exception ex)
             {
-                return View();
+                _logger.LogError("Error Updating Employee Details {0}", ex.Message);
+                return View(ex.InnerException.Message);
             }
+
+            return View(employeeViewModel);
+        }
+
+        private async Task<IEnumerable<EmployeeViewModel>> GetAllEmployees()
+        {
+            var employees = await _employeeService.GetEmployees();
+
+            var employee = employees.Select(e => new EmployeeViewModel()
+            {
+                EmployeeId = e.EmployeeId,
+                FullName = e.FirstName + " " + e.Surname,
+                MobileNo = e.MobileNo,
+                EmailAddress = e.EmailAddress,
+                EmployeeRoleName = e.Role.RoleName,
+            });
+            return employee;
+        }
+
+        private async Task<EmployeeViewModel> LoadEmployeeDetails(int id)
+        {
+            var employee = await _employeeService.GetEmployeeById(id);
+            EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(employee);
+
+            var employeeRole = await _rolesService.GetRoleById(employeeViewModel.RoleId);
+
+            employeeViewModel.EmployeeRoleName = employeeRole.RoleName;
+            employeeViewModel.RoleId = employeeRole.RoleId;
+
+            await LoadEmployeeRoles(employeeViewModel);
+            return employeeViewModel;
+        }
+
+        private async Task LoadEmployeeRoles(EmployeeViewModel employeeViewModel)
+        {
+            var rolesList = await _rolesService.GetRoles();
+            var roleViewModel = rolesList.Select(p => new RoleViewModel
+            {
+                RoleId = p.RoleId,
+                RoleName = p.RoleName
+            }).ToList();
+            employeeViewModel.Role = roleViewModel;
         }
     }
 }
