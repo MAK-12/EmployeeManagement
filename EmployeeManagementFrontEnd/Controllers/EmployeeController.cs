@@ -21,11 +21,13 @@ namespace EmployeeManagement.MVC.Controllers
         private IEmployeeService _employeeService;
         private IObjectMapper _objectMapper;
         private readonly ILogger _logger;
+        private IRolesService _rolesService;
 
-        public EmployeeController(IEmployeeService employeeService, IObjectMapper objectMapper, ILogger<EmployeeController> logger)
+        public EmployeeController(IEmployeeService employeeService, IRolesService rolesService, IObjectMapper objectMapper, ILogger<EmployeeController> logger)
         {
             _employeeService = employeeService;
             _objectMapper = objectMapper;
+            _rolesService = rolesService;
             _logger = logger;
         }
 
@@ -46,9 +48,12 @@ namespace EmployeeManagement.MVC.Controllers
 
         // GET: EmployeeController/Create
         [HttpGet]
-        public IActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            return View();
+            EmployeeViewModel employeeViewModel = new EmployeeViewModel();
+            await LoadRoles(employeeViewModel);
+
+            return View(employeeViewModel);
         }
 
         // GET: Employee/Details/5
@@ -67,11 +72,27 @@ namespace EmployeeManagement.MVC.Controllers
             _logger.LogInformation("Update");
             var employee = await _employeeService.GetEmployeeById(id);
             EmployeeViewModel employeeViewModel = _objectMapper.EmployeeToEmployeeViewModel(employee);
+            var employeeRole = await _rolesService.GetRoleById(employeeViewModel.RoleId);
+            employeeViewModel.EmployeeRoleName = employeeRole.RoleName;
+            employeeViewModel.RoleId = employeeRole.RoleId;
+
+            await LoadRoles(employeeViewModel);
+
             return View(employeeViewModel);
         }
 
+        private async Task LoadRoles(EmployeeViewModel employeeViewModel)
+        {
+            var rolesList = await _rolesService.GetRoles();
+            var roleViewModel = rolesList.Select(p => new RoleViewModel
+            {
+                RoleId = p.RoleId,
+                RoleName = p.RoleName
+            }).ToList();
+            employeeViewModel.Role = roleViewModel;
+        }
 
-        [HttpPost] 
+        [HttpPost]
         public async Task<ActionResult> CreateAsync(EmployeeViewModel employeeViewModel)
         {
             //checking model state
@@ -103,8 +124,7 @@ namespace EmployeeManagement.MVC.Controllers
                 return RedirectToAction("Index");
             }
             return View(employeeViewModel);
-        }
-
+        } 
 
         // GET: Employee/Delete/5
         [HttpGet]

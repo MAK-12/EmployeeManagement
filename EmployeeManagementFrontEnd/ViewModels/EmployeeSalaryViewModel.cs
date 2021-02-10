@@ -15,6 +15,7 @@ namespace EmployeeManagementPortal.MVC.ViewModels
         public string MiddleName { get; set; }
         public string Surname { get; set; }
 
+        [Required(ErrorMessage = "Please Select Start Date.")]
         public string FullName { get; set; }
 
         [Required(ErrorMessage = "Please enter your secured Access Code.")]

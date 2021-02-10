@@ -20,7 +20,7 @@ namespace EmployeeManagementPortal.MVC.Common
                 MobileNo = dto.MobileNo,
                 Surname = dto.Surname,
                 MiddleName = dto.MiddleName,
-                PhysicalAddress = dto.PhysicalAddress,
+                PhysicalAddress = dto.PhysicalAddress
             };
         }
 

@@ -33,8 +33,8 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="MiddleName" class="control-label"></label> 
-                <input asp-for="MiddleName" class="form-control" /> 
+                <label asp-for="MiddleName" class="control-label"></label>
+                <input asp-for="MiddleName" class="form-control" />
             </div>
         </div>
         <div class="col-md-6">
@@ -81,6 +81,15 @@
                 <span class="text-danger">*</span>
                 <input asp-for="AccessCode" class="form-control" placeholder="Name-DOB-ID" />
                 <span asp-validation-for="AccessCode" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="EmployeeRoleName" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <select asp-for="RoleId" asp-items="@(new SelectList(Model.Role,"RoleId", "RoleName", Model.RoleId))" class="form-control">
+                </select>
+                <span asp-validation-for="RoleId" class="text-danger"></span>
             </div>
         </div>
     </div>

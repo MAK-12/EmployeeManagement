@@ -87,7 +87,7 @@ namespace EmployeeManagementPortal.MVC.Controllers
 
                     catch (Exception ex)
                     {
-                       
+
                     }
                 }
                 else
@@ -136,13 +136,27 @@ namespace EmployeeManagementPortal.MVC.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(EmployeeTasksViewModel employeeTasksViewModel)
         {
+            bool isEmployeeHaveCapacity = true;
+            isEmployeeHaveCapacity = await IsEmployeeAvailable(employeeTasksViewModel, isEmployeeHaveCapacity);
+
             //checking model state
             if (ModelState.IsValid)
             {
-                var emp = await this.employeeTaskService.UpdateEmployeeTask(_objectMapper.EmployeeTasksViewModelToEmployeeTasks(employeeTasksViewModel));
-                return RedirectToAction("Index");
+                if (isEmployeeHaveCapacity)
+                {
+                    await GetCurrentRatePerHour(employeeTasksViewModel);
+                    var emp = await this.employeeTaskService.UpdateEmployeeTask(_objectMapper.EmployeeTasksViewModelToEmployeeTasks(employeeTasksViewModel));
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("TotalNoOfHours", "Employee doesnt have capacity to Assgin this task");
+                }
             }
-            return View(employeeTasksViewModel);
+            EmployeeTasksViewModel employeeTaskViewModel = await GetEmployeeTaskDataToViewModel(employeeTasksViewModel.EmployeeTaskId);
+            await LoadEmployeesAndTasks(employeeTaskViewModel);
+
+            return View(employeeTaskViewModel);
         }
 
         // Get: EmployeeTaskController/Delete/5 
@@ -165,8 +179,21 @@ namespace EmployeeManagementPortal.MVC.Controllers
         public async Task<ActionResult> ViewTotalDuetoEmployee()
         {
             EmployeeSalaryViewModel employeeSalaryViewModel = new EmployeeSalaryViewModel();
-            await GetAllEmployees(employeeSalaryViewModel);
-            employeeSalaryViewModel.DispalyGrid = false;
+
+            try
+            {
+                //checking model state
+                if (ModelState.IsValid)
+                {
+                    await GetAllEmployees(employeeSalaryViewModel);
+                    employeeSalaryViewModel.DispalyGrid = false;
+                }
+            }
+            catch
+            {
+                return View();
+            }
+
             return View(employeeSalaryViewModel);
         }
 
@@ -303,8 +330,8 @@ namespace EmployeeManagementPortal.MVC.Controllers
             var employeeList = await this.employeeService.GetEmployees();
             var workItemList = await this.workItemService.GetWorkItems();
 
-            employeeTasksViewModel.Employees = employeeList;
-            employeeTasksViewModel.WorkItems = workItemList;
+            employeeTasksViewModel.Employees = employeeList.OrderBy(x=>x.FirstName);
+            employeeTasksViewModel.WorkItems = workItemList.OrderBy(x => x.TaskId);
         }
 
         //Business Rule: "Changing the hourly rate or changing the casual employee role should not affect previously

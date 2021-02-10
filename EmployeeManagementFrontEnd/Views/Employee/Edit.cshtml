@@ -39,7 +39,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="MiddleName" class="control-label"></label>
-                <input asp-for="MiddleName" class="form-control" /> 
+                <input asp-for="MiddleName" class="form-control" />
             </div>
         </div>
         <div class="col-md-6">
@@ -53,19 +53,19 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="MobileNo" class="control-label"></label>
-                <input asp-for="MobileNo" class="form-control" /> 
+                <input asp-for="MobileNo" class="form-control" />
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="EmailAddress" class="control-label"></label>
-                <input asp-for="EmailAddress" class="form-control" /> 
+                <input asp-for="EmailAddress" class="form-control" />
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="PhysicalAddress" class="control-label"></label>
-                <input asp-for="PhysicalAddress" class="form-control" /> 
+                <input asp-for="PhysicalAddress" class="form-control" />
             </div>
         </div>
         <div class="col-md-6">
@@ -78,12 +78,24 @@
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="EmployeeCode" class="control-label"></label>
+                <label asp-for="EmployeeRoleName" class="control-label"></label>
                 <span class="text-danger">*</span>
-                <input asp-for="EmployeeCode" class="form-control" />
-                <span asp-validation-for="EmployeeCode" class="text-danger"></span>
+                <select asp-for="RoleId" asp-items="@(new SelectList(Model.Role,"RoleId", "RoleName", Model.RoleId))" class="custom-select mr-sm-2">
+                    <option value="">Please Select</option>
+                </select>
+                <span asp-validation-for="RoleId" class="text-danger"></span>
             </div>
         </div>
+        @*<div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="TaskName" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <select asp-for="TaskId" asp-items="@(new SelectList(Model.WorkItems,"TaskId", "Name", Model.TaskId))" class="custom-select mr-sm-2">
+                    <option value="">Please Select</option>
+                </select>
+                <span asp-validation-for="Task.TaskId" class="text-danger"></span>
+            </div>
+        </div>*@
     </div>
 </form>
 

@@ -11,15 +11,6 @@
 @if (!Model.DispalyGrid)
 {
     <form asp-action="ViewTotalDuetoEmployee" asp-controller="EmployeeTask">
-        @*<div class="row">
-                <br />
-                <div class="col-md-6"></div>
-                <div class="col-md-6 footer-buttons">
-                    <a asp-action="Index" class="btn btn-outline-default float-right">Back to List</a>
-                    <span>&nbsp; &nbsp;</span>
-                    <input type="submit" value="Save" style="margin-right: 5px;" class="btn btn-success float-right" />
-                </div>
-            </div>*@
         <div class="row">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="col-md-6">
@@ -37,21 +28,31 @@
                     <span asp-validation-for="EndDate" class="text-danger"></span>
                 </div>
             </div>
+        </div>
+        <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="FirstName" class="control-label"></label>
-                    <input asp-for="FirstName" class="form-control" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                    <span class="text-danger">*</span>
+                    <select asp-for="EmployeeId" asp-items="@(new SelectList(Model.Employees, "EmployeeId", "FirstName"))" class="custom-select mr-sm-2">
+                        <option value="">Please Select</option>
+                    </select>
+                    <span asp-validation-for="Employees" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="form-group">
-                    <button class="btn btn-success" type="submit">View Total DuetoEmployee</button>
-                </div>
+            </div>
+        </div>
+        <div class="row">
+            <br />
+            <div class="col-md-6"></div>
+            <div class="col-md-6 footer-buttons">
+                <button class="btn btn-success float-right" type="submit">Submit</button>
             </div>
         </div>
     </form>
 }
+<br />
 @if (Model != null)
 {
     <table class="table" id="tblEmployeeSalaryInfo">
