@@ -16,9 +16,6 @@ namespace EmployeeManagement.Infra.Repositories
         public UnitOfWork(DBContext bookStoreDbContext)
         {
             this._context = bookStoreDbContext;
-            //this.Employee = employeeRepository;
-            //this.Task = taskRepository;
-            //this.EmployeeTask = employeeTaskRepository;
         }
 
         public IEmployeeRepository EmployeeRepository
@@ -73,7 +70,7 @@ namespace EmployeeManagement.Infra.Repositories
                 return this.roleRepository;
             }
         }
-         
+
         public void Dispose()
         {
             Dispose(true);
@@ -85,7 +82,6 @@ namespace EmployeeManagement.Infra.Repositories
             await this._context.SaveChangesAsync().ConfigureAwait(false);
         }
 
-       
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)

@@ -8,7 +8,7 @@ namespace EmployeeManagement.Infra.Repositories
 {
     public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
     {
-        public EmployeeRepository(DBContext _context) 
+        public EmployeeRepository(DBContext _context)
             : base(_context)
         {
         }
@@ -17,7 +17,7 @@ namespace EmployeeManagement.Infra.Repositories
         {
             return await this._context.Set<Employee>()
                 .Include(x => x.Role)
-                .Include(x => x.EmployeeTask).ThenInclude(y =>y.Task)
+                .Include(x => x.EmployeeTask).ThenInclude(y => y.Task)
                 .AsQueryable()
                 .AsNoTracking()
                 .ToListAsync()
@@ -33,7 +33,7 @@ namespace EmployeeManagement.Infra.Repositories
                 .AsNoTracking()
                 .ToListAsync()
                 .ConfigureAwait(false);
-        } 
+        }
 
         public async Task<Employee> GetEmployeeDetailsByaccessCode(string accessCode)
         {
