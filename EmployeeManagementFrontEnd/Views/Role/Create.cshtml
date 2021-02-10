@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Add Role";
 }
- 
+
 <h1>Role</h1>
 <h4>Add Role</h4>
 <hr />
@@ -19,18 +19,18 @@
     </div>
     <div class="row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-       <div class="col-md-6">
-           <div class="form-group">
-               <label asp-for="RoleName" class="control-label"></label>
-               <span class="text-danger">*</span>
-               <input asp-for="RoleName" class="form-control" />
-               <span asp-validation-for="RoleName" class="text-danger"></span>
-           </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="RoleName" class="control-label"></label>
+                <span class="text-danger">*</span>
+                <input asp-for="RoleName" class="form-control" />
+                <span asp-validation-for="RoleName" class="text-danger"></span>
+            </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="RoleDescription" class="control-label"></label> 
-                <input asp-for="RoleDescription" class="form-control" /> 
+                <label asp-for="RoleDescription" class="control-label"></label>
+                <input asp-for="RoleDescription" class="form-control" />
             </div>
         </div>
         <div class="col-md-6">

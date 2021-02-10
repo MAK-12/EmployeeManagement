@@ -9,12 +9,12 @@
 <p id='btnAdd'>
     <a asp-action="Create" class="btn btn-primary">Add New Task</a>
 </p>
-<br /> 
+<br />
 
 <table class="table table-bordered">
     <thead>
         <tr>
-             <th>
+            <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
@@ -32,7 +32,7 @@
         @foreach (var item in Model.OrderBy(x => x.Name))
         {
             <tr>
-                 <td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
